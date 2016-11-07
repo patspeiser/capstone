@@ -3,20 +3,8 @@ app.controller('HomeCtrl', function($scope){
 	var testApp = app; 
 	console.log('_MAIN_APP_', testApp);
 
+	//attached to button so I can run this when I want
 	$scope.run = function(){
-		console.log(getApp());
-		$scope.components = getApp();	
+		$scope.components = testApp;	
 	};
-
-	function getApp(){
-		var obj = {};
-		var keys = Object.keys(testApp);
-
-		for (var i = 0; i < keys.length; i++){
-			if (keys.indexOf(keys[i] < 0)){
-				obj[keys[i]] = testApp[keys[i]];
-			}
-		}
-		return obj;
-	}
 });
