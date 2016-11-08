@@ -1,5 +1,13 @@
 <section id="home">
 	<div class='container'>
+
+		<div>
+			<input type="text" ng-model="repo" name="repo"/>
+			<button ng-click='getRepo()'> Get Repo </button>
+		</div>
+
+
+
 		<button ng-click='run()' class='btn btn-primary'>Run</button>
 
 		<div class='container'>
@@ -11,23 +19,18 @@
 				</div>
 
 			</div>
+
 			<div class='container'>
-				<h1 ng-show='components'>Services</h1>
-				<div class='well' ng-repeat='(key, value) in components' ng-show='true'>	 {{key}} {{value}} 
+				<div class='container'>
+					<h1 ng-show='states'> States </h1>
+					<div ng-repeat='(key, value) in states'>{{key}} {{value}}</div>
+				</div>
+				<div class='container'>
+					<h1 ng-show='components'>Services</h1>
+					<div class='well' ng-repeat='(key, value) in components' ng-show='true'>	 {{key}} {{value}} 
+					</div>
 				</div>
 			</div>
 		</div>
-
-
-		<div class='container'>
-			<div class='container'>
-				<h1 ng-show='states'> States </h1>
-				<div ng-repeat='(key, value) in states'>{{key}} {{value}}</div>
-			</div>
-			<div class='container'>
-				<h1 ng-show='components'>Services</h1>
-				<div class='well' ng-repeat='(key, value) in components' ng-show='true'>	 {{key}} {{value}} 
-				</div>
-			</div>
-		</div>
-	</section>
+	</div>
+</section>

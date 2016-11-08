@@ -4,6 +4,21 @@ app.controller('HomeCtrl', function($scope, HomeService, $state){
 	$scope.show = false; 
 	var componentList = {};	
 
+
+	$scope.getRepo = function(){
+		HomeService.getRepo($scope.repo)
+			.then(function(repo){
+				console.log(repo);
+			})
+			.catch(function(err){
+				console.log(err);
+			});
+	};
+
+
+
+
+
 	$scope.run = function(){
 		$scope.components = testApp._invokeQueue;
 		$scope.states = $state.get();
