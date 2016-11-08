@@ -9,13 +9,13 @@ module.exports = function (server) {
     io = socketio(server);
 
     io.on('connection', function (socket) {
-    	socket.on('blam', function(){
-    		var end = Date.now() + (3 * 1000);
-    		while( Date.now() < end){
-    			console.log(Date.now(), end);
-    		}
-    		console.log('dunnnnnn');
-    	});
+    	// socket.on('blam', function(){
+    	// 	var end = Date.now() + (3 * 1000);
+    	// 	while( Date.now() < end){
+    	// 		console.log(Date.now(), end);
+    	// 	}
+    	// 	console.log('dunnnnnn');
+    	// });
         // Now have access to socket, wowzers!
     });
 
