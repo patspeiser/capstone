@@ -13,6 +13,15 @@ app.config(function ($stateProvider) {
 app.controller('RoomsCtrl', function($scope, RoomsService){
 	RoomsService.findAll()
 		.then(function(rooms){
-			console.log(rooms);
+            $scope.rooms = rooms;
 		});
+
+    $scope.create = function(room){
+        RoomsService.create(room)
+            .then(function(room){
+                console.log(room);
+            });
+    };
+
+
 });
