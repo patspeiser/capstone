@@ -50,6 +50,14 @@
 
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
 
+        this.signUp = function(user){
+            return $http.post('/api/users', {email: user.email, password: user.password})
+                .then(function(user){
+                    console.log(user, 'created');
+                    return user;
+                });
+        };
+
         function onSuccessfulLogin(response) {
             var user = response.data.user;
             Session.create(user);

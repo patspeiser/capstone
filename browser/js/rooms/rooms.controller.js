@@ -9,7 +9,6 @@ app.config(function ($stateProvider) {
 
 });
 
-
 app.controller('RoomsCtrl', function($scope, RoomsService){
 	RoomsService.findAll()
 		.then(function(rooms){
