@@ -1,8 +1,3 @@
 <div>
-	<input ng-model='room' type='text' placeholder='room name here'/>
-	<button ng-click='create(room)'>Create Room</button>
-
-	<ul>
-		<li ng-repeat='room in rooms'>{{room}}</li>
-	</ul>
+	<room-list rooms='rooms'></room-list>
 </div>
