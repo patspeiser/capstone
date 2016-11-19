@@ -19,7 +19,7 @@
 
 
 ##Routes 
-	####channels
+	###channels
 		- get('/'
 		- get('/:id'
 		- post('/'    < creates using channel info in req.body
@@ -27,7 +27,7 @@
 		- put('/reduce/:id
 		- delete('/:id'
 
-	####users
+	###users
 		- post('/'  < creates using user object passed in w/ req.body
 
 ##Models 
