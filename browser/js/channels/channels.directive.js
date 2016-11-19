@@ -17,7 +17,7 @@ app.directive('channelDetail', function () {
     return {
     	restrict: 'E',
     	scope: {
-    		channels: '='
+    		channel: '='
     	},
     	templateUrl: '/js/channels/channel-detail.html',
         controller: function ($scope, BroadcastService) {
