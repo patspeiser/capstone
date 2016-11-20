@@ -1,16 +1,15 @@
 app.config(function ($stateProvider) {
 
-    // Register our *about* state.
+   
     $stateProvider.state('broadcasting', {
         url: '/broadcasting/:userId',
         controller: 'BroadcastingCtrl',
         templateUrl: 'js/broadcasting/broadcasting.html',
-        resolve:{ //resolve all the channels
+        resolve:{ 
             connection: function(ConnectionService ){
                 // var channel = new BroadcastService();
                 return new ConnectionService();
-                // var channel = new BroadcastService();
-                // return channel.findAllChannels();
+
             }
         },
     });
@@ -19,33 +18,22 @@ app.config(function ($stateProvider) {
 
 app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope, $state, connection){
     console.log('BroadcastingCtrl loaded');
-    //var localBroadcastService = new BroadcastService();
-
 
     var socket = io(); //this is for khan broadcasting
 
-    console.log("connection is ");
-    //console.log($rootScope.connection);
-    console.log(connection.getConnection());
+    connection.getConnection();
 
     $rootScope.broadcasting = false; //the user is not broadcasting
     $rootScope.watching = false; //the user is not watching
 
 
     $scope.disableOpenRoom = false; //disables the open room button if something happens. like the user already opened a room
-    $scope.disableJoinRoom = false; // disables the join room button if something happens. like the user already joined a room
-    $scope.disableOpenJoinRoom = false; //dont think we need this.
     $scope.extra = {}; //this variable contains all the extra info related to the channel, like image link, tags, category
     $scope.extra.tags = []; //this array contains all the tags for the channel
-
-        // ......................................................
-        // .......................UI Code........................
-        // ......................................................
 
     $scope.dRoom = function(){ //delete a channel from database
         BroadcastService.closeRoom($scope.deleteRoomId);
     };
-
 
     $scope.addCategory = function(){//add category to the channel
         $scope.extra.category = $scope.category;
@@ -70,9 +58,6 @@ app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope
                 $scope.extra.name = null;
             }
             else{
-                console.log("scope room name is");
-                console.log($scope.roomname);
-                console.log($scope.extra.name);
                 $rootScope.broadcasting = true; //it tells our app that this user starts broadcasting, reusable with other APIs, REUSABLE
                 BroadcastService.createChannel($scope.extra);//create a new channel in our database with the room name and the extra info related to the channel, REUSABLE
                 $rootScope.unwanted = $scope.extra.name; //remembers the room name in $rootScope. so that we can remove it from our database when the broadcaster simply exits the page, REUSABLE
@@ -92,15 +77,6 @@ app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope
         });
     };
 
-
-
-
-    //     // ......................................................
-    //     // ..................RTCMultiConnection Code.............
-    //     // ......................................................
-
-        
-        // need these soon
         $rootScope.connection.videosContainer = document.getElementById('videos-container'); // khan stuff to load video to an html element, NOT REUSABLE
         $rootScope.connection.onstream = function(event) { //khan stuff to actually play the video, NOT REUSABLE
             $rootScope.connection.videosContainer.appendChild(event.mediaElement);
