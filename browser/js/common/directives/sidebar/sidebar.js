@@ -8,21 +8,24 @@ app.directive('sidebar', function () {
      //    },
     	templateUrl: '/js/common/directives/sidebar/sidebar.html',
         controller: function ($scope, BroadcastService) {
-        	console.log('sidebar directive loaded');
-            $scope.findAllChannels = function(){
-                return BroadcastService.findAllChannels()
-                .then(function(channels){
-                    $scope.channels = channels
+        	// console.log('sidebar directive loaded');
+            $scope.findAllCategories = function(){
+                return BroadcastService.findAllCategories()
+                .then(function(categories){
+                    $scope.categories = categories;
+                    console.log($scope.categories)
                 })
                 .catch(function(err){
                     console.log(err)
                 })
             }; 
             var init = function(){
-                $scope.findAllChannels(); 
+                $scope.findAllCategories(); 
             }
             init(); 
-            console.log($scope.channels); 
+            console.log($scope.categories); 
+
+            
         }
     };
 });
