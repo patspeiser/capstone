@@ -5,6 +5,8 @@ app.factory('ConnectionService', function($rootScope){
 					return $rootScope.connection;
 			}
 
+			console.log("doo");
+
 			$rootScope.connection = new RTCMultiConnection(); //khan stuff to create a connection object, not reusable
 
 	        // by default, socket.io server is assumed to be deployed on your own url
@@ -27,4 +29,7 @@ app.factory('ConnectionService', function($rootScope){
 		};
 
 	return ConnectionService; 
+})
+.run(function(ConnectionService){
+
 });
