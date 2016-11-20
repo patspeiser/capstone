@@ -9,6 +9,7 @@ app.controller('BroadcastLiveCtrl', function($scope){
     $scope.openRoom = function() {
         disableInputButtons();
         console.log(connection.token());
+        //broadcasting so you only want to send out audio and video
         connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: false,
             OfferToReceiveVideo: false
@@ -16,12 +17,12 @@ app.controller('BroadcastLiveCtrl', function($scope){
         var roomId = $scope.roomId;
         connection.open(roomId, function(connect) {
             socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
-            console.log(roomId);
+            console.log(roomId,connect.id);
             showRoomURL(connection.sessionid);
         });
     };
 
-    document.getElementById('join-room').onclick = function() {
+    $scope.joinRoom = function() {
         disableInputButtons();
         connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
@@ -29,16 +30,6 @@ app.controller('BroadcastLiveCtrl', function($scope){
         };
         connection.join($scope.roomId);
     };
-
-    // document.getElementById('open-or-join-room').onclick = function() {
-    //     disableInputButtons();
-    //     connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExists, roomid) {
-    //         if(!isRoomExists) {
-    //             showRoomURL(roomid);
-    //         }
-    //     });
-    // };
-
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
@@ -95,63 +86,5 @@ app.controller('BroadcastLiveCtrl', function($scope){
         roomURLsDiv.style.display = 'block';
     }
 
-    // console.log('window', $window.location);
-    // (function() {
-    //     var params = {},
-    //         r = /([^&=]+)=?([^&]*)/g;
-
-    //     function d(s) {
-    //         return decodeURIComponent(s.replace(/\+/g, ' '));
-    //     }
-    //     var match, search = $window.location.search;
-    //     while ((match = r.exec(search.substring(1))))
-    //         params[d(match[1])] = d(match[2]);
-    //     $window.params = params;
-    // })();
-
-    var roomid = '';
-    console.log(connection.socketMessageEvent, 'socket event');
-
-    if (localStorage.getItem(connection.socketMessageEvent)) {
-        roomid = localStorage.getItem(connection.socketMessageEvent);
-    } else {
-        roomid = connection.token();
-    }
-    // document.getElementById('room-id').value = roomid;
-    // document.getElementById('room-id').onkeyup = function() {
-    //     localStorage.setItem(connection.socketMessageEvent, this.value);
-    // };
-
-    var hashString = location.hash.replace('#', '');
-    if(hashString.length && hashString.indexOf('comment-') === 0) {
-      hashString = '';
-    }
-
-    // roomid = params.roomid;
-    if(!roomid && hashString.length) {
-        roomid = hashString;
-    }
-
-    // if(roomid && roomid.length) {
-    //     document.getElementById('room-id').value = roomid;
-    //     localStorage.setItem(connection.socketMessageEvent, roomid);
-
-    //     // auto-join-room
-    //     (function reCheckRoomPresence() {
-    //         connection.checkPresence(roomid, function(isRoomExists) {
-    //             if(isRoomExists) {
-    //                 connection.join(roomid);
-    //                 return;
-    //             }
-
-    //             setTimeout(reCheckRoomPresence, 5000);
-    //         });
-    //     })();
-
-    //     disableInputButtons();
-    // }    
-
-
-
-
+ 
 });
