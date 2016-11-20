@@ -23,6 +23,21 @@ router.get('/category/:category', function(req, res, next){
 		.catch(next);
 })
 
+router.get('/channelname/:channelname', function(req, res, next){
+	Channel.findAll({
+		where:{
+			//name: req.params.channelname
+			name:{
+				$like: '%' + req.params.channelname + '%'
+			}
+		}
+	})
+		.then(function(channels){
+			res.send(channels);
+		})
+		.catch(next);
+})
+
 router.get('/tag/:tag', function(req, res, next){
 	var tagsArr = req.params.tag.split(',');
 

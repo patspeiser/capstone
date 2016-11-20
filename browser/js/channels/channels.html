@@ -12,6 +12,13 @@
 	</form>
 </div>
 
+<div>
+	<form name="channelnametest">
+		<input type="text" ng-model="searchChannelName">
+		<button ng-click="findChannelByChannelName(searchChannelName)"> find by channel name</button>
+	</form>
+</div>
+
 
 <div>
 	<channel-list channels='channels'></channel-list>
