@@ -32,6 +32,15 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, channels, $state){
+    
+    $scope.isSpeakerReady = DetectRTC.hasSpeakers ? 'Yes':'No';
+    $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
+    $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
+
+
+
+
+
     console.log('ChannelsCtrl loaded');
     //var channel = new BroadcastService();
 
@@ -54,9 +63,6 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
     $scope.findChannelByChannelName = function(channelName){
         $state.go('channels',{'channelname':channelName})
     }
-
-
-
 
 
 
