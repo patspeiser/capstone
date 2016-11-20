@@ -2,13 +2,27 @@ app.config(function ($stateProvider) {
 
     // Register our *about* state.
     $stateProvider.state('channels', {
-        url: '/channels',
+        url: '/channels?tag&category&search',
+        // params:{
+        //     tag:null,
+        //     category:null,
+        //     search:null,
+        // },
         controller: 'ChannelsCtrl',
         templateUrl: 'js/channels/channels.html',
         resolve:{ //resolve all the channels
-            channels: function(BroadcastService){
+            channels: function(BroadcastService, $stateParams){
                 //var channel = new BroadcastService();
-                return BroadcastService.findAllChannels();
+                if($stateParams.tag){
+                    return BroadcastService.findChannelByTag($stateParams.tag);
+                }
+                else if ($stateParams.category){
+                    return BroadcastService.findChannelByCategory($stateParams.category);
+                }
+                else{
+                    return BroadcastService.findAllChannels();
+                }
+
             }
         },
     });
@@ -21,6 +35,39 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
 
     var socket = io(); //this is for khan broadcasting
     $scope.channels = channels; //loads all channels to $scope.channels
+
+
+    //testing
+
+    $scope.findChannelByTag = function(tag){
+        $state.go('channels',{'tag':tag});
+
+        //BroadcastService.findChannelByTag(tag);
+    }
+
+    $scope.findChannelByCategory = function(category){
+        $state.go('channels',{'category':category})
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //$rootScope.broadcasting = false; //the user is not broadcasting
     //$rootScope.watching = false; //the user is not watching

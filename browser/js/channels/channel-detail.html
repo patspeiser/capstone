@@ -1,7 +1,10 @@
 <div class='vid col-md-4'> 
 	<p> <h2> {{channel.name}} </h2> </p>
 	<p> {{channel.category}} </p>
-	<p> {{channel.tags}} </p>
+	<!-- <p> {{channel.tags}} </p> -->
+	<div ng-repeat = "tag in channel.tags">
+		<a ng-click="findChannelByTag(tag)">{{tag}}</a>
+	</div>
 	<p> Views: {{channel.view}} </p>
 	<img class='bordered' ng-src='{{channel.coverimage}}'>
 	<button ng-click='joinRoom(channel)'>Join {{channel.name}}</button>
