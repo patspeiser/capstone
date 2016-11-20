@@ -22,15 +22,15 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
     var socket = io(); //this is for khan broadcasting
     $scope.channels = channels; //loads all channels to $scope.channels
 
-    $rootScope.broadcasting = false; //the user is not broadcasting
-    $rootScope.watching = false; //the user is not watching
+    //$rootScope.broadcasting = false; //the user is not broadcasting
+    //$rootScope.watching = false; //the user is not watching
 
 
-    $scope.disableOpenRoom = false; //disables the open room button if something happens. like the user already opened a room
-    $scope.disableJoinRoom = false; // disables the join room button if something happens. like the user already joined a room
-    $scope.disableOpenJoinRoom = false; //dont think we need this.
-    $scope.extra = {}; //this variable contains all the extra info related to the channel, like image link, tags, category
-    $scope.extra.tags = []; //this array contains all the tags for the channel
+    //$scope.disableOpenRoom = false; //disables the open room button if something happens. like the user already opened a room
+    //$scope.disableJoinRoom = false; // disables the join room button if something happens. like the user already joined a room
+    //$scope.disableOpenJoinRoom = false; //dont think we need this.
+    //$scope.extra = {}; //this variable contains all the extra info related to the channel, like image link, tags, category
+    //$scope.extra.tags = []; //this array contains all the tags for the channel
 
         // ......................................................
         // .......................UI Code........................

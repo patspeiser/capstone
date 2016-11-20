@@ -4,12 +4,14 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
+
         link: function (scope) {
 
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'About', state: 'about' },
                 { label: 'Broadcast Channel', state: 'channels'},
+                { label: 'Broadcasting!', state:'broadcasting({id:user.id})'},//need to get this user
                 { label: 'Documentation', state: 'docs' },
                 { label: 'Members Only', state: 'membersOnly', auth: true }
             ];
