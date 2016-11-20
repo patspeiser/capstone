@@ -1,3 +1,18 @@
-<div class='row'>
-	<channel-detail ng-repeat='channel in channels' channel='channel'></channel-detail>
+<div class="container">
+    <div class="row">
+    	
+      <aside class="col-md-2 sidebar">
+        <sidebar></sidebar>
+      </aside>
+
+
+      <div class="col-md-10 product-archive-outer">
+        <div class="section-header">
+          <h1 class="title pull-left">{{ currentCategory }}</h1>
+        </div>
+			<channel-detail ng-repeat='channel in channels' channel='channel'></channel-detail>
+      </div>
+    </div>
+
+
 </div>

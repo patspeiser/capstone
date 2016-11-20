@@ -61,7 +61,21 @@ var seedChannel = function(){
             category:'politics',
             tags: ['ron', 'paul'],
             coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
-        }
+        }, 
+        {
+            name: 'notmypresident',
+            view: 5,
+            category:'politics',
+            tags: ['trump', 'hillary'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
+        {
+            name: 'cupcakes',
+            view: 8,
+            category:'cooking',
+            tags: ['cupcakes', 'baking'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
     ];
 
     var creatingChannels = channels.map(function(channelObj){
