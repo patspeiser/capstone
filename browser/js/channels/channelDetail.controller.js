@@ -7,9 +7,9 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/channels/channel-detail.html',
         resolve:{ //resolve all the channels
             channel: function(BroadcastService, $stateParams){
-                var channel = new BroadcastService();
+                //var channel = new BroadcastService();
                 console.log($stateParams);
-                return channel.findById($stateParams.id);
+                return BroadcastService.findById($stateParams.id);
             }
         },
     });

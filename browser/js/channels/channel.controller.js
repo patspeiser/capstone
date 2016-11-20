@@ -7,8 +7,8 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/channels/channels.html',
         resolve:{ //resolve all the channels
             channels: function(BroadcastService){
-                var channel = new BroadcastService();
-                return channel.findAllChannels();
+                //var channel = new BroadcastService();
+                return BroadcastService.findAllChannels();
             }
         },
     });
@@ -17,7 +17,7 @@ app.config(function ($stateProvider) {
 
 app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, channels, $state){
     console.log('ChannelsCtrl loaded');
-    var channel = new BroadcastService();
+    //var channel = new BroadcastService();
 
     var socket = io(); //this is for khan broadcasting
     $scope.channels = channels; //loads all channels to $scope.channels

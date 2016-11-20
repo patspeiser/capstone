@@ -19,7 +19,7 @@ app.config(function ($stateProvider) {
 
 app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope, $state, connection){
     console.log('BroadcastingCtrl loaded');
-    var localBroadcastService = new BroadcastService();
+    //var localBroadcastService = new BroadcastService();
 
 
     var socket = io(); //this is for khan broadcasting
@@ -43,7 +43,7 @@ app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope
         // ......................................................
 
     $scope.dRoom = function(){ //delete a channel from database
-        localBroadcastService.closeRoom($scope.deleteRoomId);
+        BroadcastService.closeRoom($scope.deleteRoomId);
     };
 
 
@@ -74,7 +74,7 @@ app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope
                 console.log($scope.roomname);
                 console.log($scope.extra.name);
                 $rootScope.broadcasting = true; //it tells our app that this user starts broadcasting, reusable with other APIs, REUSABLE
-                localBroadcastService.createChannel($scope.extra);//create a new channel in our database with the room name and the extra info related to the channel, REUSABLE
+                BroadcastService.createChannel($scope.extra);//create a new channel in our database with the room name and the extra info related to the channel, REUSABLE
                 $rootScope.unwanted = $scope.extra.name; //remembers the room name in $rootScope. so that we can remove it from our database when the broadcaster simply exits the page, REUSABLE
 
                 $scope.disableOpenRoom = true; //disables the open room button when the room is already open. REUSABLE 
