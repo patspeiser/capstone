@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
 
     // Register our *about* state.
     $stateProvider.state('channels', {
-        url: '/channels?tag&category&search',
+        url: '/channels?tag&category&channelname',
         // params:{
         //     tag:null,
         //     category:null,
@@ -18,6 +18,8 @@ app.config(function ($stateProvider) {
                 }
                 else if ($stateParams.category){
                     return BroadcastService.findChannelByCategory($stateParams.category);
+                } else if ($stateParams.channelname){
+                    return BroadcastService.findChannelByChannelName($stateParams.channelname);
                 }
                 else{
                     return BroadcastService.findAllChannels();
@@ -48,6 +50,12 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
     $scope.findChannelByCategory = function(category){
         $state.go('channels',{'category':category})
     }
+
+    $scope.findChannelByChannelName = function(channelName){
+        $state.go('channels',{'channelname':channelName})
+    }
+
+
 
 
 

@@ -93,6 +93,14 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 
 		var BroadcastService= {};
 
+		BroadcastService.findChannelByChannelName = function(channelName){
+			return $http.get('/api/channels/channelname/' + channelName)
+				.then(function(result){
+					angular.copy(result.data, channels);
+					return channels;
+				})
+		}
+
 		BroadcastService.findChannelByTag = function(tag){
 			return $http.get('/api/channels/tag/' + tag)
 				.then(function(result){
