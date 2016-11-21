@@ -1,9 +1,9 @@
 navbar {
 
   display: block;
-  background: white;
-  border-bottom: 1px solid black;
-  box-shadow: 1px 1px 14px -3px black;
+  background: transparent; 
+  font-family: 'Josefin Sans', sans-serif;
+
 
   .container {
     width: 91%;
@@ -18,19 +18,19 @@ navbar {
   }
 
   a {
-    color: black;
-    font-size: 16px;
+    color: white;
+    font-size: 25px;
   }
 
   .nav > li > a {
     cursor: pointer;
     transition: color 0.2s;
     &.active {
-      color: darken(#f31214, 10%);
+      color: darken(#FFCE2B, 10%);
     }
     &:hover {
       background: none;
-      color: #f31214;
+      color: #FFCE2B;
     }
     &:focus {
       background: none;
@@ -43,6 +43,7 @@ navbar {
     margin-top: 10px;
     background: none;
     outline: none !important;
+    font-family: 'Josefin Sams', sans-serif;
   }
 
   .welcome {

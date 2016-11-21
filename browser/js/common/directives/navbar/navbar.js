@@ -8,11 +8,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         link: function (scope) {
 
             scope.items = [
-                { label: 'Home', state: 'home' },
-                { label: 'Broadcast Test', state: 'broadcastLive'},
-                { label: 'All Channels', state: 'channels'},
-                { label: 'Create Broadcast', state:'broadcasting({id:user.id})'},//need to get this user
-                { label: 'Members Only', state: 'membersOnly', auth: true }
+                { label: 'HOME', state: 'home' },
+                { label: 'BROADCAST TEST', state: 'broadcastLive'},
+                { label: 'EXPLORE CHANNELS', state: 'channels'},
+                { label: 'CREATE BROADCAST', state:'broadcasting({id:user.id})'},//need to get this user
+                { label: 'MEMBERS ONLY', state: 'membersOnly', auth: true }
             ];
 
             scope.user = null;
