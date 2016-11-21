@@ -1,4 +1,4 @@
-app.controller('BroadcastLiveCtrl', function($scope){
+app.controller('BroadcastLiveCtrl', function($scope,$sce){
     //initiate connection
     var socket = io();
 
@@ -17,7 +17,6 @@ app.controller('BroadcastLiveCtrl', function($scope){
         var roomId = $scope.roomId;
         connection.open(roomId, function(connect) {
             socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
-            console.log(roomId,connect.id);
             showRoomURL(connection.sessionid);
         });
     };
@@ -53,7 +52,15 @@ app.controller('BroadcastLiveCtrl', function($scope){
 
     connection.videosContainer = document.getElementById('videos-container');
     connection.onstream = function(event) {
+        console.log(event.streamid);
         connection.videosContainer.appendChild(event.mediaElement);
+
+        //add bootstrap classes to the video
+        var vidElement = "#" + event.streamid;
+        console.log(vidElement);
+        var currentVid = angular.element( document.querySelector(vidElement));
+        currentVid.addClass("embed-responsive-item");
+ 
         event.mediaElement.play();
         setTimeout(function() {
             event.mediaElement.play();
