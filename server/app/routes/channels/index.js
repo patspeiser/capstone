@@ -40,7 +40,7 @@ router.get('/channelname/:channelname', function(req, res, next){
 })
 
 router.get('/tag/:tag', function(req, res, next){
-	var tagsArr = req.params.tag.split(',');
+	var tagsArr = req.params.tag.replace(/\s+/g,'').split(',');
 
 	Channel.findAll({
 		where:{
