@@ -11,6 +11,56 @@ router.get('/', function(req,res,next){ //get all rooms
 		.catch(next);
 });
 
+router.get('/category/:category', function(req, res, next){
+	Channel.findAll({
+		where:{
+			category: req.params.category
+		}
+	})
+		.then(function(channels){
+			res.send(channels);
+		})
+		.catch(next);
+})
+
+
+router.get('/channelname/:channelname', function(req, res, next){
+	Channel.findAll({
+		where:{
+			//name: req.params.channelname
+			name:{
+				$like: '%' + req.params.channelname + '%'
+			}
+		}
+	})
+		.then(function(channels){
+			res.send(channels);
+		})
+		.catch(next);
+})
+
+router.get('/tag/:tag', function(req, res, next){
+	var tagsArr = req.params.tag.split(',');
+
+	Channel.findAll({
+		where:{
+			tags: {
+				//$contains : [req.params.tag]
+				$contains: tagsArr
+			}
+		}
+	})
+		.then(function(channels){
+			res.send(channels);
+		})
+		.catch(next);
+})
+
+
+
+
+
+
 //can we use ID? Also can we send a req.body instead of a param if a user never actually lands here? 
 router.put('/increase/:id', function(req,res,next){ //increase view count by one if someone joins a room
 	Channel.update({
@@ -79,18 +129,5 @@ router.get('/:id', function(req, res, next){
 		})
 		.catch(next);
 });
-
-
-router.get('/category/:category', function(req, res, next){
-	Channel.findAll({
-		where: {
-			category: req.params.category
-		}})
-		.then(function(channels){
-			res.send(channels);
-		})
-		.catch(next);
-});
-
 
 

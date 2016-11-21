@@ -2,10 +2,9 @@
     <article>
         <section class="experiment">
             <div class="make-center">
-                <input type="text" id="room-id" value="room number here">
-                <button ng-click="open-room()">Open Room</button>
-                <button id="join-room">Join Room</button>
-                <button id="open-or-join-room">Auto Open Or Join Room</button>
+                <input type="text" ng-model="roomId" onClick="this.select();" placeholder="Enter Room Name">
+                <button ng-click="openRoom()" ng-disabled="broadcastStatus">Open Room</button>
+                <button ng-click="joinRoom()" ng-disabled="broadcastStatus">Join Room</button>
 
                 <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
             </div>

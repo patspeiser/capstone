@@ -1,39 +1,101 @@
 app.config(function ($stateProvider) {
 
     // Register our *about* state.
+
     $stateProvider
-        .state('channels', {
-            url: '/channels',
-            controller: 'ChannelsCtrl',
-            templateUrl: 'js/channels/channels.html',
-            resolve:{ //resolve all the channels
-                channels: function(BroadcastService){
-                    //var channel = new BroadcastService();
+    .state('channels', {
+        url: '/channels?tag&category&channelname',
+        // params:{
+        //     tag:null,
+        //     category:null,
+        //     search:null,
+        // },
+        controller: 'ChannelsCtrl',
+        templateUrl: 'js/channels/channels.html',
+        resolve:{ //resolve all the channels
+            channels: function(BroadcastService, $stateParams){
+                //var channel = new BroadcastService();
+                if($stateParams.tag){
+                    return BroadcastService.findChannelByTag($stateParams.tag);
+                }
+                else if ($stateParams.category){
+                    return BroadcastService.findChannelByCategory($stateParams.category);
+                } else if ($stateParams.channelname){
+                    return BroadcastService.findChannelByChannelName($stateParams.channelname);
+                }
+                else{
                     return BroadcastService.findAllChannels();
                 }
-            },
-        })
-        .state('channels.category', {
-            url: '/category/:category',
-            controller: 'ChannelsCtrl',
-            templateUrl: 'js/channels/channels.html',
-            resolve:{ //resolve all the channels
-                channels: function(BroadcastService, $stateParams){
-                    //var channel = new BroadcastService();
-                    console.log($stateParams.category);
-                    return BroadcastService.findChannelsByCategory($stateParams.category);
-                }
-            },
-        })
+
+            }
+        },
+    })
+    // .state('channels.category', {
+    //     url: '/category/:category',
+    //     controller: 'ChannelsCtrl',
+    //     templateUrl: 'js/channels/channels.html',
+    //     resolve:{ //resolve all the channels
+    //         channels: function(BroadcastService, $stateParams){
+    //             //var channel = new BroadcastService();
+    //             console.log($stateParams.category);
+    //             return BroadcastService.findChannelByCategory($stateParams.category);
+    //         }
+    //     },
+    // })
 
 });
 
 app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, channels, $state){
+    
+    $scope.isSpeakerReady = DetectRTC.hasSpeakers ? 'Yes':'No';
+    $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
+    $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
+
+
+
+
+
     console.log('ChannelsCtrl loaded');
     //var channel = new BroadcastService();
 
     var socket = io(); //this is for khan broadcasting
     $scope.channels = channels; //loads all channels to $scope.channels
+
+
+    //testing
+
+    $scope.findChannelByTag = function(tag){
+        $state.go('channels',{'tag':tag});
+
+        //BroadcastService.findChannelByTag(tag);
+    }
+
+    $scope.findChannelByCategory = function(category){
+        $state.go('channels',{'category':category})
+    }
+
+    $scope.findChannelByChannelName = function(channelName){
+        $state.go('channels',{'channelname':channelName})
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //$rootScope.broadcasting = false; //the user is not broadcasting
     //$rootScope.watching = false; //the user is not watching
