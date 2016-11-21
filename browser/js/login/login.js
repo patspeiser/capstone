@@ -29,8 +29,8 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state) {
             .then(function(){
                 $state.go('home');
             })
-            .catch(function(){
-                console.log('error during signup');
+            .catch(function(err){
+                console.log('error during signup', err);
             });
     };
 

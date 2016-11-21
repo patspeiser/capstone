@@ -1,7 +1,9 @@
 app.config(function ($stateProvider) {
 
     // Register our *about* state.
-    $stateProvider.state('channels', {
+
+    $stateProvider
+    .state('channels', {
         url: '/channels?tag&category&channelname',
         // params:{
         //     tag:null,
@@ -27,7 +29,19 @@ app.config(function ($stateProvider) {
 
             }
         },
-    });
+    })
+    // .state('channels.category', {
+    //     url: '/category/:category',
+    //     controller: 'ChannelsCtrl',
+    //     templateUrl: 'js/channels/channels.html',
+    //     resolve:{ //resolve all the channels
+    //         channels: function(BroadcastService, $stateParams){
+    //             //var channel = new BroadcastService();
+    //             console.log($stateParams.category);
+    //             return BroadcastService.findChannelByCategory($stateParams.category);
+    //         }
+    //     },
+    // })
 
 });
 

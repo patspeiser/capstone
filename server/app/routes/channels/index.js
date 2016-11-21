@@ -23,6 +23,7 @@ router.get('/category/:category', function(req, res, next){
 		.catch(next);
 })
 
+
 router.get('/channelname/:channelname', function(req, res, next){
 	Channel.findAll({
 		where:{

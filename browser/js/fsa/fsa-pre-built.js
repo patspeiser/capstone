@@ -51,10 +51,10 @@
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
 
         this.signUp = function(user){
+            var that = this;
             return $http.post('/api/users', {email: user.email, password: user.password})
-                .then(function(user){
-                    console.log(user, 'created');
-                    return user;
+                .then(function(returnedUser){
+                    return that.login(user);
                 });
         };
 

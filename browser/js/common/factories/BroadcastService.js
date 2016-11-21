@@ -91,6 +91,8 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 
 		var channels = []; 
 
+		var categories =[];
+
 		var BroadcastService= {};
 
 		BroadcastService.findChannelByChannelName = function(channelName){
@@ -116,7 +118,6 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 					return channels;
 				})
 		}
-
 
 		BroadcastService.findById = function(id){ // get all channels from our database
 			return $http.get('/api/channels/' + id)
@@ -155,6 +156,40 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 					return channels;
 				})
 		}
+
+		var tempChannels = []; 
+		var tempCategories = []; 
+
+
+		BroadcastService.findAllCategories = function(){ // get all categories of channels from the database 
+			return $http.get('/api/channels')
+				.then(function(result){
+					// console.log('in findAllCategories of Service')
+					angular.copy(result.data, tempChannels);
+					// console.log(tempChannels);
+					for(var i=0; i<tempChannels.length; i++){
+						tempCategories.push(tempChannels[i].category)
+					}
+					
+					var uniqueCategories = tempCategories.filter(function(item, pos, self) {
+					    return self.indexOf(item) == pos;
+					});
+					angular.copy(uniqueCategories, categories); 
+					console.log(categories);
+					return categories;
+				})
+		}
+
+		// BroadcastService.findChannelsByCategory = function(category){ // get all channels for category 
+		// 	console.log('in BroadcastService.findChannelsByCategory');
+		// 	return $http.get('/api/channels/category/' + category)
+		// 		.then(function(result){
+		// 			console.log(result);
+		// 			angular.copy(result.data, channels);
+		// 			return channels;
+		// 		})
+		// }
+
 
 		BroadcastService.closeChannel = function(roomId){ // remove a room from our database
 			return $http.delete('/api/channels/' + roomId)
