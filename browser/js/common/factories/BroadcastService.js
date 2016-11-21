@@ -137,7 +137,7 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 		var tempCategories = []; 
 
 
-		BroadcastService.findAllCategories = function(){ // get all channels from our database
+		BroadcastService.findAllCategories = function(){ // get all categories of channels from the database 
 			return $http.get('/api/channels')
 				.then(function(result){
 					// console.log('in findAllCategories of Service')
@@ -153,6 +153,16 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 					angular.copy(uniqueCategories, categories); 
 					console.log(categories);
 					return categories;
+				})
+		}
+
+		BroadcastService.findChannelsByCategory = function(category){ // get all channels for category 
+			console.log('in BroadcastService.findChannelsByCategory');
+			return $http.get('/api/channels/category/' + category)
+				.then(function(result){
+					console.log(result);
+					angular.copy(result.data, channels);
+					return channels;
 				})
 		}
 

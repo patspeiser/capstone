@@ -25,7 +25,9 @@ app.directive('sidebar', function () {
             init(); 
             console.log($scope.categories); 
 
-            
+            // $scope.filterByCategory
+
+
         }
     };
 });

@@ -1,17 +1,30 @@
 app.config(function ($stateProvider) {
 
     // Register our *about* state.
-    $stateProvider.state('channels', {
-        url: '/channels',
-        controller: 'ChannelsCtrl',
-        templateUrl: 'js/channels/channels.html',
-        resolve:{ //resolve all the channels
-            channels: function(BroadcastService){
-                //var channel = new BroadcastService();
-                return BroadcastService.findAllChannels();
-            }
-        },
-    });
+    $stateProvider
+        .state('channels', {
+            url: '/channels',
+            controller: 'ChannelsCtrl',
+            templateUrl: 'js/channels/channels.html',
+            resolve:{ //resolve all the channels
+                channels: function(BroadcastService){
+                    //var channel = new BroadcastService();
+                    return BroadcastService.findAllChannels();
+                }
+            },
+        })
+        .state('channels.category', {
+            url: '/category/:category',
+            controller: 'ChannelsCtrl',
+            templateUrl: 'js/channels/channels.html',
+            resolve:{ //resolve all the channels
+                channels: function(BroadcastService, $stateParams){
+                    //var channel = new BroadcastService();
+                    console.log($stateParams.category);
+                    return BroadcastService.findChannelsByCategory($stateParams.category);
+                }
+            },
+        })
 
 });
 

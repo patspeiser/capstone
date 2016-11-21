@@ -81,3 +81,16 @@ router.get('/:id', function(req, res, next){
 });
 
 
+router.get('/category/:category', function(req, res, next){
+	Channel.findAll({
+		where: {
+			category: req.params.category
+		}})
+		.then(function(channels){
+			res.send(channels);
+		})
+		.catch(next);
+});
+
+
+
