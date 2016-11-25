@@ -76,6 +76,34 @@ var seedChannel = function(){
             tags: ['cupcakes', 'baking'],
             coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
         }, 
+        {
+            name: 'cspan_fun',
+            view: 777,
+            category:'Politics',
+            tags: ['congress', 'ron', 'paul'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
+        {
+            name: 'congress_baseball',
+            view: 111,
+            category:'Politics',
+            tags: ['congress', 'baseball'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
+        {
+            name: 'posion_dumpling',
+            view: 999,
+            category:'Cooking',
+            tags: ['dumpling', 'poison'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
+        {
+            name: 'cliton_cash',
+            view: 55,
+            category:'Politics',
+            tags: ['ron', 'book'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
     ];
 
     var creatingChannels = channels.map(function(channelObj){

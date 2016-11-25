@@ -53,8 +53,6 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
 
 
 
-
-
     console.log('ChannelsCtrl loaded');
     //var channel = new BroadcastService();
 
@@ -65,17 +63,17 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
     //testing
 
     $scope.findChannelByTag = function(tag){
-        $state.go('channels',{'tag':tag});
+        $state.go('channels',{'tag':tag, 'category':null, 'channelname':null});
 
         //BroadcastService.findChannelByTag(tag);
     }
 
     $scope.findChannelByCategory = function(category){
-        $state.go('channels',{'category':category})
+        $state.go('channels',{'category':category, 'tag':null, 'channelname':null})
     }
 
     $scope.findChannelByChannelName = function(channelName){
-        $state.go('channels',{'channelname':channelName})
+        $state.go('channels',{'channelname':channelName, 'category':null, 'tag':null})
     }
 
 

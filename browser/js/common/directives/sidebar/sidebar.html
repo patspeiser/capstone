@@ -1,4 +1,4 @@
 <div class="list-group">
   <a class="list-group-item" ui-sref="channels({})">Trending</a>
-  <a ng-repeat="category in categories" ui-sref="channels({category: category})" class="list-group-item">{{ category }}</a>
+  <a ng-repeat="category in categories" ui-sref="channels({category: category, tag:null, channelname:null})" class="list-group-item">{{ category }}</a>
 </div>

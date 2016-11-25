@@ -4,7 +4,9 @@ var Channel = require('../../../db').models.channel;
 module.exports = router;
 
 router.get('/', function(req,res,next){ //get all rooms
-	Channel.findAll()
+	Channel.findAll({
+		order: 'view DESC'
+	})
 		.then(function(channels){
 			res.send(channels);
 		})
@@ -15,7 +17,8 @@ router.get('/category/:category', function(req, res, next){
 	Channel.findAll({
 		where:{
 			category: req.params.category
-		}
+		},
+		order: 'view DESC',
 	})
 		.then(function(channels){
 			res.send(channels);
@@ -31,7 +34,8 @@ router.get('/channelname/:channelname', function(req, res, next){
 			name:{
 				$like: '%' + req.params.channelname + '%'
 			}
-		}
+		},
+		order: 'view DESC',
 	})
 		.then(function(channels){
 			res.send(channels);
@@ -48,7 +52,8 @@ router.get('/tag/:tag', function(req, res, next){
 				//$contains : [req.params.tag]
 				$contains: tagsArr
 			}
-		}
+		},
+		order: 'view DESC',
 	})
 		.then(function(channels){
 			res.send(channels);
