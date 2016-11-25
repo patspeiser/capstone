@@ -1,6 +1,7 @@
 app.controller('BroadcastLiveCtrl', function($scope,$sce){
     //initiate connection
     var socket = io();
+    var viewCount = 0;
 
     // ......................................................
     // .......................UI Code........................
@@ -19,6 +20,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
             socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
             showRoomURL(connection.sessionid);
         });
+
     };
 
     $scope.joinRoom = function() {
@@ -35,9 +37,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
     // ......................................................
 
     var connection = new RTCMultiConnection();
-
-    // by default, socket.io server is assumed to be deployed on your own URL
-    // connection.socketURL = '/';
 
     // comment-out below line if you do not have your own socket.io server
     connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
@@ -57,7 +56,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
 
         //add bootstrap classes to the video
         var vidElement = "#" + event.streamid;
-        console.log(vidElement);
         var currentVid = angular.element( document.querySelector(vidElement));
         currentVid.addClass("embed-responsive-item");
  
@@ -93,5 +91,5 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
         roomURLsDiv.style.display = 'block';
     }
 
- 
+
 });
