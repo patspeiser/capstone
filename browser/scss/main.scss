@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  font-family: 'Josefin Sans', sans-serif;
+
 }
 
 
@@ -14,6 +16,22 @@
 #main {
   padding-top: 60px;
   margin: 0 auto;
+}
+
+body { 
+	background: transparent; 
+}
+
+
+html{
+     background-image:url('http://i1067.photobucket.com/albums/u428/nfrnobo/livestream_dark_zpsqmhnhbxs.jpg');
+     background-size:cover;
+     background-repeat: no-repeat
+}
+
+.detail-img {
+	width: 75%; 
+	height: auto
 }
 
 @import 'directives/main';

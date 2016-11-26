@@ -1,32 +1,20 @@
-Is speaker ready?: {{isSpeakerReady}}</br>
-Is webcam ready: {{isWebcamReady}}</br>
-Is microphone ready: {{isMicrophoneReady}}</br>
-
-
-
 <div>
-	<form name="tagtest">
-		<input type="text" ng-model="searchTag"> (separate tags by , please)
-		<button ng-click="findChannelByTag(searchTag)"> find by tag</button>
-	</form>
-</div>
-
-<div>
-	<form name="categorytest">
-		<input type="text" ng-model="searchCategory">
-		<button ng-click="findChannelByCategory(searchCategory)"> find by category</button>
-	</form>
-</div>
-
-<div>
-	<form name="channelnametest">
-		<input type="text" ng-model="searchChannelName">
-		<button ng-click="findChannelByChannelName(searchChannelName)"> find by channel name</button>
-	</form>
-</div>
+    <div class="row">
+    	
+      <aside class="col-md-2 sidebar">
+      	<!-- categories filter -->
+        <sidebar></sidebar>
+      </aside>
 
 
-<div>
-	<channel-list channels='channels'></channel-list>
+      <div class="col-md-10 product-archive-outer">
+        <div class="section-header">
+          <h1 class="title pull-left">{{ currentCategory }}</h1>
+        </div>
+			<channel-detail ng-repeat='channel in channels' channel='channel'></channel-detail>
+      </div>
+    </div>
+
+
 </div>
 

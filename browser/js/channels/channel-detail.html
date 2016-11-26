@@ -2,10 +2,12 @@
 	<p> <h2> {{channel.name}} </h2> </p>
 	<p> {{channel.category}} </p>
 	<!-- <p> {{channel.tags}} </p> -->
+	<p> Views: {{channel.view}} </p>
+	<img class='bordered detail-img' ng-src='{{channel.coverimage}}'>
+	<br>
+	<button ng-click='joinRoom(channel)'>Join {{channel.name}}</button>
 	<div ng-repeat = "tag in channel.tags">
 		<a ng-click="findChannelByTag(tag)">{{tag}}</a>
 	</div>
-	<p> Views: {{channel.view}} </p>
-	<img class='bordered' ng-src='{{channel.coverimage}}'>
-	<button ng-click='joinRoom(channel)'>Join {{channel.name}}</button>
+
 </div>
