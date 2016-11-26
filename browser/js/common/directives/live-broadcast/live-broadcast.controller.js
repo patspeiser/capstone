@@ -94,9 +94,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
     // ......................................................
 
     if($state.params.data.category){
-        $timeout($scope.openRoom($state.params.channelId),0);
-    } else {
-        $timeout($scope.joinRoom($state.params.joinId),0);
+        $timeout($scope.openRoom($state.params.data.channelId),0);
+    } else if ($state.params.data.joinId){
+        $timeout($scope.joinRoom($state.params.data.joinId),0);
+    } else{
+        $state.go('broadcastHome');
     }
 
 

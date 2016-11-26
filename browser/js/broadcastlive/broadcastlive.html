@@ -1,22 +1,30 @@
 <div class='container'>
 	<div class='well'>
+
+		<h2 class='text-center'>Create a Broadcasting Channel</h2>
         <ng-form name="broadcastForm" novalidate>
-        	<div class='col-xs-12 col-md-4'>
-        		<label>Room Name</label>
-	        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelId" placeholder='*Required'>
-	        </div>
+	        	<div class='col-xs-12 col-md-4 form-group'>
+	        		<label>Room Name</label>
+		        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelId" placeholder='*Required'>
+		        </div>
 
-        	<div class='col-xs-12 col-md-4'>
-        		<label>Category</label>
-	            <input type="text" onClick="this.select();" required ng-model="broadcast.category" placeholder='*Required'>
-			</div>
+	        	<div class='col-xs-12 col-md-4 form-group'>
+	        		<label>Category</label>
+		            <input type="text" onClick="this.select();" required ng-model="broadcast.category" placeholder='*Required'>
+				</div>
 
-            <input type='submit' value='Begin Broadcast!' class='btn btn-primary' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
+	        	<div class='col-xs-12 col-md-4 form-group'>
+	        		<label>Tags </label>
+		            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags'>
+				</div>				
+			<br clear='all'>
+            <input type='submit' value='Begin Broadcast!' class='left-align btn btn-primary' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
 	</div>
 
 	<br>
 	<div class='well'>
+		<h2 class='text-center'>Join a Broadcast</h2>
 		<ng-form name="broadcastJoin" novalidate>
 			<div class='col-xs-12 col-md-4'>
 				<label>Join Room</label>
