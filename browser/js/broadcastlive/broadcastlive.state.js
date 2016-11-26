@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('broadcastHome', {
         url: '/broadcast',
-        controller: 'BroadcastCtrl',
+        controller: 'broadcastCtrl',
         templateUrl: 'js/broadcastlive/broadcastlive.html',
     });
 });
