@@ -7,7 +7,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
     // ......................................................
 
     $scope.openRoom = function(id) {
-        disableInputButtons();
         console.log(connection.token());
         //broadcasting so you only want to send out audio and video
         connection.sdpConstraints.mandatory = {
@@ -17,17 +16,16 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
         var roomId = id;
         connection.open(roomId, function(connect) {
             socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
-            showRoomURL(connection.sessionid);
+            // showRoomURL(connection.sessionid);
         });
     };
 
-    $scope.joinRoom = function() {
-        disableInputButtons();
+    $scope.joinRoom = function(id) {
         connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
         };
-        connection.join($scope.roomId);
+        connection.join(id);
     };
 
     // ......................................................
@@ -63,11 +61,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
         }, 5000);
     };
 
-    function disableInputButtons() {
-        $scope.broadcastStatus = function(){
-            return false;
-        }
-    }
 
     // ......................................................
     // ......................Handling Room-ID................
@@ -93,13 +86,14 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
     // ..............Starting Broadcast......................
     // ......................................................
 
-    if($state.params.data.category){
+    if($state.params.type === 'broadcast'){
         $timeout($scope.openRoom($state.params.data.channelId),0);
-    } else if ($state.params.data.joinId){
+    } else if ($state.params.type === 'viewer'){
         $timeout($scope.joinRoom($state.params.data.joinId),0);
-    } else{
-        $state.go('broadcastHome');
+    } else {
+        $state.go('broadcastHome')
     }
+
 
 
 });

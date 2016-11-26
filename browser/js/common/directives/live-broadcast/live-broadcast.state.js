@@ -5,7 +5,8 @@ app.config(function ($stateProvider) {
         controller: 'BroadcastLiveCtrl',
         templateUrl: 'js/common/directives/live-broadcast/live-broadcast.html',
         params: {
-        	data: null
+        	data: null,
+        	type: null
         },
         resolve : {
         	broadcastStatus: function(){ return true}
