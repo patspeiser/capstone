@@ -1,4 +1,34 @@
-<div class="list-group">
-  <a class="list-group-item" ui-sref="channels({})">Trending</a>
-  <a ng-repeat="category in categories" ui-sref="channels({category: category, tag:null, channelname:null})" class="list-group-item">{{ category }}</a>
+<div class="list-group shadow">
+	<a ng-repeat="category in categories" ui-sref="channels({category: category, tag:null, channelname:null})" class="list-group-item">{{ category }}</a>
+  	<br>
+
+	<!-- searching -->
+	<div>
+		<form name="tagtest">
+			<input type="text" ng-model="searchTag" placeholder="separate tags by ,">
+			<button ng-click="findChannelByTag(searchTag)"> find by tag</button>
+		</form>
+	</div>
+	<br>
+
+	<!-- 		<div>
+		<form name="categorytest">
+			<input type="text" ng-model="searchCategory">
+			<button ng-click="findChannelByCategory(searchCategory)"> find by category</button>
+		</form>
+	</div>
+	<br> -->
+
+	<div>
+		<form name="channelnametest">
+			<input type="text" ng-model="searchChannelName">
+			<button ng-click="findChannelByChannelName(searchChannelName)"> find by channel name</button>
+		</form>
+	</div>
+	<br>
+
+	<!-- ready? -->
+	Is speaker ready?: {{isSpeakerReady}}</br>
+	Is webcam ready: {{isWebcamReady}}</br>
+	Is microphone ready: {{isMicrophoneReady}}</br>
 </div>

@@ -59,7 +59,6 @@ app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, ch
     var socket = io(); //this is for khan broadcasting
     $scope.channels = channels; //loads all channels to $scope.channels
 
-
     //testing
 
     $scope.findChannelByTag = function(tag){

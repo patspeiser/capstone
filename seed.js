@@ -98,12 +98,26 @@ var seedChannel = function(){
             coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
         }, 
         {
-            name: 'cliton_cash',
+            name: 'clinton_cash',
             view: 55,
             category:'Politics',
             tags: ['ron', 'book'],
             coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
         }, 
+        {
+            name: 'smoothies_n_shakes',
+            view: 80,
+            category:'Cooking',
+            tags: ['fruit'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }, 
+        {
+            name: 'guitar_lessons_with_gary',
+            view: 8,
+            category:'Music',
+            tags: ['music', 'guitar'],
+            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+        }
     ];
 
     var creatingChannels = channels.map(function(channelObj){
