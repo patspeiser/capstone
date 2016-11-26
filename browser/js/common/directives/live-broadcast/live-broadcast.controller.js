@@ -1,13 +1,12 @@
-app.controller('BroadcastLiveCtrl', function($scope,$sce){
+app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
     //initiate connection
     var socket = io();
-    var viewCount = 0;
 
     // ......................................................
     // .......................UI Code........................
     // ......................................................
 
-    $scope.openRoom = function() {
+    $scope.openRoom = function(id) {
         disableInputButtons();
         console.log(connection.token());
         //broadcasting so you only want to send out audio and video
@@ -15,12 +14,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
             OfferToReceiveAudio: false,
             OfferToReceiveVideo: false
         };
-        var roomId = $scope.roomId;
+        var roomId = id;
         connection.open(roomId, function(connect) {
             socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
             showRoomURL(connection.sessionid);
         });
-
     };
 
     $scope.joinRoom = function() {
@@ -75,20 +73,30 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce){
     // ......................Handling Room-ID................
     // ......................................................
 
-    function showRoomURL(roomid) {
-        var roomHashURL = '#' + roomid;
-        var roomQueryStringURL = '?roomid=' + roomid;
+    // function showRoomURL(roomid) {
+    //     var roomHashURL = '#' + roomid;
+    //     var roomQueryStringURL = '?roomid=' + roomid;
 
-        var html = '<h2>Unique URL for your room:</h2><br>';
+    //     var html = '<h2>Unique URL for your room:</h2><br>';
 
-        html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
-        html += '<br>';
-        html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
+    //     html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
+    //     html += '<br>';
+    //     html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
 
-        var roomURLsDiv = document.getElementById('room-urls');
-        roomURLsDiv.innerHTML = html;
+    //     var roomURLsDiv = document.getElementById('room-urls');
+    //     roomURLsDiv.innerHTML = html;
 
-        roomURLsDiv.style.display = 'block';
+    //     roomURLsDiv.style.display = 'block';
+    // }
+
+    // ......................................................
+    // ..............Starting Broadcast......................
+    // ......................................................
+
+    if($state.params.data.category){
+        $timeout($scope.openRoom($state.params.channelId),0);
+    } else {
+        $timeout($scope.joinRoom($state.params.joinId),0);
     }
 
 
