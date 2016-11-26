@@ -61,3 +61,13 @@ app.run(function ($rootScope, AuthService, $state) {
     });
 
 });
+
+// This app.run is for instantiating RTCMultiConnection for all controllers.
+app.run(function ($rootScope) {
+    var connection = new RTCMultiConnection();
+
+    // comment-out below line if you do not have your own socket.io server
+    connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+    $rootScope.connection = connection;
+});
