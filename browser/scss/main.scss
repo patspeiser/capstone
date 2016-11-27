@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: 'Josefin Sans', sans-serif;
-
+  border-radius: 0 !important;
 }
 
 
@@ -27,6 +27,19 @@ html{
      background-image:url('http://i1067.photobucket.com/albums/u428/nfrnobo/livestream_dark_zpsqmhnhbxs.jpg');
      background-size:cover;
      background-repeat: no-repeat
+}
+
+button {
+  background-color: rgba(255, 255, 255, 0.4); 
+  font-size: 18px
+}
+
+a {
+  font-size: 18px
+}
+
+input {
+  padding: 8px 8px;
 }
 
 

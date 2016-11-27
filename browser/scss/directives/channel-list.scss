@@ -12,7 +12,7 @@
   position: absolute;
   top:61px;
   bottom: 0px;
-  color: #f00;
+  color: #FF0046;
   background-color: rgba(255, 255, 255, 0.4);
   width: 90%;
   height: calc(100% - 60px);
@@ -21,6 +21,7 @@
   vertical-align: middle;
   z-index: 10;
   opacity: 0;
+  font-size: 18px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -39,4 +40,8 @@ img {
 .wrapper ul {
   list-style:none;
     padding-left:0;
+}
+
+.channel-list-grid {
+  padding-left: 60px
 }

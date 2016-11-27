@@ -7,10 +7,8 @@
       </aside>
 
 
-      <div class="col-md-10 product-archive-outer">
-        <div class="section-header">
-          <h1 class="title pull-left">{{ currentCategory }}</h1>
-        </div>
+      <div class="col-md-10 channel-list-grid">
+          <h1 class="title">{{ currentCategory }}</h1>
 			<channel-detail ng-repeat='channel in channels' channel='channel'></channel-detail>
       </div>
     </div>
