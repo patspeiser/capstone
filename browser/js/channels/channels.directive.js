@@ -22,9 +22,13 @@ app.directive('channelDetail', function () {
     	templateUrl: '/js/channels/channel-detail.html',
         controller: function ($scope, BroadcastService, ConnectionService, $rootScope, $state) {
             $scope.joinRoom  = function(room){
-                var connection = new ConnectionService();
-                connection.joinRoom(room.name);
-                $state.go('channelDetail', { id: room.id });
+              console.log('in controller', room);
+              $state.go('broadcastLive', {data: room, type: 'viewer'})
+
+
+                // var connection = new ConnectionService();
+                // connection.joinRoom(room.name);
+                // $state.go('channelDetail', { id: room.id });
             };
         }
     };

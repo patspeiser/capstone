@@ -1,41 +1,39 @@
-app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
-    //initiate connection
-    var socket = io();
+app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope){
+
 
     // ......................................................
     // .......................UI Code........................
     // ......................................................
 
-    $scope.openRoom = function(id) {
-        console.log(connection.token());
-        //broadcasting so you only want to send out audio and video
-        connection.sdpConstraints.mandatory = {
-            OfferToReceiveAudio: false,
-            OfferToReceiveVideo: false
-        };
-        var roomId = id;
-        connection.open(roomId, function(connect) {
-            socket.emit('createRoom', { roomId: roomId, connectId: connect.id})
-            // showRoomURL(connection.sessionid);
-        });
+    $scope.openRoom = function(data) {
+        BroadcastLiveService.addChannel(data)
+        .then(function(newChannel){
+            //broadcasting so you only want to send out audio and video
+            connection.sdpConstraints.mandatory = {
+                OfferToReceiveAudio: false,
+                OfferToReceiveVideo: false
+            };
+            connection.open(newChannel.channelID);
+        })       
     };
 
-    $scope.joinRoom = function(id) {
+    $scope.joinRoom = function(data) {
         connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
         };
-        connection.join(id);
+        console.log('in join room',data.channelID);
+        connection.join(data.channelID);
     };
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
     // ......................................................
 
-    var connection = new RTCMultiConnection();
+    var connection = $rootScope.connection;
 
     // comment-out below line if you do not have your own socket.io server
-    connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+    // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
     connection.socketMessageEvent = 'video-broadcast-demo';
 
@@ -47,7 +45,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
 
     connection.videosContainer = document.getElementById('videos-container');
     connection.onstream = function(event) {
-        console.log(event.streamid);
         connection.videosContainer.appendChild(event.mediaElement);
 
         //add bootstrap classes to the video
@@ -66,30 +63,18 @@ app.controller('BroadcastLiveCtrl', function($scope,$sce,$state,$timeout){
     // ......................Handling Room-ID................
     // ......................................................
 
-    // function showRoomURL(roomid) {
-    //     var roomHashURL = '#' + roomid;
-    //     var roomQueryStringURL = '?roomid=' + roomid;
 
-    //     var html = '<h2>Unique URL for your room:</h2><br>';
-
-    //     html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
-    //     html += '<br>';
-    //     html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
-
-    //     var roomURLsDiv = document.getElementById('room-urls');
-    //     roomURLsDiv.innerHTML = html;
-
-    //     roomURLsDiv.style.display = 'block';
-    // }
 
     // ......................................................
     // ..............Starting Broadcast......................
     // ......................................................
 
     if($state.params.type === 'broadcast'){
-        $timeout($scope.openRoom($state.params.data.channelId),0);
+        $scope.uniqueID = $state.params.data.channelId;
+        $timeout($scope.openRoom($state.params.data),0);
     } else if ($state.params.type === 'viewer'){
-        $timeout($scope.joinRoom($state.params.data.joinId),0);
+        $scope.uniqueID = $state.params.data.channelID;
+        $timeout($scope.joinRoom($state.params.data),0);
     } else {
         $state.go('broadcastHome')
     }
