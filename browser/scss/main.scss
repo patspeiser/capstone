@@ -42,6 +42,11 @@ a, label, input[type="text"], .btn {
   padding-left: 45px;
 }
 
+.shadow {
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none
+}
+
 
 
 @import 'directives/main';
