@@ -1,8 +1,21 @@
-<div class='vid col-md-4'> 
+<div ng-click='joinRoom(channel)' class="vid col-md-4 wrapper"> 
 	<p> <h2> {{channel.name}} </h2> </p>
-	<p> {{channel.category}} </p>
+	<ul class="text">
+		<br>
+		<li> Views: {{channel.view}} </li>
+		<div ng-repeat = "tag in channel.tags">
+			<li><a ng-click="findChannelByTag(tag)">#{{tag}}</a></li>
+		</div>
+	</ul>
+	<img class='detail-img' ng-src='{{channel.coverimage}}'>
+</div>
+
+
+<!-- <div class='vid col-md-4'> 
+	<p> <h2> {{channel.name}} </h2> </p>
+	<p> {{channel.category}} </p> -->
 	<!-- <p> {{channel.tags}} </p> -->
-	<p> Views: {{channel.view}} </p>
+<!-- 	<p> Views: {{channel.view}} </p>
 	<img class='bordered detail-img' ng-src='{{channel.coverimage}}'>
 	<br>
 	<button ng-click='joinRoom(channel)'>Join {{channel.name}}</button>
@@ -11,3 +24,4 @@
 	</div>
 
 </div>
+ -->
