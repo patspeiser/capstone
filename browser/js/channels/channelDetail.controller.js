@@ -16,6 +16,5 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('ChannelCtrl', function($scope, channel){
-    console.log('channel', channel);
     $scope.channel = channel;
 });
