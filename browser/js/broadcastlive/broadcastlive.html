@@ -5,7 +5,7 @@
         <ng-form name="broadcastForm" novalidate>
 	        	<div class='col-xs-12 col-md-4 form-group'>
 	        		<label>Room Name</label>
-		        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelId" placeholder='*Required'>
+		        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelName" placeholder='*Required'>
 		        </div>
 
 	        	<div class='col-xs-12 col-md-4 form-group'>
@@ -14,8 +14,9 @@
 				</div>
 
 	        	<div class='col-xs-12 col-md-4 form-group'>
-	        		<label>Tags </label>
-		            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags'>
+	        		<label>Tags</label>
+		            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags' aria-describedby='helpBlock'>
+		            <span id='helpBlock' class='help-block'>Current Tags: {{broadcast.tags}}</span>
 				</div>				
 			<br clear='all'>
             <input type='submit' value='Begin Broadcast!' class='left-align btn btn-primary' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
@@ -28,23 +29,10 @@
 		<ng-form name="broadcastJoin" novalidate>
 			<div class='col-xs-12 col-md-4'>
 				<label>Join Room</label>
-				<input type="text" required onClick="this.select();" ng-model="broadcast.joinId" placeholder="Input Room Id Here">
+				<input type="text" required onClick="this.select();" ng-model="broadcast.channelID" placeholder="Input Room Id Here">
 			</div>
 			
 			<input type="submit" value="Join Broadcast" class='btn btn-primary' ng-click="joinBroadcast(broadcast)">
-		</ng-form>
-	</div>  
-
-	<br>
-	<div class='well'>
-		<h2 class='text-center'>Join a Room new RTCMultiConnection()</h2>
-		<ng-form name="broadcastJoinTest" novalidate>
-			<div class='col-xs-12 col-md-4'>
-				<label>Join Room</label>
-				<input type="text" required onClick="this.select();" ng-model="testId" placeholder="Input Room Id Here">
-			</div>
-			
-			<input type="submit" value="Join Broadcast" class='btn btn-primary' ng-click="joinRoom(testId)">
 		</ng-form>
 	</div>  
 

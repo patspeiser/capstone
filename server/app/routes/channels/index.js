@@ -103,10 +103,11 @@ router.put('/reduce/:id', function(req,res,next){ //reduce view count by one if 
 //can probably just change the front end a little to send a req.body with all info instead of a URL param 
 router.post('/', function(req,res,next){ //add a new channel to our database after someone opens a room
 	Channel.create({
-		name: req.body.name,
+		name: req.body.channelName,
 		tags: req.body.tags,
 		coverimage: req.body.coverImage,
 		category: req.body.category,
+		channelID: req.body.channelId
 	})
 		.then(function(channel){
 			res.send(channel);
