@@ -35,4 +35,17 @@
 		</ng-form>
 	</div>  
 
+	<br>
+	<div class='well'>
+		<h2 class='text-center'>Join a Room new RTCMultiConnection()</h2>
+		<ng-form name="broadcastJoinTest" novalidate>
+			<div class='col-xs-12 col-md-4'>
+				<label>Join Room</label>
+				<input type="text" required onClick="this.select();" ng-model="testId" placeholder="Input Room Id Here">
+			</div>
+			
+			<input type="submit" value="Join Broadcast" class='btn btn-primary' ng-click="joinRoom(testId)">
+		</ng-form>
+	</div>  
+
 </div>
