@@ -1,10 +1,29 @@
-app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope){
+app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope, user){
 
+    console.log("data is");
     console.log($state.params.data);
+
+    $scope.successfullySubscribed = false;
+    $scope.user = user;
+    if ($state.params.data){
+        $scope.watching = $state.params.type == "viewer" ? true : false;
+    }
+
+    console.log("is it watching?");
+    console.log($scope.watching);
 
     // ......................................................
     // .......................UI Code........................
     // ......................................................
+
+
+    $scope.subscribe = function(){
+        BroadcastLiveService.subscribe($state.params.data.broadcasterId, user.id);
+        $scope.successfullySubscribed = true;
+        $timeout(function(){
+            $scope.successfullySubscribed = false;
+        }, 10000);
+    }
 
     $scope.openRoom = function(data) {
         BroadcastLiveService.addChannel(data)
