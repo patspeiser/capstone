@@ -9,9 +9,11 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
 				return result.data;
 			})
 		},
-		subscribe: function(broadcasterId, subscriberId){
-			return $http.post('/api/channels/subscription/' + broadcasterId + '/' + subscriberId)
+		subscribe: function(channelId, subscriberId){
+			return $http.post('/api/channels/subscription/' + channelId + '/' + subscriberId)
 				.then(function(result){
+					console.log("result is");
+					console.log(result.data);
 					return result.data;
 				})
 		}

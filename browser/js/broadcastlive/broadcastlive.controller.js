@@ -11,7 +11,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 	$scope.startBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
-		data.broadcasterId = Session.user ? Session.user.id : null;
+		data.userId = Session.user ? Session.user.id : null;
 
 		if (Session.user){
 			for (let i=0; i<subscribers.length; i++){
