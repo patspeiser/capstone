@@ -1,3 +1,16 @@
 .bordered {
 	border: 5px solid orange;
 }
+
+.profile {
+	display: inline-block;
+	color: white !important;
+}
+
+.borderless td {
+    border: 0px !important;
+}
+
+.base td {
+	vertical-align: middle !important;
+}

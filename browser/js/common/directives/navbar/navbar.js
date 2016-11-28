@@ -12,7 +12,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 { label: 'BROADCAST TEST', state: 'broadcastHome'},
                 { label: 'EXPLORE CHANNELS', state: 'channels({tag:null, category:null, channelname:null})'},
                 { label: 'CREATE BROADCAST', state:'broadcasting({id:user.id})'},//need to get this user
-                { label: 'MEMBERS ONLY', state: 'membersOnly', auth: true }
+                // { label: 'MEMBERS ONLY', state: 'membersOnly', auth: true }
             ];
 
             scope.user = null;
