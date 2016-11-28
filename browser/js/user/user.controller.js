@@ -3,7 +3,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('user', {
         url: '/user',
         templateUrl: 'js/user/user.html',
-        controller: 'UserCtrl'
+        controller: 'UserCtrl',
     });
 
 });
@@ -13,4 +13,8 @@ app.controller('UserCtrl', function ($scope, AuthService, $state) {
 		.then(function(user){
 			$scope.user = user; 
 		});
+
+	$scope.authDropbox = function(){
+		console.log('dropbox functions');
+	}
 });
