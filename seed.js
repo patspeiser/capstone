@@ -21,6 +21,7 @@ var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
 var Channel = db.model('channel');
+var Subscription = db.model('subscription');
 var Promise = require('sequelize').Promise;
 
 var seedUsers = function () {
@@ -28,11 +29,12 @@ var seedUsers = function () {
     var users = [
         {
             email: 'testing@fsa.com',
-            password: 'password'
+            password: 'password',
         },
         {
             email: 'obama@gmail.com',
-            password: 'potus'
+            password: 'potus',
+            name: 'obama',
         },
         {
             email: 'fake@gmail.com',
@@ -41,6 +43,11 @@ var seedUsers = function () {
         {
             email: 'doodoo@gmil.com',
             password: 'doodoo',
+        },
+        {
+            email: 'busbusad@yahoo.com',
+            password:'busbusad',
+            name:'dd',
         },
     ];
 
@@ -51,6 +58,25 @@ var seedUsers = function () {
     return Promise.all(creatingUsers);
 
 };
+
+
+var seedSubscriptions = function () {
+
+    var subscriptions = [
+        {
+            broadcasterId: 2,
+            subscriberId: 5,
+        },
+    ];
+
+    var creatingSubscriptions = subscriptions.map(function (subObj) {
+        return Subscription.create(subObj);
+    });
+
+    return Promise.all(creatingSubscriptions);
+
+};
+
 
 
 var seedChannel = function(){
@@ -129,12 +155,18 @@ var seedChannel = function(){
 }
 
 
+
+
+
 db.sync({ force: true })
     .then(function () {
         return seedUsers();
     })
     .then(function(){
        return seedChannel();
+    })
+    .then(function(){
+        return seedSubscriptions();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

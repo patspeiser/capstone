@@ -1,7 +1,25 @@
 'use strict';
 var router = require('express').Router();
 var Channel = require('../../../db').models.channel;
+var User = require('../../../db').models.user;
+var Subscription = require('../../../db').models.subscription;
 module.exports = router;
+
+router.get('/subscribers/:broadcasterId', function(req,res,next){
+	Subscription.findAll({
+		where:{
+			broadcasterId: req.params.broadcasterId
+		},
+		include:[
+			{model:User, as:'subscriber'},
+			{model:User, as:'broadcaster'},
+		],
+	})
+		.then(function(result){
+			res.send(result);
+		})
+		.catch(next);
+})
 
 router.get('/', function(req,res,next){ //get all rooms
 	Channel.findAll({

@@ -1,5 +1,6 @@
 app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope){
 
+    console.log($state.params.data);
 
     // ......................................................
     // .......................UI Code........................
