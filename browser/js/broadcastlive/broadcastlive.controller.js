@@ -11,6 +11,22 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
 		data.broadcasterId = Session.user.id;
+
+		if (Session.user.id){
+			for (let i=0; i<subscribers.length; i++){
+				emailjs.send('gmail', 'broadcasting',{
+					email: subscribers[i].subscriber.email, 
+					subscriber: subscribers[i].subscriber.name,
+					broadcaster: subscribers[i].broadcaster.name,
+					channelId: data.channelId,
+					coverimage: 'http://factoflife.net/upload/images/20160603/funny-cat-facts.jpg', //need more work, will be variable
+				});
+			}
+		}
+
+
+
+
 		$state.go('broadcastLive', {data: data, type: 'broadcast'})
 	}
 
