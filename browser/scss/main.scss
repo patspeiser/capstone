@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: 'Josefin Sans', sans-serif;
-
+  border-radius: 0 !important;
 }
 
 
@@ -14,7 +14,7 @@
 }
 
 #main {
-  padding-top: 60px;
+  padding-top: 20px;
   margin: 0 auto;
 }
 
@@ -29,10 +29,25 @@ html{
      background-repeat: no-repeat
 }
 
-.detail-img {
-	width: 75%; 
-	height: auto
+button {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-size: 18px !important;
 }
+
+a, label, input[type="text"], .btn {
+  font-size: 18px
+}
+
+.title {
+  padding-left: 45px;
+}
+
+.shadow {
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none
+}
+
+
 
 @import 'directives/main';
 @import 'home/main';

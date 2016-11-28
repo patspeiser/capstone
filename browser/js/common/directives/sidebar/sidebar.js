@@ -23,8 +23,6 @@ app.directive('sidebar', function () {
                 $scope.findAllCategories(); 
             }
             init(); 
-            console.log($scope.categories); 
-
             // $scope.filterByCategory
 
 
