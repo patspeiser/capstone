@@ -49,5 +49,4 @@ module.exports = function (app, db) {
         function (req, res) {
             res.redirect('/');
         });
-
 };

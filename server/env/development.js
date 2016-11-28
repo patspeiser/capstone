@@ -16,6 +16,11 @@ module.exports = {
     clientSecret: 'INSERT_GOOGLE_CLIENT_SECRET_HERE',
     callbackURL: 'INSERT_GOOGLE_CALLBACK_HERE'
   },
+  DROPBOX: {
+    clientID: '9bhq21rjmdjxyzo',
+    clientSecret: 'ey6skaqr7upk3hv',
+    callbackURL: '/auth/dropbox'
+  },
   LOGGING: true,
   NATIVE: true
 };
