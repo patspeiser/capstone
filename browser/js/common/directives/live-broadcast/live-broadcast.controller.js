@@ -11,6 +11,8 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
 
     console.log("is it watching?");
     console.log($scope.watching);
+    console.log("data is");
+    console.log($state.params.data);
 
     // ......................................................
     // .......................UI Code........................
@@ -18,7 +20,7 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
 
 
     $scope.subscribe = function(){
-        BroadcastLiveService.subscribe($state.params.data.broadcasterId, user.id);
+        BroadcastLiveService.subscribe($state.params.data.channelID, user.id);
         $scope.successfullySubscribed = true;
         $timeout(function(){
             $scope.successfullySubscribed = false;

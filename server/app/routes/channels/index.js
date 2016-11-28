@@ -5,15 +5,27 @@ var User = require('../../../db').models.user;
 var Subscription = require('../../../db').models.subscription;
 module.exports = router;
 
-router.post('/subscription/:broadcasterId/:subscriberId', function(req,res,next){
-	Subscription.findOrCreate({
+router.post('/subscription/:channelId/:subscriberId', function(req,res,next){
+	
+	console.log("channle id is");
+	console.log(req.params.channelId);
+
+
+	Channel.findOne({
 		where:{
-			broadcasterId: req.params.broadcasterId,
-			subscriberId: req.params.subscriberId,
-		},
+			channelID: req.params.channelId
+		}
 	})
 		.then(function(result){
-			res.send(result);
+			Subscription.findOrCreate({
+				where:{
+					broadcasterId: result.dataValues.userId,
+					subscriberId: req.params.subscriberId,
+				},
+			})
+				.then(function(result){
+					res.send(result);
+				})
 		})
 		.catch(next);
 })
@@ -138,7 +150,8 @@ router.post('/', function(req,res,next){ //add a new channel to our database aft
 		tags: req.body.tags,
 		coverimage: req.body.coverImage,
 		category: req.body.category,
-		channelID: req.body.channelId
+		channelID: req.body.channelId,
+		userId: req.body.userId,
 	})
 		.then(function(channel){
 			res.send(channel);
