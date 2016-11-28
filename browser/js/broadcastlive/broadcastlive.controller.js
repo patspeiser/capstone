@@ -1,5 +1,6 @@
 app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers, Session){
 	var connection = $rootScope.connection;
+	$scope.user = Session.user;
 
 
 	console.log(subscribers);
@@ -23,9 +24,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 				});
 			}
 		}
-
-
-
 
 		$state.go('broadcastLive', {data: data, type: 'broadcast'})
 	}

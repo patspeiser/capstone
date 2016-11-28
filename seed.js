@@ -49,6 +49,11 @@ var seedUsers = function () {
             password:'busbusad',
             name:'dd',
         },
+        {
+            email: 'lifetimeinc@gmail.com',
+            password:'lifetimeinc',
+            name:'paul',            
+        },
     ];
 
     var creatingUsers = users.map(function (userObj) {
@@ -66,6 +71,10 @@ var seedSubscriptions = function () {
         {
             broadcasterId: 2,
             subscriberId: 5,
+        },
+        {
+            broadcasterId: 2,
+            subscriberId: 6,
         },
     ];
 

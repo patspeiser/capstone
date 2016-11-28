@@ -10,8 +10,14 @@ app.config(function ($stateProvider) {
         	subscribers: function(AuthService, BroadcastService, Session){
         		return AuthService.getLoggedInUser()
         			.then(function(result){
-        				Session.user = result;
-        				return BroadcastService.getSubscribers(result.id);
+        				if (result){
+        					Session.user = result;
+        					return BroadcastService.getSubscribers(result.id);
+        				}
+        				else{
+        					return null;
+        				}
+
         			})
         	}
         },
