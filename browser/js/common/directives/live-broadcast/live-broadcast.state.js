@@ -9,7 +9,10 @@ app.config(function ($stateProvider) {
         	type: null
         },
         resolve : {
-        	broadcastStatus: function(){ return true}
+        	broadcastStatus: function(){ return true},
+            user: function(AuthService){
+                return AuthService.getLoggedInUser();
+            }
         }
     });
 });

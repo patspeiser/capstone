@@ -5,6 +5,19 @@ var User = require('../../../db').models.user;
 var Subscription = require('../../../db').models.subscription;
 module.exports = router;
 
+router.post('/subscription/:broadcasterId/:subscriberId', function(req,res,next){
+	Subscription.findOrCreate({
+		where:{
+			broadcasterId: req.params.broadcasterId,
+			subscriberId: req.params.subscriberId,
+		},
+	})
+		.then(function(result){
+			res.send(result);
+		})
+		.catch(next);
+})
+
 router.get('/subscribers/:broadcasterId', function(req,res,next){
 	Subscription.findAll({
 		where:{
