@@ -32,37 +32,20 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
 
     var connection = $rootScope.connection;
 
-    // comment-out below line if you do not have your own socket.io server
-    // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
     connection.socketMessageEvent = 'video-broadcast-demo';
 
     connection.session = {
         audio: true,
         video: true,
-        oneway: true
+        oneway: true,
+        data: true
     };
 
-    connection.videosContainer = document.getElementById('videos-container');
     connection.onstream = function(event) {
-        connection.videosContainer.appendChild(event.mediaElement);
-
-        //add bootstrap classes to the video
-        var vidElement = "#" + event.streamid;
-        var currentVid = angular.element( document.querySelector(vidElement));
-        currentVid.addClass("embed-responsive-item");
- 
-        event.mediaElement.play();
-        setTimeout(function() {
-            event.mediaElement.play();
-        }, 5000);
+        //select the video tag with "video" id and load source * replace getElementById with Angular method
+        connection.videosContainer = document.getElementById('video-broadcast');
+        connection.videosContainer.src = event.blobURL
     };
-
-
-    // ......................................................
-    // ......................Handling Room-ID................
-    // ......................................................
-
 
 
     // ......................................................
