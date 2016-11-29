@@ -5,9 +5,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
 	console.log(subscribers);
 
-
-
-
 	$scope.startBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
