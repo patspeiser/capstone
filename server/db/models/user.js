@@ -27,6 +27,9 @@ module.exports = db.define('user', {
     },
     google_id: {
         type: Sequelize.STRING
+    },
+    dropbox_id: {
+        type: Sequelize.STRING
     }
 }, {
     instanceMethods: {

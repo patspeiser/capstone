@@ -1,25 +1,41 @@
-// var passport = require('passport');
-// var DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
+'use strict';
+var passport = require('passport');
+var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
+var http = require('http');
 
-// passport.use(new DropboxOAuth2Strategy({
-// 	apiVersion: '2',
-// 	clientID: DROPBOX_CLIENT_ID,
-// 	clientSecret: DROPBOX_CLIENT_SECRET,
-// 	callbackURL: "https://www.example.net/auth/dropbox-oauth2/callback"
-// },
-// function(accessToken, refreshToken, profile, done) {
-// 	User.findOrCreate({ providerId: profile.id }, function (err, user) {
-// 		return done(err, user);
-// 	});
-// }
-// ));
+module.exports = function (app, db) {
 
-// app.get('/auth/dropbox',
-// 	passport.authenticate('dropbox-oauth2'));
+    var User = db.model('user');
 
-// app.get('/auth/dropbox/callback', 
-// 	passport.authenticate('dropbox-oauth2', { failureRedirect: '/login' }),
-// 	function(req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect('/');
-// });
+    var dropboxConfig = app.getValue('env').DROPBOX;
+    var dropboxCreds = {
+        clientID: dropboxConfig.clientID,
+        clientSecret: dropboxConfig.clientSecret,
+        callbackURL: dropboxConfig.callbackURL,
+        passReqToCallback: true
+    };
+
+    var verifyCallback = function (req, accessToken, refreshToken, profile, done) {
+    	console.log('verify', req.user.id, accessToken);
+    	User.findById(req.user.id)
+    		.then(function(user){
+    			user.dropbox_id = accessToken
+    			user.save();
+    			return user;
+    		})
+    		.catch(function(err){
+    			return err;
+    		});
+
+    };
+    passport.use(new DropboxOAuth2Strategy(dropboxCreds, verifyCallback));
+
+    app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'));
+
+    app.get('/auth/dropbox/callback',
+        passport.authenticate('dropbox-oauth2', {failureRedirect: '/login'}),
+        function (req, res) {
+        	console.log('in /auth/dropbox/callback');
+            res.redirect('/');
+        });
+};
