@@ -84,6 +84,42 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
         $state.go('broadcastHome')
     }
 
+    // ......................................................
+    // ....................Basic Chat........................
+    // ......................................................
+
+
+    document.getElementById('input-text-chat').onkeyup = function(e) {
+        if (e.keyCode != 13) return;
+
+        // removing trailing/leading whitespace
+        this.value = this.value.replace(/^\s+|\s+$/g, '');
+        if (!this.value.length) return;
+
+        //update user's chat
+        appendDIV(this.value);
+        
+        //broadcast chat text
+        connection.send(this.value);
+        this.value = '';
+    };
+
+    //upon receiving message, update chat box with remote text
+    connection.onmessage = function(event){
+        appendDIV(event.data);
+    }
+
+    //need to use angular way instad of jquery.
+    var chatContainer = document.getElementById('chat-output');
+    function appendDIV(event) {
+        var div = document.createElement('div');
+        div.innerHTML = event.data || event;
+        chatContainer.insertBefore(div, chatContainer.firstChild);
+        div.tabIndex = 0;
+        div.focus();
+
+        document.getElementById('input-text-chat').focus();
+    }
 
 
 });
