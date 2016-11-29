@@ -1,14 +1,20 @@
-<div class="container">
-    <h1>Broadcast Page</h1>
-    <h3>Room ID: {{uniqueID}}</h3>
+<div class="container-fluid">
+    <div id="left">
+	    <h1>Broadcast Page</h1>
+	    <h3>Room ID: {{uniqueID}}</h3>
 
-    <button ng-click="subscribe()" ng-if="user && watching"> Subscribe this broadcaster!</button>
-    <div ng-if="successfullySubscribed" class="well">
-    	You have subscribed to this broadcaster!
-    </div>
+	    <button ng-click="subscribe()" ng-if="user && watching"> Subscribe this broadcaster!</button>
+	    <div ng-if="successfullySubscribed" class="well">
+	    	You have subscribed to this broadcaster!
+	    </div>
 
-    <div class='embed-responsive embed-responsive-16by9'>
-        <video id='video-broadcast' class='embed-responsive-item' controls autoplay></video>
-    </div>
-    
+	    <div class='embed-responsive embed-responsive-16by9'>
+	        <video id='video-broadcast' class='embed-responsive-item' controls autoplay></video>
+	    </div>
+	</div>
+	<div id="right-chat">
+		<div id="chat-output"></div>
+		<br>
+		<input type="text" id="input-text-chat" placeholder="Enter text and press 'Enter/Return'">
+	</div>        
 </div> 
