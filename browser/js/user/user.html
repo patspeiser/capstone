@@ -17,8 +17,10 @@
 	<div class="col-md-6 profile">
 		<table class='borderless table base'>
 			<tr>
+			{{user.dropbox_id.length}}
 				<td><h2>Dropbox</h2></td>
-				<td> <a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></td>	
+				<td ng-show='{{user.dropbox_id.length == 0 }}'> <a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></td>	
+				<td ng-hide='{{user.dropbox_id.length == 0}}'><h2>Dropbox Connected!</h2></td>	
 			</tr>
 		</table>
 	</div>

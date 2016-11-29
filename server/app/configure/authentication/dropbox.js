@@ -19,9 +19,12 @@ module.exports = function (app, db) {
     	console.log('verify', req.user.id, accessToken);
     	User.findById(req.user.id)
     		.then(function(user){
-    			user.dropbox_id = accessToken
+    			user.dropbox_id = accessToken;
     			user.save();
     			return user;
+    		})
+    		.then(function(userToLogin){
+    			done(null, userToLogin);
     		})
     		.catch(function(err){
     			return err;
@@ -33,9 +36,8 @@ module.exports = function (app, db) {
     app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'));
 
     app.get('/auth/dropbox/callback',
-        passport.authenticate('dropbox-oauth2', {failureRedirect: '/login'}),
+        passport.authenticate('dropbox-oauth2', {successRedirect: '/user', failureRedirect: '/login'}),
         function (req, res) {
-        	console.log('in /auth/dropbox/callback');
             res.redirect('/');
         });
 };
