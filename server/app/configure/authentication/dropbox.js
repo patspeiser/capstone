@@ -1,6 +1,6 @@
 'use strict';
 var passport = require('passport');
-var DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
+var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
 var http = require('http');
 
 module.exports = function (app, db) {
@@ -11,32 +11,31 @@ module.exports = function (app, db) {
     var dropboxCreds = {
         clientID: dropboxConfig.clientID,
         clientSecret: dropboxConfig.clientSecret,
-        callbackURL: dropboxConfig.callbackURL
+        callbackURL: dropboxConfig.callbackURL,
+        passReqToCallback: true
     };
 
-    var verifyCallback = function (accessToken, refreshToken, profile, done) {
-    	console.log('here?');
-    	// app.get('/session', function (req, res, next) {
-    	// 	var err;
-    	// 	if (req.user) {
-    	// 		res.send({ user: req.user.sanitize() });
-    	// 	} else {
-    	// 		err = new Error('No authenticated user.');
-    	// 		err.status = 401;
-    	// 		next(err);
-    	// 	}
-    	// });	
-    	done();
-    };
+    var verifyCallback = function (req, accessToken, refreshToken, profile, done) {
+    	console.log('verify', req.user.id, accessToken);
+    	User.findById(req.user.id)
+    		.then(function(user){
+    			user.dropbox_id = accessToken
+    			user.save();
+    			return user;
+    		})
+    		.catch(function(err){
+    			return err;
+    		});
 
-    passport.use(new DropboxStrategy(dropboxCreds, verifyCallback));
+    };
+    passport.use(new DropboxOAuth2Strategy(dropboxCreds, verifyCallback));
 
     app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'));
 
     app.get('/auth/dropbox/callback',
         passport.authenticate('dropbox-oauth2', {failureRedirect: '/login'}),
         function (req, res) {
-        	console.log('here or something');
+        	console.log('in /auth/dropbox/callback');
             res.redirect('/');
         });
 };
