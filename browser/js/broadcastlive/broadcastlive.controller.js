@@ -1,6 +1,7 @@
 app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers, Session){
 	var connection = $rootScope.connection;
 	$scope.user = Session.user;
+	$scope.broadcast = {};
 
 
 	console.log(subscribers);
@@ -16,7 +17,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		data.userId = Session.user ? Session.user.id : null;
 
 
-		// email system, uncomment the if stuff below to reactive email notification system
+		// email notification system, uncomment the if stuff below to reactive email notification system
 		// if (Session.user){
 		// 	for (let i=0; i<subscribers.length; i++){
 		// 		emailjs.send('gmail', 'broadcasting',{
@@ -30,6 +31,11 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		// }
 
 		$state.go('broadcastLive', {data: data, type: 'broadcast'})
+	}
+
+
+	$scope.changeCategory = function(category){
+		$scope.broadcast.category = category;
 	}
 
 	$scope.joinBroadcast = function(data){

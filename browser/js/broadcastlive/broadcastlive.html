@@ -10,9 +10,20 @@
 		        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelName" placeholder='*Required'>
 		        </div>
 
-	        	<div class='col-xs-12 col-md-4 form-group'>
+<!-- 	        	<div class='col-xs-12 col-md-4 form-group'>
 	        		<label>Category</label>
 		            <input type="text" onClick="this.select();" required ng-model="broadcast.category" placeholder='*Required'>
+				</div> -->
+
+				<div class='col-xs-12 col-md-4 w3-dropdown-hover'>
+					<button ng-if="!broadcast.category" class="w3-btn w3-red"> Select a category (Required!)</button>
+					<button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button>
+					<div class="w3-dropdown-content w3-border">
+						<a ng-click="changeCategory('politics')"> Politics</a>
+						<a ng-click="changeCategory('entertainment')"> Entertainment</a>
+						<a ng-click="changeCategory('cooking')"> Cooking</a>
+					</div>
+
 				</div>
 
 	        	<div class='col-xs-12 col-md-4 form-group'>
@@ -22,6 +33,12 @@
 				</div>				
 
 			<br clear='all'>
+
+			<div class = "well">
+				<span class="big-strong ">Category: </span>
+				<span class="big-strong">{{broadcast.category}}</span>
+				</br>
+			</div>
 
             <input type='submit' value='Begin Broadcast!' class='btn btn-primary' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
