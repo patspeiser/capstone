@@ -47,12 +47,6 @@ app.config(function ($stateProvider) {
 
 app.controller('ChannelsCtrl', function($scope, BroadcastService, $rootScope, channels, $state, $stateParams){
     
-    $scope.isSpeakerReady = DetectRTC.hasSpeakers ? 'Yes':'No';
-    $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
-    $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
-
-
-
     console.log('ChannelsCtrl loaded');
     //var channel = new BroadcastService();
     $scope.channels = channels; //loads all channels to $scope.channels
