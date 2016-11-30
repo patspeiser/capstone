@@ -5,6 +5,11 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
 	console.log(subscribers);
 
+
+	$scope.isSpeakerReady = DetectRTC.hasSpeakers ? 'Yes':'No';
+    $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
+    $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
+
 	$scope.startBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
