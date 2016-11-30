@@ -18,7 +18,8 @@
 		<table class='borderless table base'>
 			<tr>
 				<td><h2>Dropbox</h2></td>
-				<td> <button class='btn btn-primary' ng-click='authDropbox()'>Link Dropbox</button> </td>	
+					<td ng-if='user.dropbox_id.length == null'> <a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></td>
+					<td ng-if='user.dropbox_id.length > 0'><h2>Dropbox Connected!</h2></td>
 			</tr>
 		</table>
 	</div>

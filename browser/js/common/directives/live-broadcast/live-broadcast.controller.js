@@ -54,37 +54,20 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
 
     var connection = $rootScope.connection;
 
-    // comment-out below line if you do not have your own socket.io server
-    // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
     connection.socketMessageEvent = 'video-broadcast-demo';
 
     connection.session = {
         audio: true,
         video: true,
-        oneway: true
+        oneway: true,
+        data: true
     };
 
-    connection.videosContainer = document.getElementById('videos-container');
     connection.onstream = function(event) {
-        connection.videosContainer.appendChild(event.mediaElement);
-
-        //add bootstrap classes to the video
-        var vidElement = "#" + event.streamid;
-        var currentVid = angular.element( document.querySelector(vidElement));
-        currentVid.addClass("embed-responsive-item");
- 
-        event.mediaElement.play();
-        setTimeout(function() {
-            event.mediaElement.play();
-        }, 5000);
+        //select the video tag with "video" id and load source * replace getElementById with Angular method
+        connection.videosContainer = document.getElementById('video-broadcast');
+        connection.videosContainer.src = event.blobURL
     };
-
-
-    // ......................................................
-    // ......................Handling Room-ID................
-    // ......................................................
-
 
 
     // ......................................................
@@ -101,6 +84,42 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
         $state.go('broadcastHome')
     }
 
+    // ......................................................
+    // ....................Basic Chat........................
+    // ......................................................
+
+
+    document.getElementById('input-text-chat').onkeyup = function(e) {
+        if (e.keyCode != 13) return;
+
+        // removing trailing/leading whitespace
+        this.value = this.value.replace(/^\s+|\s+$/g, '');
+        if (!this.value.length) return;
+
+        //update user's chat
+        appendDIV(this.value);
+        
+        //broadcast chat text
+        connection.send(this.value);
+        this.value = '';
+    };
+
+    //upon receiving message, update chat box with remote text
+    connection.onmessage = function(event){
+        appendDIV(event.data);
+    }
+
+    //need to use angular way instad of jquery.
+    var chatContainer = document.getElementById('chat-output');
+    function appendDIV(event) {
+        var div = document.createElement('div');
+        div.innerHTML = event.data || event;
+        chatContainer.insertBefore(div, chatContainer.firstChild);
+        div.tabIndex = 0;
+        div.focus();
+
+        document.getElementById('input-text-chat').focus();
+    }
 
 
 });
