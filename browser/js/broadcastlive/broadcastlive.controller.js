@@ -15,17 +15,19 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		data.channelId = connection.token();
 		data.userId = Session.user ? Session.user.id : null;
 
-		if (Session.user){
-			for (let i=0; i<subscribers.length; i++){
-				emailjs.send('gmail', 'broadcasting',{
-					email: subscribers[i].subscriber.email, 
-					subscriber: subscribers[i].subscriber.name,
-					broadcaster: subscribers[i].broadcaster.name,
-					channelId: data.channelId,
-					coverimage: 'http://factoflife.net/upload/images/20160603/funny-cat-facts.jpg', //need more work, will be variable
-				});
-			}
-		}
+
+		// email system, uncomment the if stuff below to reactive email notification system
+		// if (Session.user){
+		// 	for (let i=0; i<subscribers.length; i++){
+		// 		emailjs.send('gmail', 'broadcasting',{
+		// 			email: subscribers[i].subscriber.email, 
+		// 			subscriber: subscribers[i].subscriber.name,
+		// 			broadcaster: subscribers[i].broadcaster.name,
+		// 			channelId: data.channelId,
+		// 			coverimage: 'http://factoflife.net/upload/images/20160603/funny-cat-facts.jpg', //need more work, will be variable
+		// 		});
+		// 	}
+		// }
 
 		$state.go('broadcastLive', {data: data, type: 'broadcast'})
 	}
