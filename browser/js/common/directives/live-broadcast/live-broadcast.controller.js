@@ -1,16 +1,10 @@
-app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope, user){
-    console.log('#_STATE_PARAMS_#', $state.params.data);
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user){
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($state.params.data){
         $scope.watching = $state.params.type == "viewer" ? true : false;
     }
-
-    // console.log("is it watching?");
-    // console.log($scope.watching);
-    // console.log("data is");
-    // console.log($state.params.data);
 
     // ......................................................
     // .......................UI Code........................
@@ -26,7 +20,6 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
     }
 
     $scope.openRoom = function(data) {
-        console.log('###DATA', data);
         BroadcastLiveService.addChannel(data)
         .then(function(newChannel){
             //broadcasting so you only want to send out audio and video
@@ -43,7 +36,6 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
         };
-        console.log('in join room',data.channelID);
         connection.join(data.channelID);
     };
 
@@ -62,9 +54,25 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
         data: true
     };
 
+    //adding video source to stream broadcast
     connection.onstream = function(event) {
-        //select the video tag with "video" id and load source * replace getElementById with Angular method
         connection.videosContainer = document.getElementById('video-broadcast');
+        console.log('initiator',event, connection.peers.getAllParticipants);
+        console.log('screenshot', connection)
+        //quick fix for echo on broadcaster side.  Put video tag on muted
+        if(connection.isInitiator === true){
+            connection.videosContainer.muted = true;
+        
+            //Setting image preview image
+            // $timeout(function() {
+            //     connection.peers[event.userid].takeSnapshot(function(snapshot) {
+            //         // imagePreview.src = snapshot;
+            //     });
+            // }, 2000); // wait 2 seconds to make sure video is rendered
+        }
+
+
+        //select the video tag with "video" id and load source * replace getElementById with Angular method
         connection.videosContainer.src = event.blobURL
     };
 
@@ -120,5 +128,12 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
         document.getElementById('input-text-chat').focus();
     }
 
+    // ......................................................
+    // ..................Viewer Count........................
+    // ......................................................
+
+    $interval(function(){
+        $scope.viewCount= connection.getAllParticipants().length;
+    },1000);
 
 });
