@@ -7,6 +7,8 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
     $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
     $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
 
+    $scope.selectCategory = "Select a category (Required)";
+
 	$scope.startBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
@@ -32,6 +34,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
 	$scope.changeCategory = function(category){
 		$scope.broadcast.category = category;
+		$scope.selectCategory = "Change category";
 	}
 
 	$scope.joinBroadcast = function(data){

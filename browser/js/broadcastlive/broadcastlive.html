@@ -16,12 +16,17 @@
 				</div> -->
 
 				<div class='col-xs-12 col-md-4 w3-dropdown-hover'>
-					<button ng-if="!broadcast.category" class="w3-btn w3-red"> Select a category (Required!)</button>
-					<button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button>
+					<button ng-class="(broadcast.category)?'w3-btn w3-indigo': 'w3-btn w3-red'"> {{selectCategory}} </button>
+					<!-- <button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button> -->
 					<div class="w3-dropdown-content w3-border">
 						<a ng-click="changeCategory('Politics')"> Politics</a>
 						<a ng-click="changeCategory('Entertainment')"> Entertainment</a>
 						<a ng-click="changeCategory('Cooking')"> Cooking</a>
+						<a ng-click="changeCategory('Cooking')"> Music</a>
+						<a ng-click="changeCategory('Cooking')"> Educational</a>
+						<a ng-click="changeCategory('Cooking')"> Vlog</a>
+						<a ng-click="changeCategory('Cooking')"> Events</a>
+						<a ng-click="changeCategory('Cooking')"> Sports</a>
 					</div>
 
 				</div>
