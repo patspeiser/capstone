@@ -1,7 +1,5 @@
 app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,$timeout,$rootScope, user){
-
-    console.log("data is");
-    console.log($state.params.data);
+    console.log('#_STATE_PARAMS_#', $state.params.data);
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
@@ -9,10 +7,10 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
         $scope.watching = $state.params.type == "viewer" ? true : false;
     }
 
-    console.log("is it watching?");
-    console.log($scope.watching);
-    console.log("data is");
-    console.log($state.params.data);
+    // console.log("is it watching?");
+    // console.log($scope.watching);
+    // console.log("data is");
+    // console.log($state.params.data);
 
     // ......................................................
     // .......................UI Code........................
@@ -28,6 +26,7 @@ app.controller('BroadcastLiveCtrl', function($scope,BroadcastLiveService,$state,
     }
 
     $scope.openRoom = function(data) {
+        console.log('###DATA', data);
         BroadcastLiveService.addChannel(data)
         .then(function(newChannel){
             //broadcasting so you only want to send out audio and video
