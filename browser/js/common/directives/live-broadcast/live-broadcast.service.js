@@ -21,5 +21,6 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
 					return result.data;
 				})
 		}
+
 	};
 });

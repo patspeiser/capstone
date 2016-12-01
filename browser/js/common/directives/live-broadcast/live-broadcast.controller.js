@@ -22,15 +22,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     }
 
     $scope.openRoom = function(data) {
-        BroadcastLiveService.addChannel(data)
-        .then(function(newChannel){
-            //broadcasting so you only want to send out audio and video
-            connection.sdpConstraints.mandatory = {
-                OfferToReceiveAudio: false,
-                OfferToReceiveVideo: false
-            };
-            connection.open(newChannel.channelID);
-        })       
+        //broadcasting so you only want to send out audio and video
+        connection.sdpConstraints.mandatory = {
+            OfferToReceiveAudio: false,
+            OfferToReceiveVideo: false
+        };
+        connection.open(data.channelId);    
     };
 
     $scope.joinRoom = function(data) {
@@ -56,26 +53,35 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         data: true
     };
 
+
     //adding video source to stream broadcast
     connection.onstream = function(event) {
+
         connection.videosContainer = document.getElementById('video-broadcast');
-        console.log('initiator',event, connection.peers.getAllParticipants);
-        console.log('screenshot', connection)
-        //quick fix for echo on broadcaster side.  Put video tag on muted
-        if(connection.isInitiator === true){
-            connection.videosContainer.muted = true;
         
-            //Setting image preview image
-            // $timeout(function() {
-            //     connection.peers[event.userid].takeSnapshot(function(snapshot) {
-            //         // imagePreview.src = snapshot;
-            //     });
-            // }, 2000); // wait 2 seconds to make sure video is rendered
-        }
-
-
         //select the video tag with "video" id and load source * replace getElementById with Angular method
         connection.videosContainer.src = event.blobURL
+
+        //Put video tag on muted to fix echo and capture preview image
+        if(connection.isInitiator === true){
+            connection.videosContainer.muted = true;
+
+            //setting preview image, wait 3 seonds then take pic
+            $timeout(function() {
+                var vidSrc = connection.videosContainer
+                var imgSrc = document.getElementById('canvas');
+                imgSrc.width = vidSrc.videoWidth;
+                imgSrc.height = vidSrc.videoHeight;
+                console.log('video source',connection.videosContainer.videoWidth,connection.videosContainer.videoHeight);
+                imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
+                
+                //send final data to save in the backend
+                $state.params.data.coverImage = imgSrc.toDataURL();
+                BroadcastLiveService.addChannel($state.params.data);
+                
+            }, 3000);                    
+        }
+
     };
 
 
