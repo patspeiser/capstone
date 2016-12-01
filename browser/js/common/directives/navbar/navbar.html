@@ -1,17 +1,29 @@
-<nav class="navbar navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <fullstack-logo></fullstack-logo>
+<div class="twoNavs">
+    <nav class="navbar navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <fullstack-logo></fullstack-logo>
+            </div>
+            <ul class="nav navbar-nav">
+                <!-- <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()"> -->
+                    <!-- <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a> -->
+                    <a ui-sref-active="active" ui-sref="home">what's on</a>
+                <!-- </li> -->
+            </ul>
+            <button ng-show="!user" ui-sref="login" class="login-button shadow">Login</button>
+            <div ng-show="user" class="welcome">
+                <a ui-sref='user'><span class='profile'>Welcome, {{ user.email }}!</span></a>
+                <a ng-click="logout()">Logout</a>
+            </div>
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
-        <button ng-show="!user" ui-sref="login" class="login-button shadow">Login</button>
-        <div ng-show="user" class="welcome">
-            <a ui-sref='user'><span class='profile'>Welcome, {{ user.email }}!</span></a>
-            <a ng-click="logout()">Logout</a>
-        </div>
-    </div>
-</nav>
+    </nav>
+
+    <ul class="topnav" id="myTopnav">
+        <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
+            <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
+        </li>
+      <li class="icon">
+        <a href="javascript:void(0);" onclick="navToggle()">&#9776;</a>
+      </li>
+    </ul>
+</div>
