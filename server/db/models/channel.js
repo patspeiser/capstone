@@ -17,7 +17,7 @@ module.exports = db.define('channel', { // this channel database is the one we n
 		type: Sequelize.ARRAY(Sequelize.TEXT),
 	},
 	coverimage:{
-		type:Sequelize.STRING,
+		type:Sequelize.TEXT,
 	},
 	channelID:{
 		type:Sequelize.STRING
