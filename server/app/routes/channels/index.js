@@ -5,12 +5,29 @@ var User = require('../../../db').models.user;
 var Subscription = require('../../../db').models.subscription;
 module.exports = router;
 
+
+
+router.get('/subscription/:viewerId/:channelId', function(req,res,next){
+	Channel.findOne({
+		where:{
+			channelID: req.params.channelId
+		}
+	})
+		.then(function(result){
+			return Subscription.findOne({
+				where:{
+					subscriberId: req.params.viewerId,
+					broadcasterId: result.dataValues.userId,
+				}
+			})
+				.then(function(result2){
+					res.send(result2);
+				})
+		})
+		.catch(next);
+})
+
 router.post('/subscription/:channelId/:subscriberId', function(req,res,next){
-	
-	console.log("channle id is");
-	console.log(req.params.channelId);
-
-
 	Channel.findOne({
 		where:{
 			channelID: req.params.channelId
