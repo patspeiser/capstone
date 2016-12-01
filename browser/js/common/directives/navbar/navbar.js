@@ -8,10 +8,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         link: function (scope) {
 
             scope.items = [
-                { label: 'HOME', state: 'home' },
-                { label: 'BROADCAST TEST', state: 'broadcastHome'},
-                { label: 'EXPLORE CHANNELS', state: 'channels({tag:null, category:null, channelname:null})'},
-                { label: 'CREATE BROADCAST', state:'broadcasting({id:user.id})'},//need to get this user
+                // { label: 'Home', state: 'home' },
+                { label: 'Start Broadcasting', state: 'broadcastHome'},
+                { label: 'Explore Channels', state: 'channels({tag:null, category:null, channelname:null})'},
+                { label: 'Join a Channel', state: 'join({tag:null, category:null, channelname:null})'},
+                // { label: 'CREATE BROADCAST', state:'broadcasting({id:user.id})'},//need to get this user
                 // { label: 'MEMBERS ONLY', state: 'membersOnly', auth: true }
             ];
 
@@ -30,7 +31,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             var setUser = function () {
                 AuthService.getLoggedInUser().then(function (user) {
                     scope.user = user;
-                    console.log('user',user);
                 });
             };
 
@@ -49,3 +49,13 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
     };
 
 });
+
+/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+function navToggle() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}

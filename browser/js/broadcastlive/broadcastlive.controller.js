@@ -3,10 +3,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 	$scope.user = Session.user;
 	$scope.broadcast = {};
 
-
-	console.log(subscribers);
-
-
 	$scope.isSpeakerReady = DetectRTC.hasSpeakers ? 'Yes':'No';
     $scope.isMicrophoneReady = DetectRTC.hasMicrophone ? 'Yes':'No';
     $scope.isWebcamReady = DetectRTC.hasWebcam ? 'Yes':'No';
