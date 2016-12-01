@@ -1,10 +1,12 @@
-app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user){
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing){
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($state.params.data){
         $scope.watching = $state.params.type == "viewer" ? true : false;
     }
+
+    $scope.isSubscribing = isSubscribing;
 
     // ......................................................
     // .......................UI Code........................

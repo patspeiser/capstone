@@ -4,7 +4,7 @@
 	    <h3>Room ID: {{uniqueID}}</h3>
 	    <h3>Current Viewers: {{viewCount}}</h3>
 
-	    <button ng-click="subscribe()" ng-if="user && watching"> Subscribe this broadcaster!</button>
+	    <button ng-click="subscribe()" ng-if="user && watching && !isSubscribing"> Subscribe this broadcaster!</button>
 	    <div ng-if="successfullySubscribed" class="well">
 	    	You have subscribed to this broadcaster!
 	    </div>
