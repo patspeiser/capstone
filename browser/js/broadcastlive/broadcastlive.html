@@ -50,20 +50,6 @@
 	</div>
 	<br>
 
-	<div class='well shadow'>
-		<h2 class='text-center'>Join a Broadcast</h2>
-		<br>
-		<ng-form name="broadcastJoin" novalidate>
-			<div class='col-xs-12 col-md-4'>
-				<label>Join Room</label>
-				<input type="text" required onClick="this.select();" ng-model="broadcast.channelID" placeholder="Input Room Id Here">
-			</div>
-
-			<input type="submit" value="Join Broadcast" class='btn btn-primary' ng-click="joinBroadcast(broadcast)">
-		</ng-form>
-	</div>  
-
-
 	<div class="well" ng-if="user">
 	    <form name="messageform">
 		    send message to subscribers: <input type="text" ng-model="message">

@@ -11,10 +11,14 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 // { label: 'Home', state: 'home' },
                 { label: 'Start Broadcasting', state: 'broadcastHome'},
                 { label: 'Explore Channels', state: 'channels({tag:null, category:null, channelname:null})'},
-                { label: 'Join a Channel', state: 'join({tag:null, category:null, channelname:null})'},
+                // { label: 'Join a Channel', state: 'join({tag:null, category:null, channelname:null})'},
                 // { label: 'CREATE BROADCAST', state:'broadcasting({id:user.id})'},//need to get this user
                 // { label: 'MEMBERS ONLY', state: 'membersOnly', auth: true }
             ];
+
+            scope.joinBroadcast = function(data){
+                $state.go('broadcastLive', {data: data, type: 'viewer'})
+            }
 
             scope.user = null;
 

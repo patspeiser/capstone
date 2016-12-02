@@ -10,6 +10,7 @@
                     <a ui-sref-active="active" ui-sref="home">what's on</a>
                 <!-- </li> -->
             </ul>
+
             <button ng-show="!user" ui-sref="login" class="login-button shadow">Login</button>
             <div ng-show="user" class="welcome">
                 <a ui-sref='user'><span class='profile'>Welcome, {{ user.email }}!</span></a>
@@ -19,11 +20,17 @@
     </nav>
 
     <ul class="topnav" id="myTopnav">
+        <li class="icon">
+            <a href="javascript:void(0);" onclick="navToggle()">&#9776;</a>
+        </li>
+
         <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
             <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
         </li>
-      <li class="icon">
-        <a href="javascript:void(0);" onclick="navToggle()">&#9776;</a>
-      </li>
+            <!-- Join Broadcast Form  -->
+            <ng-form name="broadcastJoin" id="joinInput" novalidate>
+                <input type="text" required onClick="this.select();" ng-model="broadcast.channelID" placeholder="Input Room Id Here">
+                <input type="submit" value="Join Broadcast" class='btn btn-primary' id="navButtonDown"ng-click="joinBroadcast(broadcast)">
+            </ng-form>
     </ul>
 </div>
