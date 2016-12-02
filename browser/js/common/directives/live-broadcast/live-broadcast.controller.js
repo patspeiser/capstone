@@ -6,7 +6,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         $scope.watching = $state.params.type == "viewer" ? true : false;
     }
 
-    $scope.isSubscribing = isSubscribing;
+    $scope.isSubscribing = isSubscribing ? true : false;
 
     // ......................................................
     // .......................UI Code........................
@@ -16,9 +16,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     $scope.subscribe = function(){
         BroadcastLiveService.subscribe($state.params.data.channelID, user.id);
         $scope.successfullySubscribed = true;
+        $scope.isSubscribing = true;
         $timeout(function(){
             $scope.successfullySubscribed = false;
-        }, 10000);
+        }, 3000);
     }
 
     $scope.openRoom = function(data) {
