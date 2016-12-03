@@ -2,8 +2,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     console.log("state params are");
     console.log($stateParams.id);
     console.log($stateParams.thetype);
-    var recorder;
-
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($stateParams){
@@ -29,7 +27,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.goHome = function(){
         $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
-    }
+    };
 
     $scope.subscribe = function(){
         BroadcastLiveService.subscribe($stateParams.id, user.id);
@@ -38,7 +36,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         $timeout(function(){
             $scope.successfullySubscribed = false;
         }, 3000);
-    }
+    };
 
     $scope.openRoom = function(data) {
         //broadcasting so you only want to send out audio and video
@@ -70,9 +68,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     };
 
     $scope.stopRecordingStream = function(){
-        BroadcastLiveService.getRecorder(connection).stopRecording(function(blob){
-            console.log('Recording stopped');
-        });
+        BroadcastLiveService.getRecorder(connection).stopRecording();
+    };
+
+    $scope.saveToDropbox = function(){
+        BroadcastLiveService.saveToDropbox(user, connection);
     };
 
     // ......................................................
@@ -102,17 +102,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     connection.onstream = function(event) {
 
         connection.videosContainer = document.getElementById('video-broadcast');
-        
-        //select the video tag with "video" id and load source * replace getElementById with Angular method
-        connection.videosContainer.src = event.blobURL;
-
 
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
             document.getElementById('screen-broadcast').src = event.blobURL;
             // connection.screenContainer = event.blobURL
         } else {
-            connection.videosContainer.src = event.blobURL
+            connection.videosContainer.src = event.blobURL;
         
             //Put video tag on muted to fix echo and capture preview image
             if(connection.isInitiator === true){
@@ -121,7 +117,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
                 //setting preview image, wait 2 seonds then take pic
                 $timeout(function() {
-                    var vidSrc = connection.videosContainer
+                    var vidSrc = connection.videosContainer;
                     var imgSrc = document.getElementById('canvas');
 
                     //dynamically capture the full video screen
@@ -133,7 +129,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                     
                     //send final data to save in the backend
                     $state.params.data.coverImage = imgSrc.toDataURL();
-                    BroadcastLiveService.addChannel($state.params.data);
+                    BroadcastLiveService.addChannel($state.params.data)
+                    .then(function(){
+                        // call update on page load
+                        $scope.viewcount = 0;
+                        updateView();
+                    })
+
                 }, 2000);                    
                     
             }
@@ -141,6 +143,18 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         }
 
     };
+
+    function updateView(){
+        //add viewcount to the back end
+        var view = $scope.viewcount;
+        var currentView = connection.getAllParticipants().length;
+        $scope.viewcount = currentView;
+        //update view count on the backend to show in the channel view
+        if(view !== currentView){
+            BroadcastService.updateView($scope.uniqueID,currentView)
+        }        
+    }
+
 
     // Using getScreenId.js to capture screen from any domain
     // Code is used for screen broadcast to check if extension/add-on is included
@@ -186,11 +200,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                 $scope.broadcastingEnded = true;
                 $rootScope.$digest();
             }
-        })      
+        });      
         // $scope.uniqueID = $stateParams.id;
         // $timeout($scope.joinRoom($stateParams.id),0);
     } else {        
-        $state.go('broadcastHome')
+        $state.go('broadcastHome');
     }
 
 
@@ -217,7 +231,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
         appendDIV(event.data);
-    }
+    };
 
     //need to use angular way instad of jquery.
     var chatContainer = document.getElementById('chat-output');
@@ -235,29 +249,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ..................Viewer Count........................
     // ......................................................
 
-    $interval(function(){
 
-        // if($stateParams.thetype == "viewer"){
-        //     connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
-        //         if (!isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
-        //             $scope.broadcastingEnded = true;
-        //             $rootScope.$digest();
-        //         }
-        //     })   
-        // }
-           
-        //add viewcount to the back end
-        var view = 0;
-        var currentView = connection.getAllParticipants().length;
-        $scope.viewCount = currentView;
-        //update view count on the backend to show in the channel view
-        if(view !== currentView){
-            BroadcastService.updateView($scope.uniqueID,currentView)
-            .then(function(result){
-                view = currentView;
-            });
-        }
-    },10000);
+    $interval(function(){
+        updateView();       
+    },5000);
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
         confirmation.message = "All data willl be lost.";
