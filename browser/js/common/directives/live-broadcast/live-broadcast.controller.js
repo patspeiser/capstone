@@ -101,54 +101,51 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     //adding video source to stream broadcast
     connection.onstream = function(event) {
 
-        connection.videosContainer = document.getElementById('video-broadcast');
+        connection.mainContainer = document.getElementById('main-broadcast');
+        connection.sideContainer = document.getElementById('side-broadcast');
 
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
-            document.getElementById('screen-broadcast').src = event.blobURL;
-            // connection.screenContainer = event.blobURL
+            connection.mainContainer.src = event.blobURL;
         } else {
-            connection.videosContainer.src = event.blobURL;
-        
-            //Put video tag on muted to fix echo and capture preview image
-            if(connection.isInitiator === true){
-                connection.videosContainer.muted = true;
-
-
-                //setting preview image, wait 2 seonds then take pic
-                $timeout(function() {
-                    var vidSrc = connection.videosContainer;
-                    var imgSrc = document.getElementById('canvas');
-
-                    //dynamically capture the full video screen
-                    imgSrc.width = vidSrc.videoWidth;
-                    imgSrc.height = vidSrc.videoHeight;
-
-                    //copy video screen to img
-                    imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
-                    
-                    //send final data to save in the backend
-                    $state.params.data.coverImage = imgSrc.toDataURL();
-                    BroadcastLiveService.addChannel($state.params.data)
-                    .then(function(){
-                        // call update on page load
-                        $scope.viewcount = 0;
-                        updateView();
-                    })
-
-                }, 2000);                    
-                    
-            }
-
+            connection.sideContainer.src = event.blobURL;
         }
+        
+        //Put video tag on muted to fix echo and capture preview image
+        if(connection.isInitiator === true){
+            connection.mainContainer.muted = true;
 
+
+            //setting preview image, wait 2 seonds then take pic
+            $timeout(function() {
+                var vidSrc = connection.mainContainer;
+                var imgSrc = document.getElementById('canvas');
+
+                //dynamically capture the full video screen
+                imgSrc.width = vidSrc.videoWidth;
+                imgSrc.height = vidSrc.videoHeight;
+
+                //copy video screen to img
+                imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
+                
+                //send final data to save in the backend
+                $state.params.data.coverImage = imgSrc.toDataURL();
+                BroadcastLiveService.addChannel($state.params.data)
+                .then(function(){
+                    // call update on page load
+                    $scope.viewcount = 0;
+                    updateView();
+                })
+            }, 2000);                          
+            
+        }
     };
 
     function updateView(){
         //add viewcount to the back end
         var view = $scope.viewcount;
         var currentView = connection.getAllParticipants().length;
-        $scope.viewcount = currentView;
+        $scope.viewCount = currentView;
         //update view count on the backend to show in the channel view
         if(view !== currentView){
             BroadcastService.updateView($scope.uniqueID,currentView)
