@@ -15,11 +15,15 @@
 		    <canvas id="canvas" class='hidden'></canvas>
 		    <div class='embed-responsive embed-responsive-16by9'>
 		        <video id='video-broadcast' class='embed-responsive-item' controls autoplay></video>
+			    
+			    <div class='show-screen'>
+				    <div class='embed-responsive embed-responsive-16by9'>
+				        <video id='screen-broadcast' class='embed-responsive-item ' autoplay>
+				        <source src="screenShare">
+				        </video>	
+				    </div>
+				</div>    
 		    </div>
-		    <div class='embed-responsive embed-responsive-16by9'>
-		        <video id='screen-broadcast' class='embed-responsive-item show-screen' autoplay>Screen Broadcast here</video>	
-		    </div>
-
 		</div>
 		<div class="col-xs-3 chatbox pull-left">
 			<div id="chat-output" class="messages_container">

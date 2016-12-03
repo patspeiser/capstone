@@ -39,38 +39,51 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         connection.join(data.channelID);
     };
 
-    // $scope.show
+
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
     // ......................................................
 
     var connection = $rootScope.connection;
+    // var sConnection = $rootScope.screenConnection;
 
-    connection.socketMessageEvent = 'video-broadcast-demo';
+    connection.socketMessageEvent = 'video-broadcast';
+    // sConnection.socketMessageEvent = 'screen-broadcast';
 
     connection.session = {
-        //Original broadcaster does not need
-        audio: true,
+        screen: true,
         video: true,
+        audio: true,
         data: true,
         oneway: true
     };
 
+    // sConnection.session = {
+    //     screen:true,
+    //     oneway: true
+    // }
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
 
         connection.videosContainer = document.getElementById('video-broadcast');
-        
-        //select the video tag with "video" id and load source * replace getElementById with Angular method
-        connection.videosContainer.src = event.blobURL
+
+        console.log(event);
+        //select the video tag with "video" id and load source for broadcast
+        if(event.stream.isScreen === true){
+            document.getElementById('screen-broadcast').src = event.blobURL;
+            // connection.screenContainer = event.blobURL
+        } else {
+            connection.videosContainer.src = event.blobURL
+        }
 
         //Put video tag on muted to fix echo and capture preview image
         if(connection.isInitiator === true){
             connection.videosContainer.muted = true;
 
-            //setting preview image, wait 3 seonds then take pic
+
+            //setting preview image, wait 2 seonds then take pic
             $timeout(function() {
                 var vidSrc = connection.videosContainer
                 var imgSrc = document.getElementById('canvas');
@@ -86,13 +99,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
                 $state.params.data.coverImage = imgSrc.toDataURL();
                 BroadcastLiveService.addChannel($state.params.data);
                 
-            }, 3000);                    
+            }, 2000);                    
         }
 
     };
- 
+
     // Using getScreenId.js to capture screen from any domain
-    // You do NOT need to deploy Chrome Extension YOUR-Self!!
+    // Code is used for screen broadcast
     connection.getScreenConstraints = function(callback) {
         getScreenConstraints(function(error, screen_constraints) {
             if (!error) {
@@ -102,9 +115,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
             }
             throw error;
         });
-    };
-
-
+    };        
 
     // ......................................................
     // ..............Starting Broadcast......................
