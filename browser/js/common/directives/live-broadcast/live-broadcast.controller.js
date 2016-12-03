@@ -5,13 +5,22 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     var recorder;
     $scope.successfullySubscribed = false;
     $scope.user = user;
-    if ($state.params.data){
-        $scope.watching = $state.params.type == "viewer" ? true : false;
+    if ($stateParams){
+        $scope.watching = $stateParams.thetype == "viewer" ? true : false;
     }
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
     $scope.broadcastingEnded = false;
+
+    console.log("user");
+    console.log($scope.user);
+
+    console.log("isSubscribing ???");
+    console.log($scope.isSubscribing);
+
+    console.log("is watching???");
+    console.log($scope.watching);
 
     // ......................................................
     // .......................UI Code........................
@@ -22,7 +31,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     }
 
     $scope.subscribe = function(){
-        BroadcastLiveService.subscribe($state.params.data.channelID, user.id);
+        BroadcastLiveService.subscribe($stateParams.id, user.id);
         $scope.successfullySubscribed = true;
         $scope.isSubscribing = true;
         $timeout(function(){
@@ -238,4 +247,18 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         //add viewcount to the back end
     },5000);
 
+
 });
+
+
+    // $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
+    //     confirmation.message = "All data willl be lost.";
+    //     e.preventDefault();
+    // });
+
+    // $scope.$on('onUnload', function (e, $scope) { //for the unload stuff, leaving page will only appear for 0.00000001 sec.
+    //     console.log('leaving page'); // Use 'Preserve Log' option in Console
+    // });
+
+
+
