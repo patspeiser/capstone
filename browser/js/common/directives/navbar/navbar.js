@@ -17,7 +17,9 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             ];
 
             scope.joinBroadcast = function(data){
-                $state.go('broadcastLive', {data: data, type: 'viewer'})
+                //$state.go('broadcastLive', {data: data, type: 'viewer', thetype:'viewer', id:data.channelID})
+                $state.go('broadcastLive', {thetype:'viewer', id:data.channelID})
+
             }
 
             scope.user = null;

@@ -1,4 +1,7 @@
-app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing){
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing, $stateParams){
+    console.log("state params are");
+    console.log($stateParams.id);
+    console.log($stateParams.thetype);
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
@@ -8,10 +11,15 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
+    $scope.broadcastingEnded = false;
+
     // ......................................................
     // .......................UI Code........................
     // ......................................................
 
+    $scope.goHome = function(){
+        $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
+    }
 
     $scope.subscribe = function(){
         BroadcastLiveService.subscribe($state.params.data.channelID, user.id);
@@ -36,7 +44,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
         };
-        connection.join(data.channelID);
+        // if ($stateParams.id){
+            connection.join($stateParams.id);
+        // }
+        // else{
+        //     connection.join(data.channelID);
+        // }
     };
 
 
@@ -121,15 +134,40 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     // ..............Starting Broadcast......................
     // ......................................................
 
-    if($state.params.type === 'broadcast'){
+    // if($state.params.type === 'broadcast' && $state.params.data){
+    //     $scope.uniqueID = $state.params.data.channelId;
+    //     console.log("broadcaster data is");
+    //     console.log($state.params.data);
+    //     $timeout($scope.openRoom($state.params.data),0);
+    // } else if ($state.params.type === 'viewer'){
+    //     $scope.uniqueID = $state.params.data.channelID;
+    //     $timeout($scope.joinRoom($state.params.data),0);
+    // } else {
+    //     $state.go('broadcastHome')
+    // }
+
+
+    if($stateParams.thetype === 'broadcast' && $state.params.data){
         $scope.uniqueID = $state.params.data.channelId;
         $timeout($scope.openRoom($state.params.data),0);
-    } else if ($state.params.type === 'viewer'){
-        $scope.uniqueID = $state.params.data.channelID;
-        $timeout($scope.joinRoom($state.params.data),0);
-    } else {
+    } else if ($stateParams.thetype === 'viewer' && $stateParams.id){
+
+        connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
+            if (isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
+                $scope.uniqueID = $stateParams.id;
+                $timeout($scope.joinRoom($stateParams.id),0);
+            }
+            else{
+                $scope.broadcastingEnded = true;
+                $rootScope.$digest();
+            }
+        })      
+        // $scope.uniqueID = $stateParams.id;
+        // $timeout($scope.joinRoom($stateParams.id),0);
+    } else {        
         $state.go('broadcastHome')
     }
+
 
     // ......................................................
     // ....................Basic Chat........................
@@ -174,7 +212,17 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
     $interval(function(){
         $scope.viewCount= connection.getAllParticipants().length;
+
+        if($stateParams.thetype == "viewer"){
+            connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
+                if (!isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
+                    $scope.broadcastingEnded = true;
+                    $rootScope.$digest();
+                }
+            })   
+        }
+           
         //add viewcount to the back end
-    },1000);
+    },5000);
 
 });

@@ -28,7 +28,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		// 	}
 		// }
 
-		$state.go('broadcastLive', {data: data, type: 'broadcast'})
+		$state.go('broadcastLive', {data: data, type: 'broadcast', thetype:'broadcast'})
 	}
 
 
@@ -38,7 +38,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 	}
 
 	$scope.joinBroadcast = function(data){
-		$state.go('broadcastLive', {data: data, type: 'viewer'})
+		$state.go('broadcastLive', {data: data, type: 'viewer', thetype:'viewer', id:data.channelId})
 	}
 
 	$scope.sendMessage = function(){
