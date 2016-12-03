@@ -2,7 +2,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     console.log("state params are");
     console.log($stateParams.id);
     console.log($stateParams.thetype);
-
+    var recorder;
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($state.params.data){
@@ -52,7 +52,31 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         // }
     };
 
+   //   
+   //RECORDING FUNCTIONALITY
+   // 
+    var getStream = function(){
+        var streamId = Object.keys(connection.streamEvents)[2];
+        return connection.streamEvents[streamId].stream;
+    };
 
+    var getRecorder = function(){
+        recorder = RecordRTC(getStream(), {
+            type: 'video',
+            recorderType: RecordRTC.WhammyRecorder
+        }) ;
+        return recorder;
+    };
+
+    $scope.startRecordingStream = function(){
+        getRecorder().startRecording();        
+    };
+
+   $scope.stopRecordingStream = function(){
+        recorder.stopRecording(function(blob){
+            console.log('stop');
+        });
+   };
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
@@ -81,8 +105,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     connection.onstream = function(event) {
 
         connection.videosContainer = document.getElementById('video-broadcast');
+        
+        //select the video tag with "video" id and load source * replace getElementById with Angular method
+        connection.videosContainer.src = event.blobURL;
 
-        console.log(event);
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
             document.getElementById('screen-broadcast').src = event.blobURL;
@@ -98,7 +124,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
             //setting preview image, wait 2 seonds then take pic
             $timeout(function() {
-                var vidSrc = connection.videosContainer
+                var vidSrc = connection.videosContainer;
                 var imgSrc = document.getElementById('canvas');
 
                 //dynamically capture the full video screen
