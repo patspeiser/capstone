@@ -6,7 +6,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         $scope.watching = $state.params.type == "viewer" ? true : false;
     }
 
-    $scope.isSubscribing = isSubscribing;
+    $scope.isSubscribing = isSubscribing ? true : false;
 
     // ......................................................
     // .......................UI Code........................
@@ -16,9 +16,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     $scope.subscribe = function(){
         BroadcastLiveService.subscribe($state.params.data.channelID, user.id);
         $scope.successfullySubscribed = true;
+        $scope.isSubscribing = true;
         $timeout(function(){
             $scope.successfullySubscribed = false;
-        }, 10000);
+        }, 3000);
     }
 
     $scope.openRoom = function(data) {
@@ -38,21 +39,30 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         connection.join(data.channelID);
     };
 
+
+
     // ......................................................
     // ..................RTCMultiConnection Code.............
     // ......................................................
 
     var connection = $rootScope.connection;
+    // var sConnection = $rootScope.screenConnection;
 
-    connection.socketMessageEvent = 'video-broadcast-demo';
+    connection.socketMessageEvent = 'video-broadcast';
+    // sConnection.socketMessageEvent = 'screen-broadcast';
 
     connection.session = {
-        audio: true,
+        screen: true,
         video: true,
-        oneway: true,
-        data: true
+        audio: true,
+        data: true,
+        oneway: true
     };
 
+    // sConnection.session = {
+    //     screen:true,
+    //     oneway: true
+    // }
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
@@ -68,28 +78,53 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         });
         console.log(recordRTC);
 
+        console.log(event);
+        //select the video tag with "video" id and load source for broadcast
+        if(event.stream.isScreen === true){
+            document.getElementById('screen-broadcast').src = event.blobURL;
+            // connection.screenContainer = event.blobURL
+        } else {
+            connection.videosContainer.src = event.blobURL
+        }
+
         //Put video tag on muted to fix echo and capture preview image
         if(connection.isInitiator === true){
             connection.videosContainer.muted = true;
 
-            //setting preview image, wait 3 seonds then take pic
+
+            //setting preview image, wait 2 seonds then take pic
             $timeout(function() {
                 var vidSrc = connection.videosContainer;
                 var imgSrc = document.getElementById('canvas');
+
+                //dynamically capture the full video screen
                 imgSrc.width = vidSrc.videoWidth;
                 imgSrc.height = vidSrc.videoHeight;
-                console.log('video source',connection.videosContainer.videoWidth,connection.videosContainer.videoHeight);
+
+                //copy video screen to img
                 imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
                 
                 //send final data to save in the backend
                 $state.params.data.coverImage = imgSrc.toDataURL();
                 BroadcastLiveService.addChannel($state.params.data);
                 
-            }, 3000);                    
+            }, 2000);                    
         }
 
     };
 
+    // Using getScreenId.js to capture screen from any domain
+    // Code is used for screen broadcast
+    connection.getScreenConstraints = function(callback) {
+        getScreenConstraints(function(error, screen_constraints) {
+            if (!error) {
+                screen_constraints = connection.modifyScreenConstraints(screen_constraints);
+                callback(error, screen_constraints);
+                return;
+            }
+            throw error;
+        });
+    };        
 
     // ......................................................
     // ..............Starting Broadcast......................
@@ -135,7 +170,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     function appendDIV(event) {
         var div = document.createElement('div');
         div.innerHTML = event.data || event;
-        chatContainer.insertBefore(div, chatContainer.firstChild);
+        chatContainer.insertBefore(div, chatContainer.lastChild);
         div.tabIndex = 0;
         div.focus();
 
@@ -148,6 +183,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
     $interval(function(){
         $scope.viewCount= connection.getAllParticipants().length;
+        //add viewcount to the back end
     },1000);
 
 });

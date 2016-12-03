@@ -21,7 +21,7 @@ app.config(function ($stateProvider) {
                     return AuthService.getLoggedInUser()
                         .then(function(result){
                             if (result){
-                              return BroadcastLiveService.getSubscriptionForViewer(result.id, $stateParams.data.channelID) ? true : false ;
+                              return BroadcastLiveService.getSubscriptionForViewer(result.id, $stateParams.data.channelID);
                             }
                             else{
                                 return null;

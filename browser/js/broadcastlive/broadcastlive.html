@@ -15,54 +15,41 @@
 		            <input type="text" onClick="this.select();" required ng-model="broadcast.category" placeholder='*Required'>
 				</div> -->
 
-				<div class='col-xs-12 col-md-4 w3-dropdown-hover'>
-					<button ng-class="(broadcast.category)?'w3-btn w3-indigo': 'w3-btn w3-red'"> {{selectCategory}} </button>
-					<!-- <button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button> -->
-					<div class="w3-dropdown-content w3-border">
-						<a ng-click="changeCategory('Politics')"> Politics</a>
-						<a ng-click="changeCategory('Entertainment')"> Entertainment</a>
-						<a ng-click="changeCategory('Cooking')"> Cooking</a>
-						<a ng-click="changeCategory('Cooking')"> Music</a>
-						<a ng-click="changeCategory('Cooking')"> Educational</a>
-						<a ng-click="changeCategory('Cooking')"> Vlog</a>
-						<a ng-click="changeCategory('Cooking')"> Events</a>
-						<a ng-click="changeCategory('Cooking')"> Sports</a>
-					</div>
-
-				</div>
-
 	        	<div class='col-xs-12 col-md-4 form-group'>
 	        		<label>Tags</label>
 		            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags' aria-describedby='helpBlock'>
 		            <span id='helpBlock' class='help-block'>Current Tags: {{broadcast.tags}}</span>
 				</div>				
 
+			<div class='col-xs-12 col-md-4 w3-dropdown-hover padding-bottom'>
+				<button ng-class="(broadcast.category)?'w3-btn w3-indigo': 'w3-btn w3-red'"> {{selectCategory}} </button>
+				<!-- <button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button> -->
+				<div class="w3-dropdown-content w3-border">
+					<a ng-click="changeCategory('Politics')"> Politics</a>
+					<a ng-click="changeCategory('Entertainment')"> Entertainment</a>
+					<a ng-click="changeCategory('Cooking')"> Cooking</a>
+					<a ng-click="changeCategory('Cooking')"> Music</a>
+					<a ng-click="changeCategory('Cooking')"> Educational</a>
+					<a ng-click="changeCategory('Cooking')"> Vlog</a>
+					<a ng-click="changeCategory('Cooking')"> Events</a>
+					<a ng-click="changeCategory('Cooking')"> Sports</a>
+				</div>
+
+			</div>
+
 			<br clear='all'>
 
-			<div class = "well">
+
+			<div class = "well padding-sides">
 				<span class="big-strong ">Category: </span>
 				<span class="big-strong">{{broadcast.category}}</span>
 				</br>
 			</div>
 
-            <input type='submit' value='Begin Broadcast!' class='btn btn-primary' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
+            <input type='submit' value='Begin Broadcast!' class='btn btn-primary padding-sides' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
 	</div>
 	<br>
-
-	<div class='well shadow'>
-		<h2 class='text-center'>Join a Broadcast</h2>
-		<br>
-		<ng-form name="broadcastJoin" novalidate>
-			<div class='col-xs-12 col-md-4'>
-				<label>Join Room</label>
-				<input type="text" required onClick="this.select();" ng-model="broadcast.channelID" placeholder="Input Room Id Here">
-			</div>
-
-			<input type="submit" value="Join Broadcast" class='btn btn-primary' ng-click="joinBroadcast(broadcast)">
-		</ng-form>
-	</div>  
-
 
 	<div class="well" ng-if="user">
 	    <form name="messageform">
