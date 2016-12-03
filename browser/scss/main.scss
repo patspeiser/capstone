@@ -47,6 +47,33 @@ a, label, input[type="text"], .btn {
   border: none
 }
 
+@media screen and (max-width: 768px) {
+  .padding-bottom[class*='col-xs'] {
+    padding-bottom: 20px; } 
+}
+
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  z-index: -1;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#open-title {
+  color: white;
+  font-size: 60px;
+}
+
+#title-div{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 
 @import 'broadcastlive/main';
 @import 'directives/main';
