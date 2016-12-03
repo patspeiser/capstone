@@ -1,4 +1,11 @@
-<div class="container-fluid clearfix">
+<div ng-show="broadcastingEnded">
+  <h2>The Broadcast is ended!</h2>
+  <h1>Thank you for watching!!!</h1>
+  <button ng-click="goHome()"> Explore More Channels! </button>
+</div>
+
+
+<div ng-show="!broadcastingEnded" class="container-fluid clearfix">
     <!-- <div class='row-fluid'> -->
 	    <div class="col-xs-9 pull-left">
 		    <h1>Broadcast Page</h1>
