@@ -14,7 +14,10 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 		}
 	})
 		.then(function(result){
-			if (result.dataValues.userId){
+			if(!result){
+				res.send(true);
+			}
+			else if (result.dataValues.userId){
 				return Subscription.findOne({
 					where:{
 						subscriberId: req.params.viewerId,

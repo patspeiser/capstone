@@ -14,14 +14,14 @@ app.config(function ($stateProvider) {
                 return AuthService.getLoggedInUser();
             },
             isSubscribing: function(AuthService, $stateParams, BroadcastLiveService){
-                if ($stateParams.type === "broadcast"){
+                if ($stateParams.thetype === "broadcast"){
                     return null;
                 }
-                else if ($stateParams.type === "viewer"){
+                else if ($stateParams.thetype === "viewer"){
                     return AuthService.getLoggedInUser()
                         .then(function(result){
                             if (result){
-                              return BroadcastLiveService.getSubscriptionForViewer(result.id, $stateParams.data.channelID);
+                              return BroadcastLiveService.getSubscriptionForViewer(result.id, $stateParams.id);
                             }
                             else{
                                 return null;
