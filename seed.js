@@ -41,7 +41,7 @@ var seedUsers = function () {
             password: 'fake',
         },
         {
-            email: 'doodoo@gmil.com',
+            email: 'doodoo@gmail.com',
             password: 'doodoo',
         },
         {
