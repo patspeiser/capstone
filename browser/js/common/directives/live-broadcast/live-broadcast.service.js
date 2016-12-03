@@ -1,4 +1,4 @@
-app.factory('BroadcastLiveService', function($http, $rootScope, $window){
+app.factory('BroadcastLiveService', function($http, $rootScope, $window, BroadcastService){
 	var recorder; 
 
 	var BroadcastLiveService = {};
@@ -47,6 +47,48 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
                 contents: this.getRecorder(connection).getBlob()
             });
     	};
+
+
+
+
+
+
+
+		$window.onbeforeunload = function (e,confimration,scope) { //this block is about doing something right before the page is unloaded by the browser
+	        //var confirmation = {}; //does not affect our app, it's just for the pop up when you try to refresh the page and stuff
+	        //var event = $rootScope.$broadcast('onBeforeUnload', confirmation);//same as above, just for the pop up
+	        //console.log(scope); // this scope is useless, so you can remove both scope variable in this block of code
+	        if ($rootScope.unwantedChannelId){ //if the user using this page is a broadcaster, then do the following
+	        	BroadcastService.closeChannel($rootScope.unwantedChannelId); //remove the channel from our database, $rootScope.unwanted is actually the room name for this broadcaster
+	        	$rootScope.unwantedChannelId = null; //this tells our app that this guy is no longer broadcasting, it's useful when we have a button to stop broadcasting
+	        }
+
+	        // if (event.defaultPrevented) { //this is for the pop up
+	        // 	console.log(e);
+	        // 	console.log("wtf");
+	        // 	console.log($rootScope.unwanted);
+	        // 	console.log(scope);
+	        //     return confirmation.message;
+	        // }
+	    };
+	    
+	    $window.onunload = function (e, scope) { //this is probably not needed as well, since we have handled everything before unload
+	    	//console.log(scope);
+	    	BroadcastService.closeChannel($rootScope.unwantedChannelId);
+	    	$rootScope.unwantedChannelId = null;
+
+	        //$rootScope.$broadcast('onUnload');
+	    };
+
+
+
+
+
+
+
+
+
+
     	
 	return BroadcastLiveService;
 });
