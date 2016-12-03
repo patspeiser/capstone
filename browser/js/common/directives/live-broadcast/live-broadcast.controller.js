@@ -1,7 +1,11 @@
 app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing, $stateParams){
-    console.log("state params are");
-    console.log($stateParams.id);
-    console.log($stateParams.thetype);
+    
+
+    // console.log("state params are");
+    // console.log($stateParams.id);
+    // console.log($stateParams.thetype);
+
+
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($stateParams){
@@ -12,14 +16,14 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.broadcastingEnded = false;
 
-    console.log("user");
-    console.log($scope.user);
+    // console.log("user");
+    // console.log($scope.user);
 
-    console.log("isSubscribing ???");
-    console.log($scope.isSubscribing);
+    // console.log("isSubscribing ???");
+    // console.log($scope.isSubscribing);
 
-    console.log("is watching???");
-    console.log($scope.watching);
+    // console.log("is watching???");
+    // console.log($scope.watching);
 
     // ......................................................
     // .......................UI Code........................
@@ -253,6 +257,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     $interval(function(){
         updateView();       
     },5000);
+
+    connection.onclose = function(e){
+        //console.log('e is', e);
+        $scope.broadcastingEnded = true;
+    }
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
         confirmation.message = "All data willl be lost.";
