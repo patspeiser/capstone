@@ -259,7 +259,19 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         }
     },10000);
 
+    $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
+        confirmation.message = "All data willl be lost.";
+        e.preventDefault();
+    });
+
+    $scope.$on('onUnload', function (e, $scope) { //for the unload stuff, leaving page will only appear for 0.00000001 sec.
+        console.log('leaving page'); // Use 'Preserve Log' option in Console
+    });
 
 });
+
+
+   
+
 
 

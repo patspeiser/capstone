@@ -18,20 +18,25 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 				res.send(true);
 			}
 			else if (result.dataValues.userId){
-				return Subscription.findOne({
-					where:{
-						subscriberId: req.params.viewerId,
-						broadcasterId: result.dataValues.userId,
-					}
-				})
-				.then(function(result2){
-					if (result2){
-						res.send(result2.dataValues);
-					}
-					else{
-						res.send(false);
-					}
-				})
+				if(result.dataValues.userId == req.params.viewerId){
+					res.send(true);
+				}
+				else{
+					return Subscription.findOne({
+						where:{
+							subscriberId: req.params.viewerId,
+							broadcasterId: result.dataValues.userId,
+						}
+					})
+					.then(function(result2){
+						if (result2){
+							res.send(result2.dataValues);
+						}
+						else{
+							res.send(false);
+						}
+					})
+				}			
 			}
 			else {
 				res.send (true);
