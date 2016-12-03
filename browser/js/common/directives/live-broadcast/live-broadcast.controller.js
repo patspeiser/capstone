@@ -2,8 +2,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     console.log("state params are");
     console.log($stateParams.id);
     console.log($stateParams.thetype);
-    var recorder;
-
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($stateParams){
@@ -29,7 +27,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.goHome = function(){
         $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
-    }
+    };
 
     $scope.subscribe = function(){
         BroadcastLiveService.subscribe($stateParams.id, user.id);
@@ -38,7 +36,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         $timeout(function(){
             $scope.successfullySubscribed = false;
         }, 3000);
-    }
+    };
 
     $scope.openRoom = function(data) {
         //broadcasting so you only want to send out audio and video
@@ -70,9 +68,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     };
 
     $scope.stopRecordingStream = function(){
-        BroadcastLiveService.getRecorder(connection).stopRecording(function(blob){
-            console.log('Recording stopped');
-        });
+        BroadcastLiveService.getRecorder(connection).stopRecording();
+    };
+
+    $scope.saveToDropbox = function(){
+        BroadcastLiveService.saveToDropbox(user, connection);
     };
 
     // ......................................................
@@ -112,7 +112,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             document.getElementById('screen-broadcast').src = event.blobURL;
             // connection.screenContainer = event.blobURL
         } else {
-            connection.videosContainer.src = event.blobURL
+            connection.videosContainer.src = event.blobURL;
         
             //Put video tag on muted to fix echo and capture preview image
             if(connection.isInitiator === true){
@@ -121,7 +121,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
                 //setting preview image, wait 2 seonds then take pic
                 $timeout(function() {
-                    var vidSrc = connection.videosContainer
+                    var vidSrc = connection.videosContainer;
                     var imgSrc = document.getElementById('canvas');
 
                     //dynamically capture the full video screen
@@ -186,11 +186,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                 $scope.broadcastingEnded = true;
                 $rootScope.$digest();
             }
-        })      
+        });      
         // $scope.uniqueID = $stateParams.id;
         // $timeout($scope.joinRoom($stateParams.id),0);
     } else {        
-        $state.go('broadcastHome')
+        $state.go('broadcastHome');
     }
 
 
@@ -217,7 +217,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
         appendDIV(event.data);
-    }
+    };
 
     //need to use angular way instad of jquery.
     var chatContainer = document.getElementById('chat-output');
