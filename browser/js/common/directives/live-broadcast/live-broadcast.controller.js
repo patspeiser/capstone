@@ -39,6 +39,8 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         connection.join(data.channelID);
     };
 
+    // $scope.show
+
     // ......................................................
     // ..................RTCMultiConnection Code.............
     // ......................................................
@@ -51,8 +53,8 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         //Original broadcaster does not need
         audio: true,
         video: true,
-        oneway: true,
-        data: true
+        data: true,
+        oneway: true
     };
 
 
@@ -89,6 +91,20 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
     };
  
+    // Using getScreenId.js to capture screen from any domain
+    // You do NOT need to deploy Chrome Extension YOUR-Self!!
+    connection.getScreenConstraints = function(callback) {
+        getScreenConstraints(function(error, screen_constraints) {
+            if (!error) {
+                screen_constraints = connection.modifyScreenConstraints(screen_constraints);
+                callback(error, screen_constraints);
+                return;
+            }
+            throw error;
+        });
+    };
+
+
 
     // ......................................................
     // ..............Starting Broadcast......................
@@ -134,7 +150,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     function appendDIV(event) {
         var div = document.createElement('div');
         div.innerHTML = event.data || event;
-        chatContainer.insertBefore(div, chatContainer.firstChild);
+        chatContainer.insertBefore(div, chatContainer.lastChild);
         div.tabIndex = 0;
         div.focus();
 
