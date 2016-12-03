@@ -11,12 +11,12 @@
 		<tr>
 			<div class='row'>
 				<td><h2>Dropbox</h2></td>
-				<td ng-if='user.dropbox_id.length == null'> <a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></td>
-				<td ng-if='user.dropbox_id.length > 0'><h2>Dropbox Connected!</h2></td>
+				<td ng-if='user.dropbox_id.length == null'> <h2><a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></h2></td>
+				<td ng-if='user.dropbox_id.length > 0'><h2>Connected!</h2></td>
 			</div>
 		</tr>
 	
-		<tr>
+		<tr ng-if='user.dropbox_id.length > 0'>
 			<div class='row'>
 				<td><h2>Recordings</h2></td>
 				<td><h2><a href='http://www.dropbox.com/home/Apps/capstone-fs' target='blank'>{{recordings.length}} (view on Dropbox.com)</a></h2></td>

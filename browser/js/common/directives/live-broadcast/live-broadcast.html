@@ -6,11 +6,29 @@
 
 
 <div ng-show="!broadcastingEnded" class="container-fluid clearfix">
-<button ng-click='startRecordingStream()'>Start Recording</button>
-<button ng-click='stopRecordingStream()'>Stop Recording</button>
-<button ng-click='saveToDropbox()'>Save Recording</button>
-<button ng-if="broadcasting" ng-click="stopBroadcasting()"> Stop Broadcasting </button>
 
+<a class='btn btn-primary' role='button' data-toggle='collapse' href='#recordControls' aria-expanded='false' aria-controls='recordControls'>Record a clip!</a>
+
+<div id='recordControls' class='collapse'>
+  <div ng-if='user && user.dropbox_id'>
+    <div>
+      <button ng-click='startRecordingStream()'>Start Recording</button>
+      <button ng-click='stopRecordingStream()'>Stop Recording</button>
+      <button ng-click='saveToDropbox()'>Save Recording</button>
+    </div>
+  </div>
+
+  <div ng-if='user && !user.dropbox_id'>
+    <a ui-sref='user'>Add Dropbox to Record</a>
+  </div>
+
+  <div ng-if='!user'>
+    <a ui-sref='login'>Login or Register to Record</a>
+  </div>
+
+</div>
+
+<button ng-if="broadcasting" ng-click="stopBroadcasting()"> Stop Broadcasting </button>
 <div class="container-fluid clearfix">
     <!-- <div class='row-fluid'> -->
 	    <div class="col-xs-9 pull-left">

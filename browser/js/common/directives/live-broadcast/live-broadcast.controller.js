@@ -197,6 +197,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                 callback(error, screen_constraints);
                 return;
             }
+            console.log(error);
             throw error;
         });
     };        
