@@ -14,6 +14,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     if ($stateParams){
         $scope.broadcasting = $stateParams.thetype == "broadcast" ? true : false;
     }
+    if($stateParams){
+        if ($stateParams.thetype =="broadcast" && $stateParams.data){
+            $rootScope.unwantedChannelId = $stateParams.data.channelId;
+        }
+    }
+
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
@@ -288,12 +294,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     }
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
-        confirmation.message = "All data willl be lost.";
-        e.preventDefault();
+        //confirmation.message = "All data willl be lost.";
+        //e.preventDefault();
     });
 
     $scope.$on('onUnload', function (e, $scope) { //for the unload stuff, leaving page will only appear for 0.00000001 sec.
-        console.log('leaving page'); // Use 'Preserve Log' option in Console
+        //console.log('leaving page'); // Use 'Preserve Log' option in Console
     });
 
 });

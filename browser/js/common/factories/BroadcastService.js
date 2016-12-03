@@ -204,6 +204,7 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 				// })
 				.then(function(){
 					console.log('channel dead');
+					$rootScope.unwantedChannelId = null;
 				})
 		}
 
