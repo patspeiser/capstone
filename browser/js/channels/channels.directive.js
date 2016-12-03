@@ -23,7 +23,7 @@ app.directive('channelDetail', function () {
         controller: function ($scope, BroadcastService, ConnectionService, $rootScope, $state) {
             $scope.joinRoom  = function(room){
               console.log('in controller', room);
-              $state.go('broadcastLive', {data: room, type: 'viewer'})
+              $state.go('broadcastLive', {data:room, id: room.channelID, thetype: 'viewer'})
 
 
                 // var connection = new ConnectionService();
