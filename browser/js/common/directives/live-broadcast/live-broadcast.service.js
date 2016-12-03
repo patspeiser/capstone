@@ -31,6 +31,14 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
     			recorderType: RecordRTC.WhammyRecorder
     		}) ;
     		return recorder;
+    	},
+    	saveToDropbox: function(user, connection){
+    		var dbx = new Dropbox({accessToken: user.dropbox_id});
+            dbx.filesUpload({
+                path: '/whats_on_' + Date.now() + '.webm',
+                contents: this.getRecorder(connection).getBlob()
+            });
     	}
+
     }
 });

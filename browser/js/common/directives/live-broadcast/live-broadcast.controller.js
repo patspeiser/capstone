@@ -2,7 +2,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     console.log("state params are");
     console.log($stateParams.id);
     console.log($stateParams.thetype);
-    var recorder;
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($state.params.data){
@@ -60,9 +59,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     };
 
     $scope.stopRecordingStream = function(){
-        BroadcastLiveService.getRecorder(connection).stopRecording(function(blob){
-            console.log('Recording stopped');
-        });
+        BroadcastLiveService.getRecorder(connection).stopRecording();
+    };
+
+    $scope.saveToDropbox = function(){
+        BroadcastLiveService.saveToDropbox(user, connection);
     };
 
     // ......................................................
