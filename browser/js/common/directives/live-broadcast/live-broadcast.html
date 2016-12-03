@@ -1,6 +1,6 @@
 <div ng-show="broadcastingEnded">
   <h2>The Broadcast is ended!</h2>
-  <h1>Thank you for watching!!!</h1>
+  <h1 ng-show="watching">Thank you for watching!!!</h1>
   <button ng-click="goHome()"> Explore More Channels! </button>
 </div>
 
@@ -9,6 +9,7 @@
 <button ng-click='startRecordingStream()'>Start Recording</button>
 <button ng-click='stopRecordingStream()'>Stop Recording</button>
 <button ng-click='saveToDropbox()'>Save Recording</button>
+<button ng-if="broadcasting" ng-click="stopBroadcasting()"> Stop Broadcasting </button>
 
 <div class="container-fluid clearfix">
     <!-- <div class='row-fluid'> -->

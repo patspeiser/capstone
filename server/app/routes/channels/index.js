@@ -195,7 +195,7 @@ router.post('/', function(req,res,next){ //add a new channel to our database aft
 router.delete('/:id', function(req,res,next){ //remove a channel from our database
 	Channel.destroy({
 		where:{
-			name: req.params.id
+			channelID: req.params.id
 		}
 	})
 	.then(function(){
