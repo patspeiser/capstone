@@ -45,6 +45,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
     connection.socketMessageEvent = 'video-broadcast-demo';
 
     connection.session = {
+        //Original broadcaster does not need
         audio: true,
         video: true,
         oneway: true,
@@ -68,9 +69,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
             $timeout(function() {
                 var vidSrc = connection.videosContainer
                 var imgSrc = document.getElementById('canvas');
+
+                //dynamically capture the full video screen
                 imgSrc.width = vidSrc.videoWidth;
                 imgSrc.height = vidSrc.videoHeight;
-                console.log('video source',connection.videosContainer.videoWidth,connection.videosContainer.videoHeight);
+
+                //copy video screen to img
                 imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
                 
                 //send final data to save in the backend
@@ -81,7 +85,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         }
 
     };
-
+ 
 
     // ......................................................
     // ..............Starting Broadcast......................
@@ -140,6 +144,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
     $interval(function(){
         $scope.viewCount= connection.getAllParticipants().length;
+        //add viewcount to the back end
     },1000);
 
 });
