@@ -134,17 +134,15 @@ router.get('/tag/:tag', function(req, res, next){
 
 
 
-
-
-
 //can we use ID? Also can we send a req.body instead of a param if a user never actually lands here? 
-router.put('/increase/:id', function(req,res,next){ //increase view count by one if someone joins a room
+router.put('/viewCount', function(req,res,next){ //increase view count by one if someone joins a room
+	console.log('this is the body', req.body);
 	Channel.update({
-			view:Sequelize.literal('view + 1')
+			view:req.body.view
 		},
 		{
 			where:{
-				id:req.params.id
+				channelID:req.body.channelID
 			}
 		}
 	)
@@ -161,7 +159,7 @@ router.put('/reduce/:id', function(req,res,next){ //reduce view count by one if 
 		},
 		{
 			where:{
-				id:req.params.id
+				channelID:req.params.id
 			}
 		}
 	)
@@ -172,7 +170,6 @@ router.put('/reduce/:id', function(req,res,next){ //reduce view count by one if 
 });
 
 router.post('/', function(req,res,next){ //add a new channel to our database after someone opens a room
-	console.log(req.body);
 	//sloppy fix here. just wrapped the tags in an array. gotta fix this on the front end
 	Channel.create({
 		name: req.body.channelName,

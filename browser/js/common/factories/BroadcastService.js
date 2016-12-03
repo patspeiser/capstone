@@ -136,17 +136,14 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 			});
 		};
 
-		BroadcastService.reduceView = function(roomname){ //reduce view count by 1
-			return $http.put('/api/channels/reduce/'+ roomname)
+		BroadcastService.updateView = function(roomname,view){ //increase view count by 1
+			console.log('roomname and view',roomname,view)
+			var data = {};
+			data.channelID = roomname;
+			data.view = view;
+			return $http.put('/api/channels/viewCount',data)
 				.then(function(result){
-
-				})
-		}
-
-		BroadcastService.increaseView = function(roomname){ //increase view count by 1
-			return $http.put('/api/channels/increase/'+ roomname)
-				.then(function(result){
-
+					return result.data
 				})
 		}
 
