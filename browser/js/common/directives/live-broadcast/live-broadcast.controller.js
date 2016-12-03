@@ -60,7 +60,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         connection.videosContainer = document.getElementById('video-broadcast');
         
         //select the video tag with "video" id and load source * replace getElementById with Angular method
-        connection.videosContainer.src = event.blobURL
+        connection.videosContainer.src = event.blobURL;
+        var recordRTC = RecordRTC(event.blobURL, {
+            type: 'video',
+            mimeType: isChrome ? null: mimeType,
+            frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
+        });
+        console.log(recordRTC);
 
         //Put video tag on muted to fix echo and capture preview image
         if(connection.isInitiator === true){
@@ -68,7 +74,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
 
             //setting preview image, wait 3 seonds then take pic
             $timeout(function() {
-                var vidSrc = connection.videosContainer
+                var vidSrc = connection.videosContainer;
                 var imgSrc = document.getElementById('canvas');
                 imgSrc.width = vidSrc.videoWidth;
                 imgSrc.height = vidSrc.videoHeight;
