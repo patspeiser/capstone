@@ -24,6 +24,8 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
 				})
 		}
 
+		
+
 		BroadcastLiveService.getStream = function(connection){
         	var streamId = Object.keys(connection.streamEvents)[2];
         	return connection.streamEvents[streamId].stream;
