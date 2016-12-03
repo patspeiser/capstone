@@ -95,6 +95,14 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         // }
     };
 
+    $scope.startBroadcast = function(){
+        BroadcastLiveService.addChannel($state.params.data)
+        .then(function(){
+            updateView();
+            $scope.ifLive = true;
+        })
+    }
+
    //   
    //RECORDING FUNCTIONALITY
    // 
@@ -128,10 +136,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         oneway: true
     };
 
-    // sConnection.session = {
-    //     screen:true,
-    //     oneway: true
-    // }
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
@@ -146,10 +150,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             connection.sideContainer.src = event.blobURL;
         }
         
-        //Put video tag on muted to fix echo and capture preview image
-        if(connection.isInitiator === true){
-            connection.mainContainer.muted = true;
 
+        if(connection.isInitiator === true){
+            //Put video tag on muted to fix echo and capture preview image
+            connection.sideContainer.muted = true;
 
             //setting preview image, wait 2 seonds then take pic
             $timeout(function() {
@@ -165,14 +169,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                 
                 //send final data to save in the backend
                 $state.params.data.coverImage = imgSrc.toDataURL();
-                BroadcastLiveService.addChannel($state.params.data)
-                .then(function(){
-                    // call update on page load
-                    $scope.viewcount = 0;
-                    updateView();
-                })
-            }, 2000);                          
-            
+            }, 1000);                           
         }
     };
 
@@ -186,6 +183,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             BroadcastService.updateView($scope.uniqueID,currentView)
         }        
     }
+
 
 
     // Using getScreenId.js to capture screen from any domain
@@ -227,6 +225,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
             if (isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
                 $scope.uniqueID = $stateParams.id;
+                $scope.ifLive = true;
                 $timeout($scope.joinRoom($stateParams.id),0);
             }
             else{
@@ -273,9 +272,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         div.innerHTML = event.data || event;
         chatContainer.insertBefore(div, chatContainer.lastChild);
         div.tabIndex = 0;
-        div.focus();
+        // div.focus();
 
-        document.getElementById('input-text-chat').focus();
+        // document.getElementById('input-text-chat').focus();
     }
 
     // ......................................................
