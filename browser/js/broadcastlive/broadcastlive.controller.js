@@ -9,7 +9,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
     $scope.selectCategory = "Select a category (Required)";
 
-	$scope.startBroadcast = function(data){
+	$scope.prepareBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
 		data.userId = Session.user ? Session.user.id : null;
