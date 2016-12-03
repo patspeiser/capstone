@@ -1,23 +1,32 @@
 app.config(function ($stateProvider) {
 
-    $stateProvider.state('user', {
-        url: '/user',
-        templateUrl: 'js/user/user.html',
-        controller: 'UserCtrl',
-    });
+	$stateProvider.state('user', {
+		url: '/user',
+		templateUrl: 'js/user/user.html',
+		controller: 'UserCtrl',
+	});
 
 });
 
-app.controller('UserCtrl', function ($scope, AuthService, $state, $location) {
+app.controller('UserCtrl', function ($scope, AuthService, $state, $location, UserService) {
 	AuthService.getLoggedInUser()
 	.then(function(user){
-		$scope.user = user; 
+		$scope.user = user;
+
+		if (user.dropbox_id){
+			UserService.getRecordings(user)
+			.then(function(recordings){
+				$scope.recordings = recordings;
+				$scope.$digest();
+			});
+		} else {
+			$scope.recordings = [];
+		}
+		$scope.authDropbox = function(){
+			var CLIENT_ID = '9bhq21rjmdjxyzo';
+			var dbx = new Dropbox({ clientId: CLIENT_ID });
+			var authUrl = dbx.getAuthenticationUrl('http://localhost:1337/auth/dropbox');
+			document.getElementById('authlink').href = authUrl;
+		};
 	});
-	$scope.authDropbox = function(){
-		var CLIENT_ID = '9bhq21rjmdjxyzo';
-		var dbx = new Dropbox({ clientId: CLIENT_ID });
-		var authUrl = dbx.getAuthenticationUrl('http://localhost:1337/auth/dropbox');
-		document.getElementById('authlink').href = authUrl;
-	  // }
-	};
 });
