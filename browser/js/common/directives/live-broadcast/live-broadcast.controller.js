@@ -1,29 +1,64 @@
 app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing, $stateParams){
-    console.log("state params are");
-    console.log($stateParams.id);
-    console.log($stateParams.thetype);
+    
+
+    // console.log("state params are");
+    // console.log($stateParams.id);
+    // console.log($stateParams.thetype);
+
+
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($stateParams){
         $scope.watching = $stateParams.thetype == "viewer" ? true : false;
     }
+    if ($stateParams){
+        $scope.broadcasting = $stateParams.thetype == "broadcast" ? true : false;
+    }
+    if($stateParams){
+        if ($stateParams.thetype =="broadcast" && $stateParams.data){
+            $rootScope.unwantedChannelId = $stateParams.data.channelId;
+        }
+    }
+
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
     $scope.broadcastingEnded = false;
 
-    console.log("user");
-    console.log($scope.user);
+    // console.log("user");
+    // console.log($scope.user);
 
-    console.log("isSubscribing ???");
-    console.log($scope.isSubscribing);
+    // console.log("isSubscribing ???");
+    // console.log($scope.isSubscribing);
 
-    console.log("is watching???");
-    console.log($scope.watching);
+    // console.log("is watching???");
+    // console.log($scope.watching);
 
     // ......................................................
     // .......................UI Code........................
     // ......................................................
+
+    $scope.stopBroadcasting = function(){
+
+        connection.attachStreams.forEach(function(stream) {
+           stream.stop();
+        });
+
+        connection.getAllParticipants().forEach(function(p) {
+            connection.disconnectWith(p);
+        });
+
+        connection.closeSocket();
+
+        //console.log("close data is ", $stateParams.data);
+
+        BroadcastService.closeChannel($stateParams.data.channelId);
+
+        //console.log("close id is ", $stateParams.id);
+
+            //connection.close();
+        $scope.broadcastingEnded = true;
+    }
 
     $scope.goHome = function(){
         $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
@@ -101,46 +136,57 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     //adding video source to stream broadcast
     connection.onstream = function(event) {
 
-        connection.videosContainer = document.getElementById('video-broadcast');
-        
-        //select the video tag with "video" id and load source * replace getElementById with Angular method
-        connection.videosContainer.src = event.blobURL;
-
+        connection.mainContainer = document.getElementById('main-broadcast');
+        connection.sideContainer = document.getElementById('side-broadcast');
 
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
-            document.getElementById('screen-broadcast').src = event.blobURL;
-            // connection.screenContainer = event.blobURL
+            connection.mainContainer.src = event.blobURL;
         } else {
-            connection.videosContainer.src = event.blobURL;
-        
-            //Put video tag on muted to fix echo and capture preview image
-            if(connection.isInitiator === true){
-                connection.videosContainer.muted = true;
-
-
-                //setting preview image, wait 2 seonds then take pic
-                $timeout(function() {
-                    var vidSrc = connection.videosContainer;
-                    var imgSrc = document.getElementById('canvas');
-
-                    //dynamically capture the full video screen
-                    imgSrc.width = vidSrc.videoWidth;
-                    imgSrc.height = vidSrc.videoHeight;
-
-                    //copy video screen to img
-                    imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
-                    
-                    //send final data to save in the backend
-                    $state.params.data.coverImage = imgSrc.toDataURL();
-                    BroadcastLiveService.addChannel($state.params.data);
-                }, 2000);                    
-                    
-            }
-
+            connection.sideContainer.src = event.blobURL;
         }
+        
+        //Put video tag on muted to fix echo and capture preview image
+        if(connection.isInitiator === true){
+            connection.mainContainer.muted = true;
 
+
+            //setting preview image, wait 2 seonds then take pic
+            $timeout(function() {
+                var vidSrc = connection.mainContainer;
+                var imgSrc = document.getElementById('canvas');
+
+                //dynamically capture the full video screen
+                imgSrc.width = vidSrc.videoWidth;
+                imgSrc.height = vidSrc.videoHeight;
+
+                //copy video screen to img
+                imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
+                
+                //send final data to save in the backend
+                $state.params.data.coverImage = imgSrc.toDataURL();
+                BroadcastLiveService.addChannel($state.params.data)
+                .then(function(){
+                    // call update on page load
+                    $scope.viewcount = 0;
+                    updateView();
+                })
+            }, 2000);                          
+            
+        }
     };
+
+    function updateView(){
+        //add viewcount to the back end
+        var view = $scope.viewcount;
+        var currentView = connection.getAllParticipants().length;
+        $scope.viewCount = currentView;
+        //update view count on the backend to show in the channel view
+        if(view !== currentView){
+            BroadcastService.updateView($scope.uniqueID,currentView)
+        }        
+    }
+
 
     // Using getScreenId.js to capture screen from any domain
     // Code is used for screen broadcast to check if extension/add-on is included
@@ -235,37 +281,25 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ..................Viewer Count........................
     // ......................................................
 
-    $interval(function(){
 
-        // if($stateParams.thetype == "viewer"){
-        //     connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
-        //         if (!isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
-        //             $scope.broadcastingEnded = true;
-        //             $rootScope.$digest();
-        //         }
-        //     })   
-        // }
-           
-        //add viewcount to the back end
-        var view = 0;
-        var currentView = connection.getAllParticipants().length;
-        $scope.viewCount = currentView;
-        //update view count on the backend to show in the channel view
-        if(view !== currentView){
-            BroadcastService.updateView($scope.uniqueID,currentView)
-            .then(function(result){
-                view = currentView;
-            });
+    $interval(function(){
+        updateView();       
+    },5000);
+
+    connection.onclose = function(e){
+        //console.log('e is', e);
+        if($stateParams.thetype === "viewer"){
+            $scope.broadcastingEnded = true;
         }
-    },10000);
+    }
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
-        confirmation.message = "All data willl be lost.";
-        e.preventDefault();
+        //confirmation.message = "All data willl be lost.";
+        //e.preventDefault();
     });
 
     $scope.$on('onUnload', function (e, $scope) { //for the unload stuff, leaving page will only appear for 0.00000001 sec.
-        console.log('leaving page'); // Use 'Preserve Log' option in Console
+        //console.log('leaving page'); // Use 'Preserve Log' option in Console
     });
 
 });

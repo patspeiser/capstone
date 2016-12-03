@@ -137,7 +137,6 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 		};
 
 		BroadcastService.updateView = function(roomname,view){ //increase view count by 1
-			console.log('roomname and view',roomname,view)
 			var data = {};
 			data.channelID = roomname;
 			data.view = view;
@@ -200,11 +199,12 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 
 		BroadcastService.closeChannel = function(roomId){ // remove a room from our database
 			return $http.delete('/api/channels/' + roomId)
-				.then(function(result){
-					BroadcastService.findAllChannels(); //this code is probably not needed
-				})
+				// .then(function(result){
+				// 	BroadcastService.findAllChannels(); //this code is probably not needed
+				// })
 				.then(function(){
-					console.log(channels);
+					console.log('channel dead');
+					$rootScope.unwantedChannelId = null;
 				})
 		}
 

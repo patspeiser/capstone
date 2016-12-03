@@ -144,7 +144,6 @@ router.get('/tag/:tag', function(req, res, next){
 
 //can we use ID? Also can we send a req.body instead of a param if a user never actually lands here? 
 router.put('/viewCount', function(req,res,next){ //increase view count by one if someone joins a room
-	console.log('this is the body', req.body);
 	Channel.update({
 			view:req.body.view
 		},
@@ -196,7 +195,7 @@ router.post('/', function(req,res,next){ //add a new channel to our database aft
 router.delete('/:id', function(req,res,next){ //remove a channel from our database
 	Channel.destroy({
 		where:{
-			name: req.params.id
+			channelID: req.params.id
 		}
 	})
 	.then(function(){

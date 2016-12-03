@@ -1,6 +1,6 @@
 <div ng-show="broadcastingEnded">
   <h2>The Broadcast is ended!</h2>
-  <h1>Thank you for watching!!!</h1>
+  <h1 ng-show="watching">Thank you for watching!!!</h1>
   <button ng-click="goHome()"> Explore More Channels! </button>
 </div>
 
@@ -9,13 +9,14 @@
 <button ng-click='startRecordingStream()'>Start Recording</button>
 <button ng-click='stopRecordingStream()'>Stop Recording</button>
 <button ng-click='saveToDropbox()'>Save Recording</button>
+<button ng-if="broadcasting" ng-click="stopBroadcasting()"> Stop Broadcasting </button>
 
 <div class="container-fluid clearfix">
     <!-- <div class='row-fluid'> -->
 	    <div class="col-xs-9 pull-left">
 		    <h1>Broadcast Page</h1>
 		    <h3>Room ID: {{uniqueID}}</h3>
-		    	<button class='btn btn-success' ng-click="shareScreen()">Broadcast Screen</button>
+		    	<button class='btn btn-success' ng-click="shareScreen()">Start Broadcast</button>
 		    	<h3>Current Viewers: {{viewCount}}</h3>
 
 		    <button ng-click="subscribe()" ng-if="user && watching && !isSubscribing"> Subscribe this broadcaster!</button>
@@ -26,12 +27,11 @@
 		    <!-- used to take preview image -->
 		    <canvas id="canvas" class='hidden'></canvas>
 		    <div class='embed-responsive embed-responsive-16by9'>
-		        <video id='video-broadcast' class='embed-responsive-item' controls autoplay></video>
+		        <video id='main-broadcast' class='embed-responsive-item' controls autoplay></video>
 			    
 			    <div class='show-screen'>
 				    <div class='embed-responsive embed-responsive-16by9'>
-				        <video id='screen-broadcast' class='embed-responsive-item ' autoplay>
-				        <source src="screenShare">
+				        <video id='side-broadcast' class='embed-responsive-item ' autoplay>
 				        </video>	
 				    </div>
 				</div>    
