@@ -1,5 +1,5 @@
 app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing){
-
+    var recorder;
     $scope.successfullySubscribed = false;
     $scope.user = user;
     if ($state.params.data){
@@ -39,7 +39,31 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         connection.join(data.channelID);
     };
 
+   //   
+   //RECORDING FUNCTIONALITY
+   // 
+    var getStream = function(){
+        var streamId = Object.keys(connection.streamEvents)[2];
+        return connection.streamEvents[streamId].stream;
+    };
 
+    var getRecorder = function(){
+        recorder = RecordRTC(getStream(), {
+            type: 'video',
+            recorderType: RecordRTC.WhammyRecorder
+        }) ;
+        return recorder;
+    };
+
+    $scope.startRecordingStream = function(){
+        getRecorder().startRecording();        
+    };
+
+   $scope.stopRecordingStream = function(){
+        recorder.stopRecording(function(blob){
+            console.log('stop');
+        });
+   };
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
@@ -71,14 +95,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
         
         //select the video tag with "video" id and load source * replace getElementById with Angular method
         connection.videosContainer.src = event.blobURL;
-        var recordRTC = RecordRTC(event.blobURL, {
-            type: 'video',
-            mimeType: isChrome ? null: mimeType,
-            frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
-        });
-        console.log(recordRTC);
 
-        console.log(event);
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
             document.getElementById('screen-broadcast').src = event.blobURL;
