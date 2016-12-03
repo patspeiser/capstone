@@ -19,7 +19,10 @@ app.config(function ($stateProvider) {
         				}
 
         			})
-        	}
+        	},
+            ifLive: function(){
+                return false;
+            }
         },
         templateUrl: 'js/broadcastlive/broadcastlive.html',
     });

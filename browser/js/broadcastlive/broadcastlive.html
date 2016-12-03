@@ -44,9 +44,12 @@
 				<span class="big-strong ">Category: </span>
 				<span class="big-strong">{{broadcast.category}}</span>
 				</br>
+				<span class="big-strong ">Tags: </span>			
 			</div>
 
-            <input type='submit' value='Begin Broadcast!' class='btn btn-primary padding-sides' ng-click="startBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
+            <input type='submit' value='Preview Broadcast!' class='btn btn-primary padding-sides' ng-click="prepareBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
+
+            <input type='submit' value='Begin Screen Share!' class='btn btn-primary padding-sides' ng-click="startScreenBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
 	</div>
 	<br>
