@@ -55,28 +55,15 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastLiveServi
    //   
    //RECORDING FUNCTIONALITY
    // 
-    var getStream = function(){
-        var streamId = Object.keys(connection.streamEvents)[2];
-        return connection.streamEvents[streamId].stream;
-    };
-
-    var getRecorder = function(){
-        recorder = RecordRTC(getStream(), {
-            type: 'video',
-            recorderType: RecordRTC.WhammyRecorder
-        }) ;
-        return recorder;
-    };
-
     $scope.startRecordingStream = function(){
-        getRecorder().startRecording();        
+        BroadcastLiveService.getRecorder(connection).startRecording();        
     };
 
-   $scope.stopRecordingStream = function(){
-        recorder.stopRecording(function(blob){
-            console.log('stop');
+    $scope.stopRecordingStream = function(){
+        BroadcastLiveService.getRecorder(connection).stopRecording(function(blob){
+            console.log('Recording stopped');
         });
-   };
+    };
 
     // ......................................................
     // ..................RTCMultiConnection Code.............
