@@ -1,5 +1,5 @@
 app.factory('BroadcastLiveService', function($http, $rootScope, $window){
-
+	var recorder; 
 
 	return {
 		addChannel: function (data){
@@ -19,7 +19,18 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window){
 				.then(function(result){
 					return result.data;
 				})
-		}
-
-	};
+		},
+		getStream: function(connection){
+        	var streamId = Object.keys(connection.streamEvents)[2];
+        	return connection.streamEvents[streamId].stream;
+    	},
+    	getRecorder: function(connection){
+    		if (recorder) return recorder;
+    		recorder = RecordRTC(this.getStream(connection), {
+    			type: 'video',
+    			recorderType: RecordRTC.WhammyRecorder
+    		}) ;
+    		return recorder;
+    	}
+    }
 });
