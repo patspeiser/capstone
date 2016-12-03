@@ -102,10 +102,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     connection.onstream = function(event) {
 
         connection.videosContainer = document.getElementById('video-broadcast');
-        
-        //select the video tag with "video" id and load source * replace getElementById with Angular method
-        connection.videosContainer.src = event.blobURL;
-
 
         //select the video tag with "video" id and load source for broadcast
         if(event.stream.isScreen === true){
@@ -133,7 +129,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                     
                     //send final data to save in the backend
                     $state.params.data.coverImage = imgSrc.toDataURL();
-                    BroadcastLiveService.addChannel($state.params.data);
+                    BroadcastLiveService.addChannel($state.params.data)
+                    .then(function(){
+                        // call update on page load
+                        $scope.viewcount = 0;
+                        updateView();
+                    })
+
                 }, 2000);                    
                     
             }
@@ -141,6 +143,18 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         }
 
     };
+
+    function updateView(){
+        //add viewcount to the back end
+        var view = $scope.viewcount;
+        var currentView = connection.getAllParticipants().length;
+        $scope.viewcount = currentView;
+        //update view count on the backend to show in the channel view
+        if(view !== currentView){
+            BroadcastService.updateView($scope.uniqueID,currentView)
+        }        
+    }
+
 
     // Using getScreenId.js to capture screen from any domain
     // Code is used for screen broadcast to check if extension/add-on is included
@@ -235,29 +249,10 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ..................Viewer Count........................
     // ......................................................
 
-    $interval(function(){
 
-        // if($stateParams.thetype == "viewer"){
-        //     connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
-        //         if (!isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
-        //             $scope.broadcastingEnded = true;
-        //             $rootScope.$digest();
-        //         }
-        //     })   
-        // }
-           
-        //add viewcount to the back end
-        var view = 0;
-        var currentView = connection.getAllParticipants().length;
-        $scope.viewCount = currentView;
-        //update view count on the backend to show in the channel view
-        if(view !== currentView){
-            BroadcastService.updateView($scope.uniqueID,currentView)
-            .then(function(result){
-                view = currentView;
-            });
-        }
-    },10000);
+    $interval(function(){
+        updateView();       
+    },5000);
 
 
 });

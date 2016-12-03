@@ -137,7 +137,6 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 		};
 
 		BroadcastService.updateView = function(roomname,view){ //increase view count by 1
-			console.log('roomname and view',roomname,view)
 			var data = {};
 			data.channelID = roomname;
 			data.view = view;
