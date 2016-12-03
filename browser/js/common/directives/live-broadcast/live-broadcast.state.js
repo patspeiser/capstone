@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('broadcastLive', {
-        url: '/broadcastLive?id&thetype',
+        url: '/broadcastLive?id&thetype', //the $stateParams.id here is actually the channel id 
         controller: 'BroadcastLiveCtrl',
         templateUrl: 'js/common/directives/live-broadcast/live-broadcast.html',
         params: {
