@@ -11,6 +11,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     if ($stateParams){
         $scope.watching = $stateParams.thetype == "viewer" ? true : false;
     }
+    if ($stateParams){
+        $scope.broadcasting = $stateParams.thetype == "broadcast" ? true : false;
+    }
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
@@ -28,6 +31,28 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
     // .......................UI Code........................
     // ......................................................
+
+    $scope.stopBroadcasting = function(){
+
+        connection.attachStreams.forEach(function(stream) {
+           stream.stop();
+        });
+
+        connection.getAllParticipants().forEach(function(p) {
+            connection.disconnectWith(p);
+        });
+
+        connection.closeSocket();
+
+        //console.log("close data is ", $stateParams.data);
+
+        BroadcastService.closeChannel($stateParams.data.channelId);
+
+        //console.log("close id is ", $stateParams.id);
+
+            //connection.close();
+        $scope.broadcastingEnded = true;
+    }
 
     $scope.goHome = function(){
         $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
@@ -257,7 +282,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     connection.onclose = function(e){
         //console.log('e is', e);
-        $scope.broadcastingEnded = true;
+        if($stateParams.thetype === "viewer"){
+            $scope.broadcastingEnded = true;
+        }
     }
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
