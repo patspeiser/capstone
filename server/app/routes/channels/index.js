@@ -35,7 +35,7 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 						else{
 							res.send(false);
 						}
-					})
+					});
 				}			
 			}
 			else {
@@ -44,7 +44,7 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 			
 		})
 		.catch(next);
-})
+});
 
 router.post('/subscription/:channelId/:subscriberId', function(req,res,next){
 	Channel.findOne({
@@ -150,23 +150,6 @@ router.put('/viewCount', function(req,res,next){ //increase view count by one if
 		{
 			where:{
 				channelID:req.body.channelID
-			}
-		}
-	)
-		.then(function(channel){
-			res.send(channel);
-		})
-		.catch(next);
-});
-
-//same comments as the put above
-router.put('/reduce/:id', function(req,res,next){ //reduce view count by one if someone leaves a room
-	Channel.update({
-			view:Sequelize.literal('view - 1')
-		},
-		{
-			where:{
-				channelID:req.params.id
 			}
 		}
 	)
