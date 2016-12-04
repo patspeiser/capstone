@@ -140,7 +140,17 @@ router.get('/tag/:tag', function(req, res, next){
 		.catch(next);
 })
 
-
+router.get('/byId/:channelId', function(req, res, next){
+	Channel.findOne({
+		where:{
+			channelID: req.params.channelId
+		}
+	})
+	.then(function(channel){
+		res.send(channel);
+	})
+	.catch(next);
+});
 
 //can we use ID? Also can we send a req.body instead of a param if a user never actually lands here? 
 router.put('/viewCount', function(req,res,next){ //increase view count by one if someone joins a room
@@ -168,6 +178,7 @@ router.post('/', function(req,res,next){ //add a new channel to our database aft
 		category: req.body.category,
 		channelID: req.body.channelId,
 		userId: req.body.userId,
+		session: req.body.session
 	})
 		.then(function(channel){
 			res.send(channel);
@@ -195,5 +206,6 @@ router.get('/:id', function(req, res, next){
 		})
 		.catch(next);
 });
+
 
 

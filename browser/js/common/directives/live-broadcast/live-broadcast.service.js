@@ -4,6 +4,7 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
 	var BroadcastLiveService = {};
 	
 		BroadcastLiveService.addChannel = function (data){
+			console.log(data);
 			return $http.post('/api/channels', data)
 			.then(function(result){
 				return result.data;
