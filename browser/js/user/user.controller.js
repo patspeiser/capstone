@@ -33,7 +33,7 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 		$scope.authDropbox = function(){
 			var CLIENT_ID = '9bhq21rjmdjxyzo';
 			var dbx = new Dropbox({ clientId: CLIENT_ID });
-			var authUrl = dbx.getAuthenticationUrl(dbxAuthUrl);
+			var authUrl = dbx.getAuthenticationUrl('https://capstone-test-ps.herokuapp.com/auth/dropbox');
 			document.getElementById('authlink').href = authUrl;
 		};
 	});
