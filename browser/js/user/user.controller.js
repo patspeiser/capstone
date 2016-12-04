@@ -32,7 +32,7 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 		$scope.authDropbox = function(){
 			var CLIENT_ID = '9bhq21rjmdjxyzo';
 			var dbx = new Dropbox({ clientId: CLIENT_ID });
-			var authUrl = dbx.getAuthenticationUrl(getAuthUrlBase() + '/auth/dropbox');
+			var authUrl = dbx.getAuthenticationUrl('https://www.dropbox.com/1/oauth2/redirect_receiver');
 			console.log(authUrl)
 			document.getElementById('authlink').href = authUrl;
 		};
