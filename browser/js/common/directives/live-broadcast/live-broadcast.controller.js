@@ -66,7 +66,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
                 connection.disconnectWith(p);
             });
             connection.closeSocket();
-            BroadcastService.closeChannel($stateParams.data.channelId);       
+            if ($stateParams.data){
+                BroadcastService.closeChannel($stateParams.data.channelId);       
+            }
         }
 
     })
