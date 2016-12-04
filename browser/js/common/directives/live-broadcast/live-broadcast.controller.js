@@ -282,11 +282,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         //broadcast chat text
         connection.send(this.value);
         this.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
         appendDIV(event.data);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //need to use angular way instad of jquery.
