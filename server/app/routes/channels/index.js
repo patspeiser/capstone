@@ -173,7 +173,7 @@ router.post('/', function(req,res,next){ //add a new channel to our database aft
 	//sloppy fix here. just wrapped the tags in an array. gotta fix this on the front end
 	Channel.create({
 		name: req.body.channelName,
-		tags: [req.body.tags],
+		tags: req.body.tags,
 		coverimage: req.body.coverImage,
 		category: req.body.category,
 		channelID: req.body.channelId,
