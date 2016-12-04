@@ -36,7 +36,10 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
     		if (recorder) return recorder;
     		recorder = RecordRTC(this.getStream(connection), {
     			type: 'video',
-    			recorderType: RecordRTC.WhammyRecorder
+    			canvas: { width: 960 , height: 720 },
+    			video: { width: 960, height: 720},
+    			recorderType: RecordRTC.WhammyRecorder,
+    			frameInterval: 30
     		}) ;
     		return recorder;
     	};
