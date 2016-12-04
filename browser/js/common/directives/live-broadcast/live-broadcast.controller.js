@@ -121,6 +121,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     };
 
     $scope.startBroadcast = function(){
+        $scope.channelName = $state.params.data.channelName;
         BroadcastLiveService.addChannel($state.params.data)
         .then(function(result){
             updateView();
