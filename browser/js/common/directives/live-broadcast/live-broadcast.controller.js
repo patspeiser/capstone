@@ -154,7 +154,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // sConnection.socketMessageEvent = 'screen-broadcast';
 
     connection.session = {
-        // screen: true,
+        screen: true,
         video: true,
         audio: true,
         data: true,
