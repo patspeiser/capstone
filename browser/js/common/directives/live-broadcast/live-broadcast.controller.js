@@ -39,15 +39,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.broadcastingEnded = false;
 
-    // console.log("user");
-    // console.log($scope.user);
-
-    // console.log("isSubscribing ???");
-    // console.log($scope.isSubscribing);
-
-    // console.log("is watching???");
-    // console.log($scope.watching);
-
     // ......................................................
     // .......................UI Code........................
     // ......................................................
@@ -148,55 +139,60 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
 
     var connection = $rootScope.connection;
-
     connection.socketMessageEvent = 'video-broadcast';
-    // sConnection.socketMessageEvent = 'screen-broadcast';
-
-    // connection.session = {
-    //     screen: true,
-    //     video: true,
-    //     audio: true,
-    //     data: true,
-    //     oneway: true
-    // };
-
     connection.session = $state.params.data.session;
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
-
-
         connection.mainContainer = document.getElementById('main-broadcast');
         connection.sideContainer = document.getElementById('side-broadcast');
 
-        //select the video tag with "video" id and load source for broadcast
-        if(event.stream.isScreen === true){
+        //take snapshot and depending on what is selected, show screen and/or video
+        if($state.params.data.session.screen === undefined){
+            //if connection has only video
             connection.mainContainer.src = event.blobURL;
+            connection.sideContainer.className += 'hidden'
+
+            if(connection.isInitiator === true ){
+                //soft fix for echo
+                connection.mainContainer.muted = true;
+
+                //setting preview image, wait 1 seonds then take pic
+                screenshotPreview(connection.mainContainer); 
+             }   
         } else {
-            connection.sideContainer.src = event.blobURL;
-        }
-        
-        if(connection.isInitiator === true){
-            //Put video tag on muted to fix echo and capture preview image
-            connection.sideContainer.muted = true;
+            //if connection has stream and video
+            //select the video tag with "video" id and load source for broadcast
+            if(event.stream.isScreen === true){
+                connection.mainContainer.src = event.blobURL;
+            } else {
+                connection.sideContainer.src = event.blobURL;
+            }
 
-            //setting preview image, wait 2 seonds then take pic
-            $timeout(function() {
-                var vidSrc = connection.mainContainer;
-                var imgSrc = document.getElementById('canvas');
-
-                //dynamically capture the full video screen
-                imgSrc.width = vidSrc.videoWidth;
-                imgSrc.height = vidSrc.videoHeight;
-
-                //copy video screen to img
-                imgSrc.getContext('2d').drawImage(vidSrc,0,0,vidSrc.videoWidth,vidSrc.videoHeight);
-                
-                //send final data to save in the backend
-                $state.params.data.coverImage = imgSrc.toDataURL();
-            }, 1000);                           
-        }
+            if(connection.isInitiator === true){
+                //Put video tag on muted to fix echo and capture preview image
+                connection.sideContainer.muted = true;
+                screenshotPreview(connection.mainContainer);                    
+            }
+        } 
     };
+
+    function screenshotPreview(vidObj){
+        //setting preview image, wait 1 seonds then take pic
+        $timeout(function() {
+            var imgSrc = document.getElementById('canvas');
+
+            //dynamically capture the full video screen
+            imgSrc.width = vidObj.videoWidth;
+            imgSrc.height = vidObj.videoHeight;
+
+            //copy video screen to img
+            imgSrc.getContext('2d').drawImage(vidObj,0,0,vidObj.videoWidth,vidObj.videoHeight);
+            
+            //send final data to save in the backend
+            $state.params.data.coverImage = imgSrc.toDataURL();
+        }, 1000);            
+    }
 
     function updateView(){
         //add viewcount to the back end
@@ -228,19 +224,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
     // ..............Starting Broadcast......................
     // ......................................................
-
-    // if($state.params.type === 'broadcast' && $state.params.data){
-    //     $scope.uniqueID = $state.params.data.channelId;
-    //     console.log("broadcaster data is");
-    //     console.log($state.params.data);
-    //     $timeout($scope.openRoom($state.params.data),0);
-    // } else if ($state.params.type === 'viewer'){
-    //     $scope.uniqueID = $state.params.data.channelID;
-    //     $timeout($scope.joinRoom($state.params.data),0);
-    // } else {
-    //     $state.go('broadcastHome')
-    // }
-
 
     if($stateParams.thetype === 'broadcast' && $state.params.data){
         $scope.uniqueID = $state.params.data.channelId;
