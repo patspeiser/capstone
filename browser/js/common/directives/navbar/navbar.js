@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope,BroadcastService, AuthService, AUTH_EVENTS, $state) {
 
     return {
         restrict: 'E',
@@ -17,9 +17,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             ];
 
             scope.joinBroadcast = function(data){
-                //$state.go('broadcastLive', {data: data, type: 'viewer', thetype:'viewer', id:data.channelID})
-                $state.go('broadcastLive', {thetype:'viewer', id:data.channelID})
-
+                BroadcastService.findByChannelId(data.channelID)
+                .then(function(result){
+                    $state.go('broadcastLive', {thetype:'viewer', id:data.channelID, session:result.session, data: result})  
+                })
             }
 
             scope.user = null;
