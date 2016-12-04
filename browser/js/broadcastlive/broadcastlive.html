@@ -60,10 +60,9 @@
 	<br>
 
 	<div class="well" ng-if="user">
-	    <form name="messageform">
-		    send message to subscribers: <input type="text" ng-model="message">
-		    <button ng-click="sendMessage()">send message</button>
-		</form>
+		send message to subscribers:<input type="text" ng-model="message">
+		<button ng-click="sendMessage(message)">send message</button>
+		<span ng-if="messageSent"> message sent!</span>
 	</div>
 
 	<div class="well">
