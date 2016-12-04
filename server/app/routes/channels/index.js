@@ -159,23 +159,6 @@ router.put('/viewCount', function(req,res,next){ //increase view count by one if
 		.catch(next);
 });
 
-//same comments as the put above
-router.put('/reduce/:id', function(req,res,next){ //reduce view count by one if someone leaves a room
-	Channel.update({
-			view:Sequelize.literal('view - 1')
-		},
-		{
-			where:{
-				channelID:req.params.id
-			}
-		}
-	)
-		.then(function(channel){
-			res.send(channel);
-		})
-		.catch(next);
-});
-
 router.post('/', function(req,res,next){ //add a new channel to our database after someone opens a room
 	//sloppy fix here. just wrapped the tags in an array. gotta fix this on the front end
 	Channel.create({
