@@ -128,35 +128,35 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 				})
 		}
 
-	    $window.onbeforeunload = function (e,confimration,scope) { //this block is about doing something right before the page is unloaded by the browser
-	        var confirmation = {}; //does not affect our app, it's just for the pop up when you try to refresh the page and stuff
-	        var event = $rootScope.$broadcast('onBeforeUnload', confirmation);//same as above, just for the pop up
-	        console.log(scope); // this scope is useless, so you can remove both scope variable in this block of code
-	        if ($rootScope.broadcasting){ //if the user using this page is a broadcaster, then do the following
-	        	BroadcastService.closeChannel($rootScope.unwanted); //remove the channel from our database, $rootScope.unwanted is actually the room name for this broadcaster
-	        	$rootScope.broadcasting = false; //this tells our app that this guy is no longer broadcasting, it's useful when we have a button to stop broadcasting
-	        }
+	    // $window.onbeforeunload = function (e,confimration,scope) { //this block is about doing something right before the page is unloaded by the browser
+	    //     var confirmation = {}; //does not affect our app, it's just for the pop up when you try to refresh the page and stuff
+	    //     var event = $rootScope.$broadcast('onBeforeUnload', confirmation);//same as above, just for the pop up
+	    //     console.log(scope); // this scope is useless, so you can remove both scope variable in this block of code
+	    //     if ($rootScope.broadcasting){ //if the user using this page is a broadcaster, then do the following
+	    //     	BroadcastService.closeChannel($rootScope.unwanted); //remove the channel from our database, $rootScope.unwanted is actually the room name for this broadcaster
+	    //     	$rootScope.broadcasting = false; //this tells our app that this guy is no longer broadcasting, it's useful when we have a button to stop broadcasting
+	    //     }
 
-	        if($rootScope.watching){ //if the user using this page is a viewer, then do the following
-	        	console.log($rootScope.unwatching);
-	        	BroadcastService.reduceView($rootScope.unwatching);//reduce the view count of the channel by 1, $rootScope.unwatching is the room name the viewer is in
-	        	$rootScope.watching = false; //this tells our app that this guy is no longer watching. this line is probably not need. everything should be still fine without it.
-	        }
+	    //     if($rootScope.watching){ //if the user using this page is a viewer, then do the following
+	    //     	console.log($rootScope.unwatching);
+	    //     	BroadcastService.reduceView($rootScope.unwatching);//reduce the view count of the channel by 1, $rootScope.unwatching is the room name the viewer is in
+	    //     	$rootScope.watching = false; //this tells our app that this guy is no longer watching. this line is probably not need. everything should be still fine without it.
+	    //     }
 
-	        if (event.defaultPrevented) { //this is for the pop up
-	        	console.log(e);
-	        	console.log("wtf");
-	        	console.log($rootScope.unwanted);
-	        	console.log(scope);
-	            return confirmation.message;
-	        }
-	    };
+	    //     if (event.defaultPrevented) { //this is for the pop up
+	    //     	console.log(e);
+	    //     	console.log("wtf");
+	    //     	console.log($rootScope.unwanted);
+	    //     	console.log(scope);
+	    //         return confirmation.message;
+	    //     }
+	    // };
 	    
-	    $window.onunload = function (e, scope) { //this is probably not needed as well, since we have handled everything before unload
-	    	console.log(scope);
-	    	BroadcastService.closeRoom($rootScope.unwanted);
-	        $rootScope.$broadcast('onUnload');
-	    };
+	    // $window.onunload = function (e, scope) { //this is probably not needed as well, since we have handled everything before unload
+	    // 	console.log(scope);
+	    // 	BroadcastService.closeRoom($rootScope.unwanted);
+	    //     $rootScope.$broadcast('onUnload');
+	    // };
 
 		return BroadcastService;
 

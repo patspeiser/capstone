@@ -58,8 +58,18 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 	}
 
 	$scope.addTag = function(){
-		$scope.broadcast.tags.push($scope.tag);
-		$scope.tag = null;
+		if($scope.broadcast.tags.indexOf($scope.tag) == -1){
+			$scope.broadcast.tags.push($scope.tag);
+			$scope.tag = null;
+		}
+		else{
+			$scope.tag = null;
+		}
+	}
+
+	$scope.removeTag=function(tag){
+		var idx = $scope.broadcast.tags.indexOf(tag);
+		$scope.broadcast.tags.splice(idx,1);
 	}
 
 	// select a category for your broadcast
