@@ -54,6 +54,31 @@ var seedUsers = function () {
             password:'lifetimeinc',
             name:'paul',            
         },
+        {
+            email: 'nicedog@gmail.com',
+            password:'nicedog',
+            name:'nice dog',
+        },
+        {
+            email: 'nicecat@gmail.com',
+            password:'nicecat',
+            name:'nice cat',
+        },
+        {
+            email: 'broadcasterkhan@gmail.com',
+            password:'capstone',
+            name:'Donald',            
+        },
+        {
+            email: 'viewerkhan@gmail.com',
+            password:'capstone',
+            name:'Mickey',            
+        },
+        {
+            email: 'viewerkhan3@yahoo.com',
+            password:'capstone',
+            name:'Goofy',            
+        },
     ];
 
     var creatingUsers = users.map(function (userObj) {
@@ -69,12 +94,12 @@ var seedSubscriptions = function () {
 
     var subscriptions = [
         {
-            broadcasterId: 2,
-            subscriberId: 5,
+            broadcasterId: 9,
+            subscriberId: 10,
         },
         {
-            broadcasterId: 2,
-            subscriberId: 6,
+            broadcasterId: 9,
+            subscriberId: 11,
         },
     ];
 
@@ -91,67 +116,75 @@ var seedSubscriptions = function () {
 var seedChannel = function(){
     var channels = [
         {
-            name: 'cool',
+            name: 'Riot',
             view: 2,
             category:'Politics',
-            tags: ['ron', 'paul'],
-            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+            tags: ['riot', 'police'],
+            coverimage: 'https://img.rt.com/files/oldfiles/usa/riots-us-minorities-london/riot-august-mob-set.jpg',
+            userId: 1,
         }, 
         {
-            name: 'notmypresident',
+            name: 'Election',
             view: 5,
             category:'Politics',
             tags: ['trump', 'hillary'],
-            coverimage: 'http://ronpaulinstitute.org/images/SiteTemplate/LargeRonPaul.jpg',
+            coverimage: 'https://www.thetrace.org/wp-content/uploads/2016/11/AP_833303388986-1-400x300-c-top.jpg',
+            userId:2,
         }, 
         {
             name: 'cupcakes',
             view: 8,
             category:'Cooking',
             tags: ['cupcakes', 'baking'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
+            coverimage: 'http://3.bp.blogspot.com/_R0Rc6mb8H6E/TJnHT02gIfI/AAAAAAAAHYI/GseuCQIPbsM/s400/design-fetish-japanese-inspired-cupcakes.jpg',
+            userId:3,
         }, 
         {
-            name: 'cspan_fun',
+            name: 'Dance',
             view: 777,
-            category:'Politics',
-            tags: ['congress', 'ron', 'paul'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
+            category:'Entertainment',
+            tags: ['dance', 'show', 'night'],
+            coverimage: 'http://admin.whatsongroup.net/Admin/uploads/displays/E/entertain-june12.jpg',
+            userId:4,
         }, 
         {
-            name: 'congress_baseball',
+            name: 'piano show',
             view: 111,
-            category:'Politics',
-            tags: ['congress', 'baseball'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
-        }, 
-        {
-            name: 'posion_dumpling',
-            view: 999,
-            category:'Cooking',
-            tags: ['dumpling', 'poison'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
-        }, 
-        {
-            name: 'clinton_cash',
-            view: 55,
-            category:'Politics',
-            tags: ['ron', 'book'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
-        }, 
-        {
-            name: 'smoothies_n_shakes',
-            view: 80,
-            category:'Cooking',
-            tags: ['fruit'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
-        }, 
-        {
-            name: 'guitar_lessons_with_gary',
-            view: 8,
             category:'Music',
-            tags: ['music', 'guitar'],
-            coverimage: 'https://i.imgsafe.org/f09c7d4fad.png',
+            tags: ['piano', 'solo'],
+            coverimage: 'http://grayschoolofmusic.com/wp-content/uploads/2016/06/Bio-pic-2016-400x300.jpg',
+            userId:5,
+        }, 
+        {
+            name: 'party',
+            view: 999,
+            category:'Event',
+            tags: ['birthday', 'party'],
+            coverimage: 'https://www.luxeeventrental.com/wp-content/uploads/2015/08/event-image.png',
+            userId:6,
+        }, 
+        {
+            name: 'soccer',
+            view: 55,
+            category:'Sports',
+            tags: ['soccer', 'indoor'],
+            coverimage: 'https://mylsports.com/CAA/Sites/Default/file/2016/01/11/goals_turf_field1_1.jpg',
+            userId:7,
+        }, 
+        {
+            name: 'Hi',
+            view: 80,
+            category:'Vlog',
+            tags: ['hi'],
+            coverimage: 'http://timesofindia.indiatimes.com/thumb/msid-48391017,width-400,resizemode-4/48391017.jpg',
+            userId:8,
+        }, 
+        {
+            name: 'make pizza',
+            view: 8,
+            category:'Cooking',
+            tags: ['baking', 'pizza'],
+            coverimage: 'http://static4.businessinsider.com/image/4e80d2b06bb3f7355c000012-1190-625/taste-test-herman-cain-turned-godfathers-into-cheap-and-crappy-pizza.jpg',
         }
     ];
 
