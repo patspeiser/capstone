@@ -154,7 +154,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // sConnection.socketMessageEvent = 'screen-broadcast';
 
     connection.session = {
-        screen: true,
+        // screen: true,
         video: true,
         audio: true,
         data: true,
@@ -164,6 +164,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
+        console.log(connection);
 
         connection.mainContainer = document.getElementById('main-broadcast');
         connection.sideContainer = document.getElementById('side-broadcast');
@@ -175,7 +176,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             connection.sideContainer.src = event.blobURL;
         }
         
-
         if(connection.isInitiator === true){
             //Put video tag on muted to fix echo and capture preview image
             connection.sideContainer.muted = true;
