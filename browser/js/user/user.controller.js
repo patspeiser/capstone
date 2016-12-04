@@ -15,7 +15,7 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 		return url;
 	}
 
-	var dbxAuthUrl = getAuthUrlBase() + '/auth/dropbox';
+	var dbxAuthUrl = getAuthUrlBase() + '/user-dbx-auth';
 	
 	AuthService.getLoggedInUser()
 	.then(function(user){
