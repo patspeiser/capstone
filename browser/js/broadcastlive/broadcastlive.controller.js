@@ -11,6 +11,8 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
     $scope.selectCategory = "Select a category (Required)";
 
+    $scope.broadcast.tags = [];
+
 	$scope.prepareBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
@@ -50,11 +52,23 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		$state.go('broadcastLive', {data: data, type: 'broadcast', thetype:'broadcast'})
 	}
 
+	$scope.checkScreen = function(){
+		console.log($scope.shareScreen);
+		
+	}
+
+	$scope.addTag = function(){
+		$scope.broadcast.tags.push($scope.tag);
+		$scope.tag = null;
+	}
+
 	// select a category for your broadcast
 	$scope.changeCategory = function(category){
 		$scope.broadcast.category = category;
 		$scope.selectCategory = "Change category";
 	}
+
+
 
 	$scope.joinBroadcast = function(data){
 		$state.go('broadcastLive', {data: data, type: 'viewer', thetype:'viewer', id:data.channelId})
