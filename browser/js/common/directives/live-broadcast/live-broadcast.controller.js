@@ -159,8 +159,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     //     data: true,
     //     oneway: true
     // };
-
-    connection.session = $state.params.data.session;
+    if ($state.params.data){
+        connection.session = $state.params.data.session;
+    }
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
