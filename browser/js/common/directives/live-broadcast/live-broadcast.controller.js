@@ -122,7 +122,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.startBroadcast = function(){
         BroadcastLiveService.addChannel($state.params.data)
-        .then(function(){
+        .then(function(result){
             updateView();
             $scope.ifLive = true;
         })
@@ -148,23 +148,23 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
 
     var connection = $rootScope.connection;
-    // var sConnection = $rootScope.screenConnection;
 
     connection.socketMessageEvent = 'video-broadcast';
     // sConnection.socketMessageEvent = 'screen-broadcast';
 
-    connection.session = {
-        screen: true,
-        video: true,
-        audio: true,
-        data: true,
-        oneway: true
-    };
+    // connection.session = {
+    //     screen: true,
+    //     video: true,
+    //     audio: true,
+    //     data: true,
+    //     oneway: true
+    // };
 
+    connection.session = $state.params.data.session;
 
     //adding video source to stream broadcast
     connection.onstream = function(event) {
-        console.log(connection);
+
 
         connection.mainContainer = document.getElementById('main-broadcast');
         connection.sideContainer = document.getElementById('side-broadcast');
@@ -282,11 +282,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         //broadcast chat text
         connection.send(this.value);
         this.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
         appendDIV(event.data);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //need to use angular way instad of jquery.

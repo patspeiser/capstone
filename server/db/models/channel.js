@@ -20,7 +20,10 @@ module.exports = db.define('channel', { // this channel database is the one we n
 		type:Sequelize.TEXT,
 	},
 	channelID:{
-		type:Sequelize.STRING
+		type:Sequelize.STRING,
 	},
+	session:{
+		type:Sequelize.JSONB
+	}
 });
 

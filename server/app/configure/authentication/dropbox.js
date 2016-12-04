@@ -16,7 +16,7 @@ module.exports = function (app, db) {
     };
 
     var verifyCallback = function (req, accessToken, refreshToken, profile, done) {
-    	console.log('verify', req.user.id, accessToken);
+    	console.log('verify', req.protocol, req.user.id, accessToken);
     	User.findById(req.user.id)
     		.then(function(user){
     			user.dropbox_id = accessToken;

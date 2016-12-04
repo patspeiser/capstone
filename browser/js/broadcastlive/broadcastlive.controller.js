@@ -16,23 +16,23 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		data.channelId = connection.token();
 		data.userId = Session.user ? Session.user.id : null;
 
-		//check to see if they users wants to broadcast w or w/o screen
 		if($scope.shareScreen){
 			data.session = {
-				screen: true,
+		        screen: true,
 		        video: true,
 		        audio: true,
 		        data: true,
-		        oneway: true
-			};
+		        oneway: true				
+			}
 		} else {
 			data.session = {
-				video: true,
+		        video: true,
 		        audio: true,
 		        data: true,
-		        oneway: true
-			}
+		        oneway: true				
+			}			
 		}
+
 
 		// email notification system, uncomment the if stuff below to reactive email notification system
 		if (Session.user){
@@ -82,6 +82,32 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		$timeout(function(){
 			$scope.messageSent = false;
 		}, 3000);
+	}
+
+	$scope.joinRoom = function(id){
+		var connection = new RTCMultiConnection();
+
+	    // comment-out below line if you do not have your own socket.io server
+	    connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+	    connection.session = {
+	        screen: true,
+	        video: true,
+	        audio: true,
+	        data: true,
+	        oneway: true
+	    };
+
+        connection.sdpConstraints.mandatory = {
+            OfferToReceiveAudio: true,
+            OfferToReceiveVideo: true
+        };
+
+    	connection.socketMessageEvent = 'video-broadcast';
+    	$state.go('broadcastLive',{thetype:'viewer' , id: id, connection: connect})
+    	.then(function(result){
+	    	connection.join(id);	
+    	})
 	}
 
 });
