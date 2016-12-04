@@ -35,7 +35,7 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 						else{
 							res.send(false);
 						}
-					})
+					});
 				}			
 			}
 			else {
@@ -44,7 +44,7 @@ router.get('/subscription/:viewerId/:channelId', function(req,res,next){
 			
 		})
 		.catch(next);
-})
+});
 
 router.post('/subscription/:channelId/:subscriberId', function(req,res,next){
 	Channel.findOne({
