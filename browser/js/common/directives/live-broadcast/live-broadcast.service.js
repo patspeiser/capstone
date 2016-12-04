@@ -63,6 +63,10 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
 	        	$rootScope.unwantedChannelId = null; //this tells our app that this guy is no longer broadcasting, it's useful when we have a button to stop broadcasting
 	        }
 
+	        // if ($rootScope.isWatching){
+	        // 	$rootScope.connectionCopy.close();
+	        // }
+
 	        // if (event.defaultPrevented) { //this is for the pop up
 	        // 	console.log(e);
 	        // 	console.log("wtf");
@@ -74,8 +78,15 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
 	    
 	    $window.onunload = function (e, scope) { //this is probably not needed as well, since we have handled everything before unload
 	    	//console.log(scope);
-	    	BroadcastService.closeChannel($rootScope.unwantedChannelId);
-	    	$rootScope.unwantedChannelId = null;
+	    	//if ($rootScope.unwantedChannelId){
+	    		BroadcastService.closeChannel($rootScope.unwantedChannelId);
+	    		$rootScope.unwantedChannelId = null;
+	    	//}
+
+	    	// if ($rootScope.isWatching){
+	     //    	$rootScope.connectionCopy.close();
+	     //    }
+
 
 	        //$rootScope.$broadcast('onUnload');
 	    };

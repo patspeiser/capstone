@@ -8,6 +8,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
+
     if ($stateParams){
         $scope.watching = $stateParams.thetype == "viewer" ? true : false;
     }
@@ -19,6 +20,19 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             $rootScope.unwantedChannelId = $stateParams.data.channelId;
         }
     }
+    if($stateParams){
+        if ($stateParams.thetype =="viewer"){
+            $rootScope.isWatching = true;
+        }
+    }
+
+    // $scope.showConnection = function(){
+    //     console.log(connection);
+    // }
+
+    // $scope.stopWatching = function(){
+    //     connection.close();
+    // }
 
 
     $scope.isSubscribing = isSubscribing ? true : false;
@@ -38,25 +52,34 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // .......................UI Code........................
     // ......................................................
 
-    $scope.stopBroadcasting = function(){
 
+    // fix the state change problems for viewers and broadcasters
+    $rootScope.$on('$stateChangeStart', function(event){
+        if ($stateParams.thetype == 'viewer'){
+            connection.close();
+        }
+        else if ($stateParams.thetype == 'broadcast') {
+            connection.attachStreams.forEach(function(stream) {
+               stream.stop();
+            });
+            connection.getAllParticipants().forEach(function(p) {
+                connection.disconnectWith(p);
+            });
+            connection.closeSocket();
+            BroadcastService.closeChannel($stateParams.data.channelId);       
+        }
+
+    })
+
+    $scope.stopBroadcasting = function(){
         connection.attachStreams.forEach(function(stream) {
            stream.stop();
         });
-
         connection.getAllParticipants().forEach(function(p) {
             connection.disconnectWith(p);
         });
-
         connection.closeSocket();
-
-        //console.log("close data is ", $stateParams.data);
-
         BroadcastService.closeChannel($stateParams.data.channelId);
-
-        //console.log("close id is ", $stateParams.id);
-
-            //connection.close();
         $scope.broadcastingEnded = true;
     }
 
@@ -221,7 +244,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         $scope.uniqueID = $state.params.data.channelId;
         $timeout($scope.openRoom($state.params.data),0);
     } else if ($stateParams.thetype === 'viewer' && $stateParams.id){
-
         connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
             if (isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
                 $scope.uniqueID = $stateParams.id;
@@ -286,12 +308,15 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         updateView();       
     },5000);
 
-    connection.onclose = function(e){
-        //console.log('e is', e);
-        if($stateParams.thetype === "viewer"){
-            $scope.broadcastingEnded = true;
+    // if the broadcaster stops, viewers will have a message
+    connection.onleave = function(user){
+        console.log(user.userid, " left us!");
+        if (user.userid == connection.sessionid){
+            if($stateParams.thetype === "viewer"){
+                $scope.broadcastingEnded = true;
+            }
         }
-    }
+    };
 
     $scope.$on('onBeforeUnload', function (e, confirmation, $scope) { //for the before unload stuff
         //confirmation.message = "All data willl be lost.";
@@ -301,6 +326,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     $scope.$on('onUnload', function (e, $scope) { //for the unload stuff, leaving page will only appear for 0.00000001 sec.
         //console.log('leaving page'); // Use 'Preserve Log' option in Console
     });
+
 
 });
 
