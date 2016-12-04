@@ -4,7 +4,6 @@
   border-radius: 0 !important;
 }
 
-
 @mixin clearfix {
   &:after {
     content: "";
@@ -64,6 +63,10 @@ a, label, input[type="text"], .btn {
 #open-title {
   color: white;
   font-size: 60px;
+}
+
+a:link {
+  text-decoration: none;
 }
 
 #title-div{

@@ -1,5 +1,5 @@
 <div class='col-md-3'></div>
-<div class="col-md-6">
+<div class="col-md-6 well">
 	<table class='borderless table'>
 		<tr>
 			<div class='row'>
@@ -10,8 +10,8 @@
 
 		<tr>
 			<div class='row'>
-				<td><h2>Dropbox</h2></td>
-				<td ng-if='user.dropbox_id.length == null'> <h2><a href="" id='authlink' ng-click='authDropbox()' class='btn'>Link Dropbox</a></h2></td>
+				<td><img src="http://cloudstorageboss.com/wp-content/uploads/2016/03/dropbox-logo.png" alt="Dropbox" height="8%" width="auto"></td>
+				<td ng-if='user.dropbox_id.length == null'> <h2><a href="" id='authlink' ng-click='authDropbox()' class='btn'>Click to Link</a></h2></td>
 				<td ng-if='user.dropbox_id.length > 0'><h2>Connected!</h2></td>
 			</div>
 		</tr>
