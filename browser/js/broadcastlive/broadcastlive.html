@@ -4,24 +4,18 @@
 	<!-- Create -->
 		<h2 class='text-center'>Create a Broadcasting Channel</h2>
 		<br>
-        <ng-form name="broadcastForm" novalidate>
-	        	<div class='col-xs-12 col-md-4 form-group'>
-	        		<label>Room Name</label>
-		        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelName" placeholder='*Required'>
-		        </div>
+        <ng-form name="broadcastForm" novalidate class='form-horizontal'>
+        	<div class='col-xs-12 col-md-4 form-group'>
+        		<label>Room Name</label>
+	        	<input type="text" onClick="this.select();" required ng-model="broadcast.channelName" placeholder='*Required'>
+	        </div>
 
-<!-- 	        	<div class='col-xs-12 col-md-4 form-group'>
-	        		<label>Category</label>
-		            <input type="text" onClick="this.select();" required ng-model="broadcast.category" placeholder='*Required'>
-				</div> -->
+        	<div class='col-xs-12 col-md-4 form-group'>
+        		<label>Tags</label>
+	            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags'>
+			</div>				
 
-	        	<div class='col-xs-12 col-md-4 form-group'>
-	        		<label>Tags</label>
-		            <input type="text" onClick="this.select();" ng-model="broadcast.tags" placeholder='Add Tags' aria-describedby='helpBlock'>
-		            <span id='helpBlock' class='help-block'>Current Tags: {{broadcast.tags}}</span>
-				</div>				
-
-			<div class='col-xs-12 col-md-4 w3-dropdown-hover padding-bottom'>
+			<div class='col-xs-12 col-md-4 form-group w3-dropdown-hover padding-bottom'>
 				<button ng-class="(broadcast.category)?'w3-btn w3-indigo': 'w3-btn w3-red'"> {{selectCategory}} </button>
 				<!-- <button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button> -->
 				<div class="w3-dropdown-content w3-border">
@@ -34,22 +28,33 @@
 					<a ng-click="changeCategory('Cooking')"> Events</a>
 					<a ng-click="changeCategory('Cooking')"> Sports</a>
 				</div>
-
 			</div>
+
+			<br>
+
+        	<div class='col-xs-12 col-md-4 checkbox'>
+        		<label><input type="checkbox" ng-model="shareScreen">Broadcast Screen</label>
+	            <input type="button" value="Check screen" ng-click = "checkScreen()" />
+			</div>	
+
 
 			<br clear='all'>
 
 
 			<div class = "well padding-sides">
+				<span class="big-strong ">Room Name: </span>
+				<span class="big-strong">{{broadcast.channelName}}</span>	
+				<br>
 				<span class="big-strong ">Category: </span>
 				<span class="big-strong">{{broadcast.category}}</span>
-				</br>
-				<span class="big-strong ">Tags: </span>			
+				<br>
+				<span class="big-strong ">Tags: </span>
+				<br>
+				<span class="big-strong ">Broadcast Screen: </span>
+
 			</div>
 
             <input type='submit' value='Preview Broadcast!' class='btn btn-primary padding-sides' ng-click="prepareBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
-
-            <input type='submit' value='Begin Screen Share!' class='btn btn-primary padding-sides' ng-click="startScreenBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
 	</div>
 	<br>
@@ -62,9 +67,19 @@
 	</div>
 
 	<div class="well">
+		<p class='text-center'>
 		Is speaker ready?: {{isSpeakerReady}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		Is webcam ready: {{isWebcamReady}}&nbsp&nbsp&nbsp&nbsp&nbsp
 		Is microphone ready: {{isMicrophoneReady}}&nbsp&nbsp&nbsp&nbsp&nbsp
+		</p>
+
+		<p class=text-center>
+		Get chrome extension
+		<!-- https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk -->
+		Get firefox extension
+		<!-- https://addons.mozilla.org/en-US/firefox/addon/enable-screen-capturing/ -->
+		</p>
 	</div>
+
 
 </div>
