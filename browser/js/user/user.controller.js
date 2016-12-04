@@ -12,6 +12,7 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 	function getAuthUrlBase(){
 		var url = $location.absUrl();
 		url = url.slice(0, url.length - 5);
+		console.log(url);
 		return url;
 	}
 	
