@@ -24,6 +24,8 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		// 			broadcaster: subscribers[i].broadcaster.name,
 		// 			channelId: data.channelId,
 		// 			coverimage: 'http://factoflife.net/upload/images/20160603/funny-cat-facts.jpg', //need more work, will be variable
+		// 			link: 'www.google.com',
+		// 			link2: 'www.yahoo.com', 
 		// 		});
 		// 	}
 		// }
@@ -47,7 +49,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 				email: subscribers[i].subscriber.email, 
 				subscriber: subscribers[i].subscriber.name,
 				broadcaster: subscribers[i].broadcaster.name,
-				message: $scope.message, 
+				message: $scope.message,
 			});
 		}
 	}
