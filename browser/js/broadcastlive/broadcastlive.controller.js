@@ -33,7 +33,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 			}			
 		}
 
-
 		// email notification system, uncomment the if stuff below to reactive email notification system
 		if (Session.user){
 			for (let i=0; i<subscribers.length; i++){
@@ -49,11 +48,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		}
 
 		$state.go('broadcastLive', {data: data, type: 'broadcast', thetype:'broadcast'})
-	}
-
-	$scope.checkScreen = function(){
-		console.log($scope.shareScreen);
-		
 	}
 
 	// select a category for your broadcast
