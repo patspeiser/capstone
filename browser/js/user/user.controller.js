@@ -12,10 +12,11 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 	function getAuthUrlBase(){
 		var url = $location.absUrl();
 		url = url.slice(0, url.length - 5);
-		console.log(url);
 		return url;
 	}
-	
+
+	var dbxAuthUrl = getAuthUrlBase() + '/auth/dropbox';
+	console.log('outside', dbxAuthUrl);	
 	AuthService.getLoggedInUser()
 	.then(function(user){
 		$scope.user = user;
@@ -32,8 +33,8 @@ app.controller('UserCtrl', function ($scope, AuthService, $state, $location, Use
 		$scope.authDropbox = function(){
 			var CLIENT_ID = '9bhq21rjmdjxyzo';
 			var dbx = new Dropbox({ clientId: CLIENT_ID });
-			var authUrl = dbx.getAuthenticationUrl(getAuthUrlBase() + '/auth/dropbox');
-			console.log(authUrl)
+			var authUrl = dbx.getAuthenticationUrl(dbxAuthUrl);
+			console.log('after', authUrl);
 			document.getElementById('authlink').href = authUrl;
 		};
 	});
