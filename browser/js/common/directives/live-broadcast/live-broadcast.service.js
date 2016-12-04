@@ -54,7 +54,7 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
 
 
 
-		$window.onbeforeunload = function (e,confimration,scope) { //this block is about doing something right before the page is unloaded by the browser
+		$window.onbeforeunload = function (e,confirmation,scope) { //this block is about doing something right before the page is unloaded by the browser
 	        //var confirmation = {}; //does not affect our app, it's just for the pop up when you try to refresh the page and stuff
 	        //var event = $rootScope.$broadcast('onBeforeUnload', confirmation);//same as above, just for the pop up
 	        //console.log(scope); // this scope is useless, so you can remove both scope variable in this block of code
@@ -86,20 +86,7 @@ app.factory('BroadcastLiveService', function($http, $rootScope, $window, Broadca
 	    	// if ($rootScope.isWatching){
 	     //    	$rootScope.connectionCopy.close();
 	     //    }
-
-
 	        //$rootScope.$broadcast('onUnload');
 	    };
-
-
-
-
-
-
-
-
-
-
-    	
 	return BroadcastLiveService;
 });

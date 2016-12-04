@@ -81,7 +81,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         connection.closeSocket();
         BroadcastService.closeChannel($stateParams.data.channelId);
         $scope.broadcastingEnded = true;
-    }
+    };
 
     $scope.goHome = function(){
         $state.go('channels',{'tag':null, 'category':null, 'channelname':null});
