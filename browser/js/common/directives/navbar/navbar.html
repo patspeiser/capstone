@@ -2,12 +2,12 @@
     <nav class="navbar navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <fullstack-logo></fullstack-logo>
+                <a ui-sref-active="active" ui-sref="home"><fullstack-logo></fullstack-logo><a>
             </div>
             <ul class="nav navbar-nav">
                 <!-- <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()"> -->
                     <!-- <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a> -->
-                    <a ui-sref-active="active" ui-sref="home">what's on</a>
+                    <a ui-sref-active="active" ui-sref="home" id="site-name">what's on</a>
                 <!-- </li> -->
             </ul>
 

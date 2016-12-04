@@ -17,7 +17,6 @@ app.config(function ($stateProvider) {
         				else{
         					return null;
         				}
-
         			});
         	},
             ifLive: function(){

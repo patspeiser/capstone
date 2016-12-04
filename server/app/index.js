@@ -2,8 +2,10 @@
 var path = require('path');
 var express = require('express');
 var app = express();
+var sslRedirect = require('heroku-ssl-redirect');
 
 module.exports = function (db) {
+    app.use(sslRedirect());
 
     // Pass our express application pipeline into the configuration
     // function located at server/app/configure/index.js

@@ -13,7 +13,6 @@ app.config(function ($stateProvider) {
             }
         },
     });
-
 });
 
 app.controller('BroadcastingCtrl', function($scope, BroadcastService, $rootScope, $state, connection){
