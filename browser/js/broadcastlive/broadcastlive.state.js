@@ -18,7 +18,7 @@ app.config(function ($stateProvider) {
         					return null;
         				}
 
-        			})
+        			});
         	},
             ifLive: function(){
                 return false;
