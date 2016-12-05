@@ -48,7 +48,6 @@ app.factory('BroadcastService', function($http, $rootScope, $window){
 		};
 
 		BroadcastService.findByChannelId = function(id){
-			console.log('im in broadcastService', id);
 			return $http.get('/api/channels/byId/' + id)
 			.then(function(result){
 				console.log('results after findng',result);
