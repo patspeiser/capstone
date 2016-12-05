@@ -28,6 +28,14 @@ app.config(function ($stateProvider) {
                             }
                         })
                 }         
+            },
+            dataUrl: function(BroadcastService,$state,$location){
+                if($location.search().thetype === 'viewer'){
+                    return BroadcastService.findByChannelId($location.search().id)
+                    .then(function(result){
+                        return result;
+                    })
+                }
             }
         }
     });

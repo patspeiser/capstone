@@ -1,10 +1,9 @@
-app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope, user, isSubscribing, $stateParams){
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope,dataUrl,user, isSubscribing,$stateParams){
     
-
-    // console.log("state params are");
-    // console.log($stateParams.id);
-    // console.log($stateParams.thetype);
-
+    //if viewer is following a link, set $state.params.data to the dataUrl in state resolve
+    if(dataUrl !== undefined){
+        $state.params.data = dataUrl;
+    }    
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
@@ -25,15 +24,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             $rootScope.isWatching = true;
         }
     }
-
-    // $scope.showConnection = function(){
-    //     console.log(connection);
-    // }
-
-    // $scope.stopWatching = function(){
-    //     connection.close();
-    // }
-
 
     $scope.isSubscribing = isSubscribing ? true : false;
 
@@ -228,11 +218,15 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
     // ..............Starting Broadcast......................
     // ......................................................
+    
+    console.log('dataurl', $stateParams);
 
     if($stateParams.thetype === 'broadcast' && $state.params.data){
         $scope.uniqueID = $state.params.data.channelId;
         $timeout($scope.openRoom($state.params.data),0);
     } else if ($stateParams.thetype === 'viewer' && $stateParams.id){
+        
+
         connection.checkPresence($stateParams.id, function(isRoomExist, roomId){ // this is purely khan stuff, it check if there is already a room with the same name on the signaling server
             if (isRoomExist){ // if the room name already exist on the signaling server, a new room will NOT be created. we get a error message. NOT REUSABLE
                 $scope.uniqueID = $stateParams.id;
