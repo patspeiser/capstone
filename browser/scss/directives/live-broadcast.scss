@@ -1,5 +1,28 @@
+// First three is to get the chat and video lined up in height
+.display-container{
+	overflow: hidden;
+	height: 100%;
+}
+
+.left-col {
+  float: left;
+  height: 100%;
+  padding-bottom: 500em;
+  margin-bottom: -500em;	
+}
+
+.right-col {
+  float: left;
+  height: 100%;
+  border-left: 1px solid black;
+  padding-bottom: 500em;
+  margin-bottom: -500em;	
+}
+
 .chatbox {
 	height: 100%;
+	min-width: 350px;
+	min-height: 100%;
 	padding-top: 50px;
 }
 
@@ -16,6 +39,10 @@
     background-color: white;
 }
 
+.chat-container {
+	height: 100%;
+}
+
 .main-footer {
 	padding-top: 15px;
 	margin-top: 20px;
@@ -26,3 +53,8 @@
 	height: 200px;
 	width: 200px;
 }
+
+.chat-wrap {
+	word-wrap: break-word;
+}
+

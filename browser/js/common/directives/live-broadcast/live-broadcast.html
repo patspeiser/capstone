@@ -35,39 +35,38 @@
 				        </video>	
 				    </div>
 				</div>    
-		    </div>
-        <h3>Current Viewers: {{viewCount}}</h3>
+		  </div>
+        <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{viewCount}}</h3>
 
-<a class='btn btn-primary' role='button' data-toggle='collapse' data-target='#recordControls' aria-expanded='false' aria-controls='recordControls'>Record a clip!</a>
+    <a class='btn btn-primary' role='button' data-toggle='collapse' data-target='#recordControls' aria-expanded='false' aria-controls='recordControls'>Record a clip!</a>
 
-<div id='recordControls' class='collapse'>
-  <div ng-if='user && user.dropbox_id'>
-    <div>
-      <button ng-click='startRecordingStream()'>Start Recording</button>
-      <button ng-click='stopRecordingStream()'>Stop Recording</button>
-      <button ng-click='saveToDropbox()'>Save Recording</button>
+    <div id='recordControls' class='collapse'>
+      <div ng-if='user && user.dropbox_id'>
+        <div>
+          <button ng-click='startRecordingStream()'>Start Recording</button>
+          <button ng-click='stopRecordingStream()'>Stop Recording</button>
+          <button ng-click='saveToDropbox()'>Save Recording</button>
+        </div>
+      </div>
+
+      <div ng-if='user && !user.dropbox_id'>
+        <a ui-sref='user'>Add Dropbox to Record</a>
+      </div>
+
+      <div ng-if='!user'>
+        <a ui-sref='login'>Login or Register to Record</a>
+      </div>
+
     </div>
-  </div>
-
-  <div ng-if='user && !user.dropbox_id'>
-    <a ui-sref='user'>Add Dropbox to Record</a>
-  </div>
-
-  <div ng-if='!user'>
-    <a ui-sref='login'>Login or Register to Record</a>
-  </div>
-
-</div>
 
 
 		</div>
 
 		<div class="col-xs-3 chatbox pull-left">
-			<div id="chat-output" class="messages_container">
-				<div>Welcome to the Chat</div>
+			<div id="chat-output" class="messages_container chat-wrap">
+				<div class='text-center'>Welcome to the Chat</div>
 			</div>
 			<!-- <br> -->
-
 			<input type="text" id="input-text-chat" class='form-control' placeholder="Chat Here">
 		</div>    
 	<!-- </div> -->
@@ -76,32 +75,6 @@
 
 
 <div class="container-fluid text-center main-footer well">
-<!--     <hr />
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="#">About us</a></li>
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="#">Blog</a></li>
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="#">GitHub</a></li>        
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="#">Help</a></li>
-        </ul>
-      </div>  
-    </div>
-  </div>
-  <hr> -->
     <div class="row">
         <div class="col-lg-12">
             <ul class="nav nav-pills nav-justified">

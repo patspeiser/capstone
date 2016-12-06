@@ -13,12 +13,11 @@
         	<div class='col-xs-12 col-md-4 form-group'>
         		<label>Tags</label>
 	            <input type="text" ng-model="tag" placeholder='Add Tags'>
-	            <button ng-click="addTag()">Add Tag</button>
+	            <button ng-click="addTag()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 			</div>				
 
 			<div class='col-xs-12 col-md-4 form-group w3-dropdown-hover padding-bottom'>
 				<button ng-class="(broadcast.category)?'w3-btn w3-indigo': 'w3-btn w3-red'"> {{selectCategory}} </button>
-				<!-- <button ng-if="broadcast.category" class="w3-btn w3-indigo"> Select a new category</button> -->
 				<div class="w3-dropdown-content w3-border">
 					<a ng-click="changeCategory('Politics')"> Politics</a>
 					<a ng-click="changeCategory('Entertainment')"> Entertainment</a>
@@ -31,10 +30,14 @@
 				</div>
 			</div>
 
-			<br
+			<br>
 
-        	<div class='col-xs-12 col-md-4 checkbox'>
-        		<label><input type="checkbox" ng-model="shareScreen" style="padding-bottom: 10px"> Broadcast Screen</label>
+        	<div class='col-xs-12 col-md-6 checkbox'>
+        		<label><input type="checkbox" ng-model="shareScreen" style="padding-bottom: 10px" ng-click="checkScreen(shareScreen)"> Broadcast Screen
+        		</label>
+        		<span class='help-block'>
+        			add-ons must be installed to use this feature! Download for <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Chrome</a>/<a href="https://addons.mozilla.org/en-US/firefox/addon/enable-screen-capturing/">Firefox</a>
+        		</span>
 			</div>	
 
 
@@ -49,12 +52,12 @@
 				<span class="big-strong">{{broadcast.category}}</span>
 				<br>
 				<span class="big-strong ">Tags: </span>
-				<span class="big-strong" ng-repeat="theTag in broadcast.tags"> {{theTag}} <a ng-click="removeTag(theTag)"><span class="glyphicon glyphicon-remove"></span></a> </span>
+				<kbd class="big-strong" ng-repeat="theTag in broadcast.tags"> {{theTag}} <a ng-click="removeTag(theTag)"><span class="glyphicon glyphicon-remove"></span></a> </kbd>
 				<br>
-				<span class="big-strong ">Broadcast Screen: </span>
+				<span class="big-strong ">Broadcast Screen: {{screenCheck}}</span>
 			</div>
 
-            <input type='submit' value='Preview Broadcast!' class='btn btn-primary padding-sides' ng-click="prepareBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
+            <input type='submit' value='Preview Broadcast!' class='center-block btn btn-primary padding-sides' ng-click="prepareBroadcast(broadcast)" ng-disabled='broadcastForm.$invalid'>
         </ng-form>	
 	</div>
 	<br>
@@ -71,15 +74,6 @@
 		Is speaker ready?: {{isSpeakerReady}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		Is webcam ready: {{isWebcamReady}}&nbsp&nbsp&nbsp&nbsp&nbsp
 		Is microphone ready: {{isMicrophoneReady}}&nbsp&nbsp&nbsp&nbsp&nbsp
-		</p>
-
-		<p class=text-center>
-		Get chrome extension
-		https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk
-		</p>
-		<p class=text-center>
-		Get firefox extension
-		https://addons.mozilla.org/en-US/firefox/addon/enable-screen-capturing/
 		</p>
 	</div>
 

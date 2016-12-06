@@ -1,4 +1,4 @@
-app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope,dataUrl,user, isSubscribing,$stateParams){
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope,dataUrl,user,isSubscribing,$stateParams){
     
     //if viewer is following a link, set $state.params.data to the dataUrl in state resolve
     if(dataUrl !== undefined){
@@ -166,9 +166,11 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             if(connection.isInitiator === true){
                 //Put video tag on muted to fix echo and capture preview image
                 connection.sideContainer.muted = true;
-                screenshotPreview(connection.mainContainer);                    
+                screenshotPreview(connection.mainContainer);  
+                                                 
             }
-        } 
+        }      
+
     };
 
     function screenshotPreview(vidObj){
@@ -192,10 +194,12 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         //add viewcount to the back end
         var view = $scope.viewcount;
         var currentView = connection.getAllParticipants().length;
+
+
         $scope.viewCount = currentView;
         //update view count on the backend to show in the channel view
         if(view !== currentView){
-            BroadcastService.updateView($scope.uniqueID,currentView)
+            BroadcastService.updateView($scope.uniqueID,currentView);
         }        
     }
 
@@ -218,8 +222,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ......................................................
     // ..............Starting Broadcast......................
     // ......................................................
-    
-    console.log('dataurl', $stateParams);
 
     if($stateParams.thetype === 'broadcast' && $state.params.data){
         $scope.uniqueID = $state.params.data.channelId;
@@ -291,7 +293,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     $interval(function(){
         updateView();       
-    },5000);
+    },2000);
 
     // if the broadcaster stops, viewers will have a message
     connection.onleave = function(user){
@@ -312,11 +314,9 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         //console.log('leaving page'); // Use 'Preserve Log' option in Console
     });
 
-
-});
-
-
+   
    
 
+});
 
 
