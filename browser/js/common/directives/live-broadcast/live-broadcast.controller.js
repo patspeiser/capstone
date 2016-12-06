@@ -219,7 +219,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ..............Starting Broadcast......................
     // ......................................................
     
-    console.log('dataurl', $stateParams);
 
     if($stateParams.thetype === 'broadcast' && $state.params.data){
         $scope.uniqueID = $state.params.data.channelId;
@@ -249,11 +248,16 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ....................Basic Chat........................
     // ......................................................
 
-    function postChatMessage(message){
-        if (user){
-            return appendDIV(user.name + ': ' + message);
+    function displayChatMessage(message){
+        if (message.fromBroadcaster){
+            if (message.user){
+                return appendDIV(message.user.name + ': ' + message.text); 
+            }
+            return appendDIV('Host: ' + message.text); 
+        } else if (message.user){
+            return appendDIV(message.user.name + ': ' + message.text); 
         } else {
-            return appendDIV('Guest: ' + message);
+            return appendDIV('Guest: ' + message.text);
         }
     }
 
@@ -264,19 +268,23 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         this.value = this.value.replace(/^\s+|\s+$/g, '');
         if (!this.value.length) return;
 
+        var payload = {
+            user: user,
+            text: this.value,
+            fromBroadcaster: connection.isInitiator
+        };
         //update users view
-        postChatMessage(this.value);
+        displayChatMessage(payload);
 
         //broadcast chat text
-        connection.send({user: user, message: this.value});
+        connection.send(payload);
         this.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
-        console.log(event.data);
-        appendDIV(event.data);
+        displayChatMessage(event.data);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
@@ -303,7 +311,6 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
 
     // if the broadcaster stops, viewers will have a message
     connection.onleave = function(user){
-        console.log(user.userid, " left us!");
         if (user.userid == connection.sessionid){
             if($stateParams.thetype === "viewer"){
                 $scope.broadcastingEnded = true;
