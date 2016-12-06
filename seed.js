@@ -93,14 +93,14 @@ var seedUsers = function () {
 var seedSubscriptions = function () {
 
     var subscriptions = [
-        {
-            broadcasterId: 9,
-            subscriberId: 10,
-        },
+        // {
+        //     broadcasterId: 9,
+        //     subscriberId: 10,
+        // },
         {
             broadcasterId: 9,
             subscriberId: 11,
-        },
+        }
     ];
 
     var creatingSubscriptions = subscriptions.map(function (subObj) {
