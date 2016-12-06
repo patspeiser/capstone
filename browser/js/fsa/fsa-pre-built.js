@@ -52,7 +52,7 @@
 
         this.signUp = function(user){
             var that = this;
-            return $http.post('/api/users', {email: user.email, password: user.password})
+            return $http.post('/api/users', {name: user.name, email: user.email, password: user.password})
                 .then(function(returnedUser){
                     return that.login(user);
                 });

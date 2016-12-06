@@ -27,18 +27,21 @@
             <alert type="danger" ng-show="error">
                 {{ error }}
             </alert>
-
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input required type="text" ng-model="user.name" class="form-control" id="name" placeholder="Enter name">
+            </div>
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="text" ng-model="user.email" class="form-control" id="email" placeholder="Enter email">
+                <input required type="text" ng-model="user.email" class="form-control" id="email" placeholder="Enter email">
             </div>
             <div class="form-group">
                 <label for="new-password">Password</label>
-                <input match="{{user.confirm_password}}" type="password" ng-model="user.password" class="form-control" id="login-password" placeholder="Password">
+                <input required match="{{user.confirm_password}}" type="password" ng-model="user.password" class="form-control" id="login-password" placeholder="Password">
             </div>
             <div class="form-group">
                 <label for="new-password">Confirm Password</label>
-                <input match="{{user.password}}" type="password" ng-model="user.confirm_password" class="form-control" id="login-password" placeholder="Password">
+                <input required match="{{user.password}}" type="password" ng-model="user.confirm_password" class="form-control" id="login-password" placeholder="Password">
             </div>
             <button type="submit" ng-disabled='signUpForm.$invalid' class="btn btn-default btn-primary">Submit</button>
         </form> 

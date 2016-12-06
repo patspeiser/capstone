@@ -249,6 +249,13 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
     // ....................Basic Chat........................
     // ......................................................
 
+    function postChatMessage(message){
+        if (user){
+            return appendDIV(user.name + ': ' + message);
+        } else {
+            return appendDIV('Guest: ' + message);
+        }
+    }
 
     document.getElementById('input-text-chat').onkeyup = function(e) {
         if (e.keyCode != 13) return;
@@ -257,17 +264,18 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
         this.value = this.value.replace(/^\s+|\s+$/g, '');
         if (!this.value.length) return;
 
-        //update user's chat
-        appendDIV(this.value);
-        
+        //update users view
+        postChatMessage(this.value);
+
         //broadcast chat text
-        connection.send(this.value);
+        connection.send({user: user, message: this.value});
         this.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     //upon receiving message, update chat box with remote text
     connection.onmessage = function(event){
+        console.log(event.data);
         appendDIV(event.data);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
