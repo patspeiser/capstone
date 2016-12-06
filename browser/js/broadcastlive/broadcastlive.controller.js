@@ -13,6 +13,14 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
     $scope.broadcast.tags = [];
 
+    $scope.checkScreen = function(check){
+    	if(check){
+    		$scope.screenCheck = "On";
+    	} else {
+    		$scope.screenCheck = "Off";
+    	}
+    }
+
 	$scope.prepareBroadcast = function(data){
 		//product a unique id for the broadcast
 		data.channelId = connection.token();
@@ -50,11 +58,6 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 		}
 
 		$state.go('broadcastLive', {data: data, type: 'broadcast', thetype:'broadcast'})
-	}
-
-	$scope.checkScreen = function(){
-		console.log($scope.shareScreen);
-		
 	}
 
 	$scope.addTag = function(){
