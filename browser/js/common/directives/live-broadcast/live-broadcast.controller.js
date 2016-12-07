@@ -1,12 +1,18 @@
-app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope,dataUrl,user,isSubscribing,$stateParams){
+app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,BroadcastLiveService,$state,$timeout,$rootScope,dataUrl,user,isViewer,isSubscribing,$stateParams){
     
     //if viewer is following a link, set $state.params.data to the dataUrl in state resolve
     if(dataUrl !== undefined){
         $state.params.data = dataUrl;
-    }    
+        $scope.ifLive = false;
+        $scope.channelname = dataUrl.channelName;
+        console.log(dataUrl);
+    }
+
+    $scope.channelName =  $state.params.data.channelName || $stateParams.channelName;
 
     $scope.successfullySubscribed = false;
     $scope.user = user;
+    $scope.isViewer = isViewer;
 
     if ($stateParams){
         $scope.watching = $stateParams.thetype == "viewer" ? true : false;
@@ -24,6 +30,7 @@ app.controller('BroadcastLiveCtrl', function($scope,$interval,BroadcastService,B
             $rootScope.isWatching = true;
         }
     }
+
 
     $scope.isSubscribing = isSubscribing ? true : false;
 

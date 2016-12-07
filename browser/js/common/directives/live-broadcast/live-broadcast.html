@@ -13,11 +13,10 @@
 <div class="container-fluid clearfix">
     <!-- <div class='row-fluid'> -->
 	    <div class="col-xs-9 pull-left">
-        <h1 ng-if="!ifLive">Broadcast Preview</h1>
-		    <h1>{{channelName}} <img ng-if="ifLive" src="https://lh3.googleusercontent.com/nQg7jI69f-JzpAnsSN3P1ZqgV6ry-mCm51axrJVDA3oQjsSaFwhptUxyRYbPFZiXV74=w300" height="45px" width="auto"></h1>
+        <h1>Broadcast: {{channelName}} <img ng-if="ifLive" src="https://lh3.googleusercontent.com/nQg7jI69f-JzpAnsSN3P1ZqgV6ry-mCm51axrJVDA3oQjsSaFwhptUxyRYbPFZiXV74=w300" height="45px" width="auto"></h1>
 		    <h3>Room ID: {{uniqueID}}</h3>
-	    	<button ng-if="!ifLive" class='btn btn-success' ng-click="startBroadcast()" style="margin-bottom: 10px">Start Broadcast</button> 
-        <button ng-if="ifLive" ng-click="stopBroadcasting()" style="margin-bottom: 10px"> Stop Broadcasting </button>
+	    	<button ng-if="!ifLive && isViewer" class='btn btn-success' ng-click="startBroadcast()" style="margin-bottom: 10px">Start Broadcast</button> 
+        <button ng-if="ifLive && isViewer" ng-click="stopBroadcasting()" style="margin-bottom: 10px"> Stop Broadcasting </button>
 
 		    <button ng-click="subscribe()" ng-if="user && watching && !isSubscribing"> Subscribe this broadcaster!</button>
 		    <div ng-if="successfullySubscribed" class="well">
@@ -60,9 +59,9 @@
     </div>
 
 
-		</div>
+</div>
 
-		<div class="col-xs-3 chatbox pull-left">
+		<div class="col-xs-3  pull-left">
 			<div id="chat-output" class="messages_container chat-wrap">
 				<div class='text-center'>Welcome to the Chat</div>
 			</div>
