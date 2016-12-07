@@ -13,6 +13,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 
     $scope.broadcast.tags = [];
 
+    $scope.screenCheck = "Off";
     $scope.checkScreen = function(check){
     	if(check){
     		$scope.screenCheck = "On";

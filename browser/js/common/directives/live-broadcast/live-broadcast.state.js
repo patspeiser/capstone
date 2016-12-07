@@ -36,6 +36,13 @@ app.config(function ($stateProvider) {
                         return result;
                     })
                 }
+            },
+            isViewer: function($stateParams,$location){
+                if ($stateParams.thetype === 'viewer' || $location.search().thetype === 'viewer'){
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
     });
