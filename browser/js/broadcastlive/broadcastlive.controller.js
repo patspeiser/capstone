@@ -53,7 +53,7 @@ app.controller('BroadcastCtrl', function($scope,$state, $rootScope, subscribers,
 					broadcaster: subscribers[i].broadcaster.name,
 					channelId: data.channelId,
 					coverimage: 'https://cdn3.iconfinder.com/data/icons/internet-3-4/128/103-128.png',
-					link: 'https://capstone-test-ps.herokuapp.com/broadcastLive?id=' + data.channelId + '&thetype=viewer',
+					link: 'https://www.whats-on-fs.com/broadcastLive?id=' + data.channelId + '&thetype=viewer',
 				});
 			}
 		}
